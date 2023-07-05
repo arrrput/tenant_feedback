@@ -1,9 +1,44 @@
 @extends('layouts.master')
 
 @push('plugin-styles')
+    {!! Html::style('assets/css/dashboard/dashboard_1.css') !!}
     {!! Html::style('assets/css/ui-elements/breadcrumbs.css') !!}
     {!! Html::style('plugins/table/datatable/datatables.css') !!}
     {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
+    {!!  Html::style('http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css') !!}
+
+<style>
+      .checked {
+        color: orange;
+      }    
+          div.stars {
+        width: 270px;
+        display: inline-block;
+      }
+      input.star { display: none; }
+      label.star {
+        float: right;
+        padding: 10px;
+        font-size: 36px;
+        color: #444;
+        transition: all .2s;
+      }
+      input.star:checked ~ label.star:before {
+        content: '\f005';
+        color: #FD4;
+        transition: all .25s;
+      }
+      input.star-5:checked ~ label.star:before {
+        color: #FE7;
+        text-shadow: 0 0 20px #952;
+      }
+      input.star-1:checked ~ label.star:before { color: #F62; }
+      label.star:hover { transform: rotate(-15deg) scale(1.3); }
+      label.star:before {
+        content: '\f006';
+        font-family: FontAwesome;
+      }
+</style>
 @endpush
 
 @section('content')    
@@ -51,130 +86,137 @@
                 <h6 class="card-title"><i class="las la-table text-primary"></i> My Request</h6>
               </div>
               <div class="card-body">
-                <table class="table" id="table-list">
-                  <thead>
-                    <tr>
-                      <th style="width: 19px">#</th>
-                      <th>Description</th>
-                      <th>Department</th>
-                      <th>Relevant Part</th>
-                      <th>Date</th>
-                      <th style="width: 120px;">status</th>
-                      <th>Verifications</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach ($u as $req)
-                    <tr>
-                        <td>
-                          @if ($req->progress_request ==5)
-                           
-                             <a href="#"><span class="badge bg-danger" data-toggle="modal" data-target="#modal-{{ $req->id }}" value="x">
-                              <i class=" las la-ban"></i></a>
-                            <div class="modal fade modal-success" id="modal-{{ $req->id}}">
-                              <div class="modal-dialog modal-m">
-                                <div class="modal-content bg-light">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title">Cancel Request</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
-                                  </div>
-                                  <div class="modal-body">
-                                    
-                                      {{ $req->cancel }}
 
+                <div class="widget-content">
+                  <div class="table-responsive">
 
-                                  </div>
-                                  
-                                  <div class="modal-footer justify-content-between">
-                                      <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>                                 
+                    <table class="table" id="table-list">
+                      <thead>
+                        <tr>
+                          <th style="width: 19px">#</th>
+                          <th>Description</th>
+                          <th>Department</th>
+                          <th>Relevant Part</th>
+                          <th>Date</th>
+                          <th style="width: 120px;">status</th>
+                          <th>Verifications</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach ($u as $req)
+                        <tr>
+                            <td>
+                              @if ($req->progress_request ==5)
+                               
+                                 <a href="#"><span class="badge bg-danger" data-toggle="modal" data-target="#modal-{{ $req->id }}" value="x">
+                                  <i class=" las la-ban"></i></a>
+                                <div class="modal fade modal-success" id="modal-{{ $req->id}}">
+                                  <div class="modal-dialog modal-m">
+                                    <div class="modal-content bg-light">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title">Cancel Request</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        
+                                          {{ $req->cancel }}
+    
+    
+                                      </div>
+                                      
+                                      <div class="modal-footer justify-content-between">
+                                          <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>                                 
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          @else
-                          <a href="{{ route('request.timeline', $req->id) }}"><i class="las la-eye green-text"></i>
-                          </a>
-                          @endif
-                        </td>
-                        <td>{{ $req->description }}</td>
-                        <td>{{ $req->dept }}</td>
-                        <td>{{ $req->name }}</td>
-                        <td> {{ date('d M Y', strtotime($req->created_at)); }}</td>
-                        <td>
-                          @if ($req->progress_request ==1)
-                          <div class="progress progress-xs">
-                            <div class="progress-bar bg-danger" style="width: 25%"></div>
-                            </div>Request was delivery</td>
-                          </div>
-                          @endif
-
-                          @if ($req->progress_request ==2)
-                          <div class="progress progress-xs">
-                            <div class="progress-bar bg-warning" style="width: 40%"></div>
-                            </div>On Response</td>
-                          </div>
-                          @endif
-
-                          @if ($req->progress_request ==3)
-                          <div class="progress progress-xs">
-                            <div class="progress-bar bg-primary" style="width: 75%"></div>
-                            </div>On Progress</td>
-                          </div>
-                          @endif
-
-                          @if ($req->progress_request ==4)
-                          <div class="progress progress-xs">
-                            <div class="progress-bar bg-success" style="width: 100%"></div>
-                            </div>Finish</td>
-                          </div>
-                          @endif
-
-                          @if ($req->progress_request ==5)
-                          
-                            <span class="badge bg-danger"> Request Rejected</span>
-            
-                          @endif
-                           
-                        </td>
-                        <td>
-                          
-                          @if ($req->progress_request == 4)
-                              {{-- {{ $rate= DB::table('rate')
-                              ->select('rate_point as rating')
-                              ->where('id_request','=',$req->id)
-                              ->first() }} --}}
-                              <?php $rate = DB::select("select * from rate where id_request ='$req->id' limit 1");
-                                $size = count($rate);
-                              ?>
-                              @if ($size > 0)
-                                <span class="las la-star  <?php if($rate[0]->rate_point >=1){ echo 'text-warning';} ?>"></span>
-                                <span class="las la-star <?php if($rate[0]->rate_point >=2){ echo 'text-warning';} ?>"></span>
-                                <span class="las la-star <?php if($rate[0]->rate_point >=3){ echo 'text-warning';} ?>"></span>
                               @else
-                              <a href="#">
-                                {{-- <button class="btn-sm btn-success" data-toggle="modal" data-target="#modal-rate{{ $req->id }}" value="x">Rate Us</button> --}}
-                                <button class="btn btn-sm bg-gradient-warning text-white" id="rateModal" data-id="{{ $req->id }}"><i class="las la-check-circle"></i>Verification</button>
+                              <a href="{{ route('request.timeline', $req->id) }}"><i class="las la-eye green-text"></i>
                               </a>
-
-                              
                               @endif
-                            
-                          
-                          @else
-                            <span class="badge bg-gradient-danger text-white">Stil Prosess</span>
-                            
-                          @endif
-                          
-                        </td>
-                    </tr>   
-                    @endforeach
-                      
-                    </tr>
-                  </tbody>
-                </table>
+                            </td>
+                            <td>{{ $req->description }}</td>
+                            <td>{{ $req->dept }}</td>
+                            <td>{{ $req->name }}</td>
+                            <td> {{ date('d M Y', strtotime($req->created_at)); }}</td>
+                            <td>
+                              @if ($req->progress_request ==1)
+                              <div class="progress progress-xs">
+                                <div class="progress-bar bg-danger" style="width: 25%"></div>
+                                </div>Request was delivery</td>
+                              </div>
+                              @endif
+    
+                              @if ($req->progress_request ==2)
+                              <div class="progress progress-xs">
+                                <div class="progress-bar bg-warning" style="width: 40%"></div>
+                                </div>On Response</td>
+                              </div>
+                              @endif
+    
+                              @if ($req->progress_request ==3)
+                              <div class="progress progress-xs">
+                                <div class="progress-bar bg-primary" style="width: 75%"></div>
+                                </div>On Progress</td>
+                              </div>
+                              @endif
+    
+                              @if ($req->progress_request ==4)
+                              <div class="progress progress-xs">
+                                <div class="progress-bar bg-success" style="width: 100%"></div>
+                                </div>Finish</td>
+                              </div>
+                              @endif
+    
+                              @if ($req->progress_request ==5)
+                              
+                                <span class="badge bg-danger"> Request Rejected</span>
                 
+                              @endif
+                               
+                            </td>
+                            <td>
+                              
+                              @if ($req->progress_request == 4)
+                                  {{-- {{ $rate= DB::table('rate')
+                                  ->select('rate_point as rating')
+                                  ->where('id_request','=',$req->id)
+                                  ->first() }} --}}
+                                  <?php $rate = DB::select("select * from rate where id_request ='$req->id' limit 1");
+                                    $size = count($rate);
+                                  ?>
+                                  @if ($size > 0)
+                                    <span class="las la-star  <?php if($rate[0]->rate_point >=1){ echo 'text-warning';} ?>"></span>
+                                    <span class="las la-star <?php if($rate[0]->rate_point >=2){ echo 'text-warning';} ?>"></span>
+                                    <span class="las la-star <?php if($rate[0]->rate_point >=3){ echo 'text-warning';} ?>"></span>
+                                    <span class="las la-star <?php if($rate[0]->rate_point >=4){ echo 'text-warning';} ?>"></span>
+                                    <span class="las la-star <?php if($rate[0]->rate_point >=5){ echo 'text-warning';} ?>"></span>
+                                  @else
+                                  <a href="#">
+                                    {{-- <button class="btn-sm btn-success" data-toggle="modal" data-target="#modal-rate{{ $req->id }}" value="x">Rate Us</button> --}}
+                                    <button class="btn btn-sm bg-gradient-warning text-white" id="rateModal" data-id="{{ $req->id }}"><i class="las la-check-circle"></i>Verification</button>
+                                  </a>
+    
+                                  
+                                  @endif
+                                
+                              
+                              @else
+                                <span class="badge bg-gradient-danger text-white">Stil Prosess</span>
+                                
+                              @endif
+                              
+                            </td>
+                        </tr>   
+                        @endforeach
+                          
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
                 
               </div>
             </div>
@@ -238,7 +280,11 @@
           </div>
           <div class="modal-body">
 
-                  <div class="stars" name="stars" id="stars">            
+                  <div class="stars" name="stars" id="stars">    
+                    <input class="star star-5" id="star-5" type="radio" name="star" value="5"/>
+                    <label class="star star-5" for="star-5"></label>   
+                    <input class="star star-4" id="star-4" type="radio" name="star" value="4"/>
+                    <label class="star star-4" for="star-4"></label>       
                     <input class="star star-3" id="star-3" type="radio" name="star" value="3"/>
                     <label class="star star-3" for="star-3"></label>
                     <input class="star star-2" id="star-2" type="radio" name="star" value="2"/>
@@ -270,6 +316,8 @@
 @push('plugin-scripts')
     {!! Html::script('assets/js/loader.js') !!}
     {!! Html::script('plugins/table/datatable/datatables.js') !!}
+    {!! Html::script('plugins/typehead/typeahead.bundle.js') !!}
+    {!! Html::script('assets/js/forms/custom-typeahead.js') !!}
 @endpush
 
 
@@ -281,7 +329,7 @@
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-    });
+  });
     $(document).ready(function () {
     
 
@@ -309,7 +357,11 @@
       // var password = $("input[name=password]").val();
       // var email = $("input[name=email]").val();
       let name = $("input[name=feedbackUser]").val();
-
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
       $.ajax({
         type:'POST',
         url:"{{ route('request.verify') }}",

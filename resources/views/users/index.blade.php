@@ -179,7 +179,8 @@
                               <span class="las la-star <?php if($rate[0]->rate_point >=1){ echo 'text-warning';} ?>"></span>
                                 <span class="las la-star <?php if($rate[0]->rate_point >=2){ echo 'text-warning';} ?>"></span>
                                 <span class="las la-star <?php if($rate[0]->rate_point >=3){ echo 'text-warning';} ?>"></span>
-                              
+                                <span class="las la-star <?php if($rate[0]->rate_point >=4){ echo 'text-warning';} ?>"></span>
+                                <span class="las la-star <?php if($rate[0]->rate_point >=5){ echo 'text-warning';} ?>"></span>
                               @else
                               <div class="progress progress-xs">
                                 <div class="progress-bar bg-primary" style="width: 100%"></div>

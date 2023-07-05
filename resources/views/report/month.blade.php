@@ -8,6 +8,11 @@
 @endpush
 
 @section('content')
+
+  <div class="content-wraper">
+
+
+  </div>
    <!--  Navbar Starts / Breadcrumb Area  -->
    <div class="sub-header-container">
     <header class="header navbar navbar-expand-sm">
@@ -52,6 +57,7 @@
                             <th>Description</th>
                             <th>Date Requests</th>
                             <th>Date finish</th>
+                            <th class="no-content"></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -68,6 +74,9 @@
                               {{ date('d M Y', strtotime($req->updated_at)); }} 
                               @endif
                               
+                            </td>
+                            <td>
+                              <a href="{{ route('admin.admin.cetak_request',$req->id) }}" class="btn btm-sm bg-gradient-warning text-white"><i class="lar la-file-pdf"></i> Print</a>
                             </td>
                           </tr>
                           @endforeach
@@ -88,7 +97,7 @@
       <!-- /.content -->
         <!-- maincontent -->
   <!-- Control Sidebar -->
-    </div>
+   
 @endsection
 
 

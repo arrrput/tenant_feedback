@@ -1,8 +1,38 @@
-@extends('layouts.admin')
+@extends('layouts.master')
+
+@push('plugin-styles')
+    {!! Html::style('assets/css/loader.css') !!}
+    {!! Html::style('assets/css/ui-elements/breadcrumbs.css') !!}
+    {!! Html::style('plugins/table/datatable/datatables.css') !!}
+    {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
+@endpush
 
 @section('content')
 
 <div class="content-wrapper">
+
+   <!--  Navbar Starts / Breadcrumb Area  -->
+   <div class="sub-header-container">
+    <header class="header navbar navbar-expand-sm">
+        <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom">
+            <i class="las la-bars"></i>
+        </a>
+        <ul class="navbar-nav flex-row">
+            <li>
+                <div class="page-header">
+                    <nav class="breadcrumb-one" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            
+                            <li class="breadcrumb-item" aria-current="page"><span> {{__('User')}}</span></li>
+                            <li class="breadcrumb-item active" aria-current="page"><span> {{__('Create')}}</span></li>
+                        </ol>
+                    </nav>
+                </div>
+            </li>
+        </ul>
+    </header>
+  </div>
+  <!--  Navbar Ends / Breadcrumb Area  -->
 
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -39,25 +69,11 @@
               {{-- card header --}}
               <div class="card-header">
                 <div class="card-tools">
-                    <h3 class="card-title">Create User</h3>
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                      <i class="fas fa-times"></i>
-                    </button>
+                    <h6 class="card-title"><i class="las la-user text-primary"></i> Create User</h6>
                   </div>
               </div>
-
               <div class="card-body">
-                <div class="row">
-                    <div class="col-lg-12 margin-tb">
-                        <div class="pull-left">
-                            <h2>Create New User</h2>
-                        </div>
-                        
-                    </div>
-                </div>
+                
                 
                 @if (count($errors) > 0)
                   <div class="alert alert-danger">
@@ -137,3 +153,16 @@
 </div>
 
 @endsection
+
+
+
+@push('plugin-scripts')
+    {!! Html::script('assets/js/loader.js') !!}
+    {!! Html::script('plugins/table/datatable/datatables.js') !!}
+@endpush
+
+
+@push('custom-scripts')
+
+
+@endpush

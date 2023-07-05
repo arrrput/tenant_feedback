@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Requests;
+use PDF;
 use Illuminate\Http\Request;
 use App\Exports\MonthTenantExport;
 use Illuminate\Support\Facades\DB;
@@ -61,7 +62,7 @@ class ReportController extends Controller
         $year = $request->year;
 
         $data = DB::table('requests')
-        ->select('users.name','departments.department as department','requests.description' ,'requests.created_at','requests.updated_at')
+        ->select('users.name','departments.department as department','requests.description' ,'requests.created_at','requests.updated_at','requests.id')
         ->join('departments','departments.id','requests.id_department')
         ->join('users','users.id','requests.id_user')
         ->whereMonth('requests.created_at', '=', $month)
@@ -79,6 +80,26 @@ class ReportController extends Controller
 
     public function month_export_tenant(){
         return Excel::download(new MonthTenantExport,'tenant_export.xlsx');
+    }
+
+    public function cetak_pdf($id){
+        $req = Requests::where('requests.id', $id)
+            ->select('requests.*', 'users.name as name_user', 'departments.department as department')
+            ->join('users','requests.id_user','users.id')
+            ->join('departments','requests.id_department', 'departments.id')
+            ->firstOrFail();
+        $finish = DB::table('finish_task')
+            ->where('id_request', $id)
+            ->select('*')
+            ->first();
+
+        $pg = DB::table('progress')
+            ->where('id_request', $id)
+            ->select('*')
+            ->first();
+
+        $pdf = PDF::loadView('report.pdf.pdf_request', ['request' => $req, 'finish'=>$finish, 'pg'=> $pg])->setPaper('a4', 'portrait');
+        return $pdf->download('request-tenant-'.$req->name_user);
     }
 
 }

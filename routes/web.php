@@ -1,21 +1,22 @@
 <?php
 
+use App\Events\NotificationEvent;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Contracts\Role;
+use App\Http\Controllers\WaController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ReportDeptController;
 use App\Http\Controllers\UserRequestController;
 use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\ChartController;
-use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\ReportDeptController;
 use App\Http\Controllers\user\UserController as UserUserController;
-use App\Http\Controllers\WaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,7 @@ Route::group(['middleware'=>'auth'], function(){
 
         //export
         Route::get('export/tenant',[ReportController::class,'month_export_tenant'])->name('export_month');
+        Route::get('cetak/{id}/pdf',[ReportController::class,'cetak_pdf'])->name('admin.cetak_request');
     });
 
     //role tenant
@@ -94,6 +96,11 @@ Route::group(['middleware'=>'auth'], function(){
 
     Route::get('/chart', [ChartController::class, 'index'])->name('chart');
     Route::get('/wa', [WaController::class, 'index'])->name('wa');
+
+    Route::get('test', function () {
+        event(new App\Events\NotificationEvent('Monika'));
+        return "Event has been sent!";
+    });
 });
 
 

@@ -39,6 +39,7 @@
                 </div>
             </a>
         </li>
+        @role('tenant')
         <li class="menu {{ active_class(['request']) }}">
             <a data-active="{{ is_active_route(['request']) }}" href="{{ url('/request') }}" aria-expanded="false" class="dropdown-toggle">
                 <div class="">
@@ -56,7 +57,9 @@
                 </div>
             </a>
         </li>
+        @endrole
 
+        @role('user')
         <li class="menu {{ active_class(['department']) }}">
             <a data-active="{{ is_active_route(['department']) }}" href="{{ url('/department') }}" aria-expanded="false" class="dropdown-toggle">
                 <div class="">
@@ -74,7 +77,9 @@
                 </div>
             </a>
         </li>
+        @endrole
 
+        @role('admin')
         <li class="menu {{ active_class([route('admin.user.index')]) }}">
             <a data-active="{{ is_active_route(['admin/user']) }}" href="{{ url('admin/user') }}" aria-expanded="false" class="dropdown-toggle">
                 <div class="">
@@ -83,6 +88,7 @@
                 </div>
             </a>
         </li>
+        @endrole
         <li class="menu-title">{{__('Manage My Profile')}}</li>
         <li class="menu {{ active_class([route('profile.index')]) }}">
             <a data-active="{{ is_active_route(['profile']) }}" href="{{ url('profile') }}" aria-expanded="false" class="dropdown-toggle">
@@ -92,6 +98,7 @@
                 </div>
             </a>
         </li>
+        
         {{-- <li class="menu">
             <a href="#app"  data-active="{{ is_active_route(['apps/*']) }}" data-toggle="collapse" aria-expanded="{{ is_active_route(['apps/*']) }}" class="dropdown-toggle">
                 <div class="">

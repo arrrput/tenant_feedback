@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Auth;
 
 class WaController extends Controller
 {
@@ -12,11 +14,16 @@ class WaController extends Controller
         $sid    = getenv("TWILIO_AUTH_SID");
         $token  = getenv("TWILIO_AUTH_TOKEN");
         $wa_from= getenv("TWILIO_WHATSAPP_FROM");
-        $twilio = new Client($sid, $token);
         $recipient = "+6282388322022";
+        $twilio = new Client($sid, $token);
         
-        $body = "Hello, Hendri the brengsek the meta jungler";
+        $body = "Ada 1 Request yang perlu di verify.\n Untuk lebih lengkap silahkan kunjungi http://biiebigdata.co.id";
 
-        return $twilio->messages->create("whatsapp:$recipient",["from" => "whatsapp:$wa_from", "body" => $body]);
+        $message =  $twilio->messages->create("whatsapp:$recipient",[
+                        "from" => "whatsapp:$wa_from", 
+                        "body" => $body]);
+        
+
+        return print($message); 
     }
 }

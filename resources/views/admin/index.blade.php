@@ -124,11 +124,65 @@
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
       <div class="widget dashboard-table">
           <div class="widget-heading">
-              <h5 class=""> {{__('Projects')}}</h5>
+              <h5 class=""> {{__('Recent Request')}}</h5>
           </div>
           <div class="widget-content">
               <div class="table-responsive">
-                  <table class="table">
+                @role('admin|user')
+                <table class="table">
+                  <thead>
+                  <tr>
+                      <th><div class="no-content"> {{__('Name')}}</div></th>
+                      <th><div class="th-content"> {{__('Tenant Name')}}</div></th>
+                      <th><div class="th-content"> {{__('Status')}}</div></th>
+                      <th><div class="th-content"> {{__('Date of Request')}}</div></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <?php $number=1; ?>
+                    @foreach ($req_tenant as $recent )
+                    <tr>
+                      <td><?php  echo $number++;?></td>
+                      <td>{{ $recent->description }}</span></td>
+                      <td>
+                          @if ($recent->progress_request ==1)
+                        <div class="progress progress-xs">
+                          <div class="progress-bar bg-danger" style="width: 25%"></div>
+                        </div>
+                        @endif
+
+                        @if ($recent->progress_request ==2)
+                        <div class="progress progress-xs">
+                          <div class="progress-bar bg-warning" style="width: 40%"></div>
+                        </div>
+                        @endif
+
+                        @if ($recent->progress_request =='3')
+                        <div class="progress progress-xs">
+                          <div class="progress-bar bg-primary" style="width: 75%"></div>
+                        </div>
+                        @endif
+
+                        @if ($recent->progress_request =='4')
+                        <div class="progress progress-xs">
+                          <div class="progress-bar bg-success" style="width: 100%"></div>
+                        </div>
+                        @endif
+                        @if ($recent->progress_request =='5')
+                        <span class="badge bg-red">Rejected</span>
+                        @endif
+                      </td>
+                      <td>{{ date('d M Y', strtotime($recent->created_at)); }}</td>
+                    </tr>
+                    @endforeach   
+                  </tbody>
+              </table>
+                @endrole
+                  
+                <?php $roles_name = Auth::user()->getRoleNames() ?>
+                @if ($roles_name->first() != 'admin')
+                    @role('tenant')
+                    <table class="table">
                       <thead>
                       <tr>
                           <th><div class="no-content"> {{__('Name')}}</div></th>
@@ -176,185 +230,16 @@
                         @endforeach   
                       </tbody>
                   </table>
-              </div>
-          </div>
-      </div>
-  </div>
-  </div>
-
-   
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-
-        <div class="row">
-         
-          
-          <div class="col-12">
-            <!-- Default box -->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Recent Request</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                @role('admin|user')
-                    <table class="table table-bordered" id="table-recent">
-                      <thead>
-                        <tr>
-                          <th style="width: 10px">#</th>
-                          <th>Tenant Name</th>
-                          <th style="width: 100px">Status</th>
-                          <th >Date of Request</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php $number=1; ?>
-                        @foreach ($recent_req as $recent )
-                        <tr>
-                          <td><?php  echo $number++;?></td>
-                          <td>{{ $recent->name }}</span></td>
-                          <td>
-                              @if ($recent->progress_request ==1)
-                            <div class="progress progress-xs">
-                              <div class="progress-bar bg-danger" style="width: 25%"></div>
-                            </div>
-                            @endif
-
-                            @if ($recent->progress_request ==2)
-                            <div class="progress progress-xs">
-                              <div class="progress-bar bg-warning" style="width: 40%"></div>
-                            </div>
-                            @endif
-
-                            @if ($recent->progress_request =='3')
-                            <div class="progress progress-xs">
-                              <div class="progress-bar bg-primary" style="width: 75%"></div>
-                            </div>
-                            @endif
-
-                            @if ($recent->progress_request =='4')
-                            <div class="progress progress-xs">
-                              <div class="progress-bar bg-success" style="width: 100%"></div>
-                            </div>
-                            @endif
-                            @if ($recent->progress_request =='5')
-                            <span class="badge bg-danger">Rejected</span> 
-                            @endif
-                          </td>
-                          <td>{{ date('d M Y', strtotime($recent->created_at)); }}</td>
-                        </tr>
-                        @endforeach                   
-
-                      </tbody>
-                    </table>
-                @endrole
-                
-                <?php $roles_name = Auth::user()->getRoleNames() ?>
-                @if ($roles_name->first() != 'admin')
-                    
-                @role('tenant')
-                <table class="table table-bordered" id="table-recent">
-                  <thead>
-                    <tr>
-                      <th style="width: 10px">#</th>
-                      <th>Description</th>
-                      <th style="width: 100px">Status</th>
-                      <th >Date of Request</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php $number=1; ?>
-                    @foreach ($req_tenant as $recent )
-                    <tr>
-                      <td><?php  echo $number++;?></td>
-                      <td>{{ $recent->description }}</span></td>
-                      <td>
-                          @if ($recent->progress_request ==1)
-                        <div class="progress progress-xs">
-                          <div class="progress-bar bg-danger" style="width: 25%"></div>
-                        </div>
-                        @endif
-
-                        @if ($recent->progress_request ==2)
-                        <div class="progress progress-xs">
-                          <div class="progress-bar bg-warning" style="width: 40%"></div>
-                        </div>
-                        @endif
-
-                        @if ($recent->progress_request =='3')
-                        <div class="progress progress-xs">
-                          <div class="progress-bar bg-primary" style="width: 75%"></div>
-                        </div>
-                        @endif
-
-                        @if ($recent->progress_request =='4')
-                        <div class="progress progress-xs">
-                          <div class="progress-bar bg-success" style="width: 100%"></div>
-                        </div>
-                        @endif
-                        @if ($recent->progress_request =='5')
-                        <span class="badge bg-red">Rejected</span>
-                        @endif
-                      </td>
-                      <td>{{ date('d M Y', strtotime($recent->created_at)); }}</td>
-                    </tr>
-                    @endforeach                   
-
-                  </tbody>
-                </table>
-                    
-                @endrole
+                    @endrole
                 @endif
-                
-                
               </div>
-              <!-- /.card-body --> 
-            </div>
-            <!-- /.card -->
           </div>
-          <!-- col  -->
-
-          {{-- <div class="col-lg-5">
-            <!-- Default box -->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Chart Of Request</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                <canvas class="chart" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-              </div>
-              <!-- /.card-body --> 
-            </div>
-            <!-- /.card -->
-          </div> --}}
-          <!-- col  -->
-
-        </div>
       </div>
-      <!-- container fluid -->
-    </section>
-    <!-- maincontent -->
+  </div>
+  </div>
+
   <!-- Control Sidebar -->
-    </div>
+</div>
     
 @endsection
 

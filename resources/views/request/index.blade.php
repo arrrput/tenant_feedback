@@ -6,6 +6,7 @@
     {!! Html::style('assets/css/elements/tooltip.css') !!}
     {!! Html::style('plugins/table/datatable/datatables.css') !!}
     {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
+    {!! Html::style('assets/css/forms/form-widgets.css') !!}
 @endpush
 
 @section('content')
@@ -32,7 +33,7 @@
           </ul>
       </header>
   </div>                                                  
-<!--  Navbar Ends / Breadcrumb Area  -->
+<!--  Navbar Ends / Breadcrum  b Area  -->
 
 <!-- Main Body Starts -->
   <div class="layout-px-spacing">
@@ -73,7 +74,7 @@
                                       <div class="row">
                                         <div class="col-sm">
                                           <label for="exampleSelectRounded0">Location </label>
-                                          <input type="text" class="form-control" rows="3" placeholder="Location here ..." name="location"/>
+                                          <input type="text" class="form-control typeahead" rows="3" placeholder="Location here ..." name="location"/>
                                           @error('location')
                                                 <span class="text-danger text-sm">{{ $message }}</span>                              
                                           @enderror
@@ -92,7 +93,7 @@
                                                     <option disable>-- Select Here -- </option>
                                                     @foreach ($departments as $dept)
                                                       <option value="{{ $dept->id }}">{{ $dept->department }}</option>
-                                                      @endforeach  
+                                                    @endforeach  
                                                 </select>
                                                 @error('department')
                                                     <span class="text-danger text-sm">{{ $message }}</span>                              
@@ -148,10 +149,14 @@
 
 @push('plugin-scripts')
     {!! Html::script('assets/js/loader.js') !!}
+    {!! Html::script('plugins/typehead/typeahead.bundle.js') !!}
+    {{-- {!! Html::script('assets/js/forms/custom-typeahead.js') !!} --}}
 @endpush
 
 @push('custom-scripts')
 <script>
+
+
    //  display image
    var SITEURL = '{{URL::to('')}}';
    $.ajaxSetup({
@@ -159,6 +164,31 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    // Typeahead
+    (function($) {
+    "use strict";
+    $(document).ready(function() {
+        // Defining the local dataset
+        var cars = ['Detached','Semi Detached', 'Terrace', 'Dormitory', 'ShopHouse', 'Villa'];
+        // Constructing the suggestion engine
+        var cars = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: cars
+        });
+        // Initializing the typeahead
+        $('.typeahead').typeahead({
+                hint: true,
+                highlight: true, /* Enable substring highlighting */
+                minLength: 1 /* Specify minimum characters required for showing suggestions */
+            },
+            {
+                name: 'cars',
+                source: cars
+            });
+    });
+})(jQuery);
 
 
    $(document).ready(function (e) {
