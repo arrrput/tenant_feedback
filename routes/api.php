@@ -16,6 +16,7 @@ use App\Http\Controllers\API\UserApiController;
 */
 Route::post('/login', [UserApiController::class,'login'])->name('login');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [UserApiController::class,'fecth']);
+    Route::post('logout', [UserApiController::class,'logout']);
 });
