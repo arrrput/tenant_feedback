@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserApiController;
+use App\Http\Controllers\API\RequestUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,8 @@ Route::post('/login', [UserApiController::class,'login'])->name('login');
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserApiController::class,'fecth']);
     Route::post('logout', [UserApiController::class,'logout']);
+
+    // Request by user
+    Route::get('my_request', [RequestUserController::class,'index']);
+    
 });
