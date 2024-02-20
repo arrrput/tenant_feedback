@@ -12,7 +12,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
 
 <script src="{{ asset('assets/js/app.js') }}"></script>
-
+<link rel="stylesheet" href="{{ asset('plugins/sweetalerts/sweetalert2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/sweetalerts/sweetalert.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/all.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/line-awesome-1.3.0/css/line-awesome.min.css') }}">
 

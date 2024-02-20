@@ -23,5 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Request by user
     Route::get('my_request', [RequestUserController::class,'index']);
+    Route::post('my_request/store', [RequestUserController::class,'store']);
     
 });

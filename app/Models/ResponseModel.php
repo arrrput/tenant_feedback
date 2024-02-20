@@ -12,6 +12,6 @@ class ResponseModel extends Model
     protected $table='response';
 
     protected $fillable = [
-        'id_request', 'response'
+        'id_request', 'response','id_user','target_hari'
     ];
 }

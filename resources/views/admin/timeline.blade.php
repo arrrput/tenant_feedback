@@ -62,11 +62,11 @@
                                         <h4 class="mt-0 font-16"> {{ $u->name }}</h4>
                                         <p class="text-muted"><small></a> Send Request {{ $req->created_at->format('d M Y / H:i') }}</small></p>
                                         <p class="mb-0">{{ $req->description }}</p>
-                                        {{-- <img src="" class=" timeline-album rounded-circle align-self-center rounded-1 mr-1 ml-2 mr-auto"/> --}}
+                                        {{-- <img src="{{ asset('storage/img_progress/'.$u->image) }}" class=" timeline-album rounded-circle align-self-center rounded-1 mr-1 ml-2 mr-auto"/> --}}
                                     </div>
                                 </div>
                                 <div class="timeline-option">
-                                    <img class="timeline-img  ml-auto mr-auto" src="{{ asset('storage/img_progress/'.$u->image) }}" style="height: 250px; width: 450px; ">
+                                    <img class="img img-fluid timeline-req" style="min-width: 80%;" src="{{ asset('storage/img_progress/'.$u->image) }}" >
                                 </div>
                             </article>
 

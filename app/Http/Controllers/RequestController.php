@@ -133,24 +133,24 @@ class RequestController extends Controller
 
         $user = User::select('*')->where('id', $request->id_user)->first();
 
-        $sid    = getenv("TWILIO_AUTH_SID");
-        $token  = getenv("TWILIO_AUTH_TOKEN");
-        $wa_from= getenv("TWILIO_WHATSAPP_FROM");
-        $twilio = new Client($sid, $token);
-        $msg_id = "MG93c1be42365ffff6b42deb8ff0c47184";
-        $recipient = "+628127074988";
-        $body = "Notifikasi Tenant Feedback : \n";
-        $body = $body ."From : ". $user->name ."\n";
-        $body = $body. "Lokasi : \n". $request->location." Unit ". $request->no_unit ."\n";
-        $body = $body ." ". $request->description ."\n";
-        $body = $body ."Lebih lanjut cek disini : http://feedback.biiebigdata.co.id";
+        // $sid    = getenv("TWILIO_AUTH_SID");
+        // $token  = getenv("TWILIO_AUTH_TOKEN");
+        // $wa_from= getenv("TWILIO_WHATSAPP_FROM");
+        // $twilio = new Client($sid, $token);
+        // $msg_id = "MG93c1be42365ffff6b42deb8ff0c47184";
+        // $recipient = "+628127074988";
+        // $body = "Notifikasi Tenant Feedback : \n";
+        // $body = $body ."From : ". $user->name ."\n";
+        // $body = $body. "Lokasi : \n". $request->location." Unit ". $request->no_unit ."\n";
+        // $body = $body ." ". $request->description ."\n";
+        // $body = $body ."Lebih lanjut cek disini : http://feedback.biiebigdata.co.id";
  
-        $twilio->messages->create("whatsapp:$recipient",
-                                            ["from" => "whatsapp:$wa_from", 
-                                            "body" => $body,
-                                             "mediaUrl" =>"https://aquaproof.co.id/images/cara-mengatasi-atap-rumah-bocor_1642154200.jpg", //public_path('storage/img_progress/').''.$image->hashName(), 
-                                            "messagingServiceSid" => $msg_id
-                                        ]);
+        // $twilio->messages->create("whatsapp:$recipient",
+        //                                     ["from" => "whatsapp:$wa_from", 
+        //                                     "body" => $body,
+        //                                      "mediaUrl" =>"https://aquaproof.co.id/images/cara-mengatasi-atap-rumah-bocor_1642154200.jpg", //public_path('storage/img_progress/').''.$image->hashName(), 
+        //                                     "messagingServiceSid" => $msg_id
+        //                                 ]);
         return to_route('request.index')->with('message', 'Request successfuly');
 
     }

@@ -1,6 +1,8 @@
 <script src="{{ asset('assets/js/all.js') }}"></script>
+<script src="{{ asset('plugins/sweetalerts/promise-polyfill.js') }}"></script>
+<script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
 <script>
-    var pusher = new Pusher('8c71005b4e26270feccb', {
+    var pusher = new Pusher('aed65ef4746550ecbccc', {
     encrypted: true
 });
 

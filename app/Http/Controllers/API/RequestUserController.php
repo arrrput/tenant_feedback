@@ -17,4 +17,8 @@ class RequestUserController extends Controller
                     ->get();
         return response()->json($request, 200);
     }
+
+    public function store(Request $request){
+        dd($request->all());
+    }
 }

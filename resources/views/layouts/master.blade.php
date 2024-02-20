@@ -29,6 +29,7 @@
         </div>
         <!--  Sidebar Ends  -->
 
+       
         <!--  Content Area Starts  -->
         <div id="content" class="main-content">
             <!-- Main Body Starts -->
@@ -37,9 +38,12 @@
 
             @include('include.responsive-message')
 
+
             <!-- Copyright Footer Starts -->
             @include('include.footer')
             <!-- Copyright Footer Ends -->
+
+            
 
             <!-- Arrow Starts -->
             <div class="scroll-top-arrow" style="display: none;">
@@ -55,6 +59,7 @@
     </div>
     <!-- Main Container Ends -->
 
+    
     <!-- Common Script Starts -->
     @include('include.scripts')
 

@@ -79,14 +79,21 @@ Route::group(['middleware'=>'auth'], function(){
     //role adalah user / department biie
     Route::middleware(['role:user'])->name('department.')->prefix('department')->group(function(){
         Route::resource('/', UserRequestController::class);
+        Route::get('new_req', [UserRequestController::class, 'newReq'])->name('new_request');
+        Route::get('resp_req', [UserRequestController::class, 'respReq'])->name('resp_request');
+        Route::get('progress_req', [UserRequestController::class, 'progressReq'])->name('progress_request');
+        Route::get('finish_req', [UserRequestController::class, 'finishReq'])->name('finish_request');
         Route::get('{id}/addresponse', [UserRequestController::class, 'addResponse'])->name('addresponse');
         Route::get('{id}/addprogress', [UserRequestController::class, 'addProgress'])->name('addprogress');
+        Route::get('{id}/show', [UserRequestController::class, 'show'])->name('show');
         Route::post('create', [UserRequestController::class, 'create'])->name('create_response');
         Route::post('store_progress', [UserRequestController::class, 'storeProgress'])->name('create_progress');
+        Route::post('store_resp', [UserRequestController::class, 'storeResp'])->name('store_reponse');
+        Route::post('store_cancel', [UserRequestController::class, 'storeCancel'])->name('store_cancel');
         Route::post('finish', [UserRequestController::class, 'finish'])->name('finish');
         Route::post('cancel',[UserRequestController::class, 'cancelRequest'])->name('cancel');
         Route::get('{id}/timeline', [RequestController::class, 'timeline'])->name('timeline');
-
+        
         Route::get('dept-chart', [ReportDeptController::class, 'index'])->name('dept.chart');
 
     });
