@@ -296,15 +296,9 @@
         </div>
         </form>
     </div>
-  </div>
-
-
-        <form method="POST">
-         
-        </form>
+  </div>      
       
-      
-        
+        {{-- Maint content --}}
         <section class="content mb-5">
           <div class="container-fluid">
             <div class="widget-content widget-content-area br-12">
@@ -322,7 +316,7 @@
                     <a class="nav-link" id="finish-tab" data-toggle="tab" href="#finish" role="tab" aria-controls="finish" aria-selected="false"><b> {{__('Finish')}}</b></a>
                   </li>
                   <li class="nav-item ">
-                    <a class="nav-link" id="reject-tab" data-toggle="tab" href="#reject" role="tab" aria-controls="reject" aria-selected="false"><b> {{__('Reject')}}</b></a>
+                    <a class="nav-link" id="reject-tab" data-toggle="tab" href="#reject" role="tab" aria-controls="reject" aria-selected="false"><b> {{__('Cancel')}}</b></a>
                   </li>
               </ul>
 
@@ -418,14 +412,30 @@
 
                 {{-- Reject --}}
                 <div class="tab-pane fade" id="reject" role="tabpanel" aria-labelledby="reject-tab">
-                  <h5>Reject</h5>
+                  <h5>Cancel</h5>
+                  <table class="table table-hover" id="table_cancel">
+                    <thead>
+                      <tr>
+                        <th style="width: 19px">No</th>
+                        <th>Name</th>
+                        <th style="width: 200px;">Description</th>
+                        <th>Location</th>
+                        <th>Cancel Reason</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                  </table>
+
                 </div>
 
               </div>
             </div>
           </div>
         </section>
-
+        {{-- End Main content --}}
         
     </div>
     @endsection
@@ -447,7 +457,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-var table_news, table_resp, table_progress, table_finish;
+var table_news, table_resp, table_progress, table_finish, table_cancel;
 
   // table news
   table_news = $('#table_news').DataTable({
@@ -557,7 +567,34 @@ table_finish = $('#table_finish').DataTable({
                 {data: 'start_end', name: 'start_end'},
                 {data: 'rating', name: 'rating'},
             ]
-    });
+});
+
+// table cancel
+table_cancel = $('#table_cancel').DataTable({
+            "lengthMenu": [[50, 100, 250, -1], [50, 100, 250, "All"]],
+            "pageLength": 50,
+            "language": {
+                "paginate": {
+                "previous": "<i class='las la-angle-left'></i>",
+                "next": "<i class='las la-angle-right'></i>"
+                }
+            },
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('department.reject_request') }}",
+                type: "GET"
+            },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    {data:'name', name : 'name',orderable: true, searchable: true},
+                    {data:'description', name : 'description',orderable: true, searchable: true},
+                    {data:'lokasi', name : 'lokasi',orderable: true, searchable: true},
+                    {data: 'cancel', name: 'cancel', orderable: true, searchable: true},
+                    {data: 'created_at', name: 'created_at'},
+                ]
+});
+
 
 function responseReq(id){
   $.ajax({

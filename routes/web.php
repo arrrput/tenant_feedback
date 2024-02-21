@@ -74,6 +74,10 @@ Route::group(['middleware'=>'auth'], function(){
         Route::post('add_rate',[RequestController::class,'storeRating'])->name('rating');
         Route::post('verify',[RequestController::class,'verify'])->name('verify');
         Route::post('rate_us',[RequestController::class,'rateUs'])->name('rateus');
+
+        // table ajax request
+        Route::get('/my_request', [RequestController::class, 'myReq'])->name('my_request');
+        Route::get('/{id}/show', [RequestController::class, 'show'])->name('show');
     });
 
     //role adalah user / department biie
@@ -83,6 +87,8 @@ Route::group(['middleware'=>'auth'], function(){
         Route::get('resp_req', [UserRequestController::class, 'respReq'])->name('resp_request');
         Route::get('progress_req', [UserRequestController::class, 'progressReq'])->name('progress_request');
         Route::get('finish_req', [UserRequestController::class, 'finishReq'])->name('finish_request');
+        Route::get('reject_request', [UserRequestController::class, 'rejectReq'])->name('reject_request');
+        
         Route::get('{id}/addresponse', [UserRequestController::class, 'addResponse'])->name('addresponse');
         Route::get('{id}/addprogress', [UserRequestController::class, 'addProgress'])->name('addprogress');
         Route::get('{id}/show', [UserRequestController::class, 'show'])->name('show');

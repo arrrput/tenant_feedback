@@ -339,7 +339,7 @@ class UserRequestController extends Controller
         }
     }
 
-    // onresponse
+    // onfinish
     public function finishReq(){
         $id_dept = Auth::user()->id_department;
         if(Auth::user()->hasRole('admin')){
@@ -405,13 +405,84 @@ class UserRequestController extends Controller
                 ->addColumn('response', function($row){
                     return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="responseReq('.$row->id.')">Response</a>';
                 })
+                ->editColumn('created_at', function($row){
+                    return Carbon::parse($row->created_at)->format('d/m/Y');
+                })
+                ->editColumn('updated_at', function($row){
+                    return Carbon::parse($row->updated_at)->format('d/m/Y');
+                })
                 ->editColumn('lokasi', function($row){
                     return $row->lokasi.' Unit '.$row->no_unit;
                 })
-                ->editColumn('created_at', function($row){
-                    return Carbon::parse($row->created_at)->format('d/m/Y H:i:s');
+                ->addColumn('rating', function ($row){
+                    $rate = Rate::select('*')->where('id_request', $row->id)->first();
+                    if(!empty($rate)){
+                        $bintang = '';
+                        for($i = 0; $i<5 ; $i++){
+                             
+                            if($rate->rate_point >= $i){
+                                $bintang = $bintang. ' <span class="las la-star text-warning"></span>'; 
+                            }else{
+                                $bintang = $bintang. ' <span class="las la-star"></span>';
+                            }
+                        }
+                        return $bintang;
+                    }else{
+                        return '<span class="badge badge-warning">Waiting feedback</span>';
+                    }
+                    
                 })
-                ->rawColumns(['response'])
+                ->rawColumns(['response','rating'])
+                ->addIndexColumn()
+                ->make(true);
+
+        }
+    }
+
+    // onfinish
+    public function rejectReq(){
+        $id_dept = Auth::user()->id_department;
+        if(Auth::user()->hasRole('admin')){
+            $req_user = Requests::where('requests.progress_request',5)
+                        ->join('users', 'requests.id_user', '=', 'users.id')
+                        ->select('requests.id','requests.created_at',
+                        'requests.progress_request','requests.description', 
+                        'users.name as name','requests.cancel','requests.lokasi','requests.no_unit',
+                        'requests.status_feedback')
+                        ->get();
+
+            $datatables =  datatables()->of($req_user);
+            return $datatables
+                ->addColumn('response', function($row){
+                    return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="finishReq('.$row->id.')">Close Request</a>';
+                })
+                ->editColumn('created_at', function($row){
+                    return Carbon::parse($row->created_at)->format('d/m/Y');
+                })
+                ->editColumn('lokasi', function($row){
+                    return $row->lokasi.' Unit '.$row->no_unit;
+                })
+                
+                ->addIndexColumn()
+                ->make(true);
+
+        }else{
+            $req_user = Requests::join('users', 'requests.id_user', '=', 'users.id')
+                    ->where('requests.progress_request',5)
+                    ->where('requests.id_department', $id_dept)
+                    ->select('requests.id','requests.created_at',
+                    'requests.progress_request','requests.description', 
+                    'users.name as name','requests.cancel','requests.lokasi','requests.no_unit')
+                    ->get();
+
+            $datatables =  datatables()->of($req_user);
+            return $datatables
+                ->editColumn('created_at', function($row){
+                    return Carbon::parse($row->created_at)->format('d/m/Y');
+                })
+                ->editColumn('lokasi', function($row){
+                    return $row->lokasi.' Unit '.$row->no_unit;
+                })
                 ->addIndexColumn()
                 ->make(true);
 

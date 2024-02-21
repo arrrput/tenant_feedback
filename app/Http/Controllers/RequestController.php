@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Rate;
 use App\Models\User;
+use App\Models\Progres;
+use Twilio\Rest\Client;
 use App\Models\Requests;
 use App\Models\Departments;
 use Illuminate\Http\Request;
 use App\Models\RelevantParts;
+use App\Models\ResponseModel;
 use Illuminate\Routing\Controller;
+
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-
-use Twilio\Rest\Client;
 
 class RequestController extends Controller
 {
@@ -50,30 +53,28 @@ class RequestController extends Controller
         $get_role =  Role::whereNotIn('name', ['admin'])->count();
 
         if(Auth::user()->roles->pluck('name') =='admin'){
-            $u = DB::table('requests')
-            ->join('departments', 'requests.id_department', '=', 'departments.id')
-            ->join('relevant_parts', 'requests.id_part', '=', 'relevant_parts.id')
-            ->select('requests.cancel','requests.id','requests.created_at',
-            'requests.progress_request','requests.description', 'departments.department as dept',
-            'relevant_parts.name_relevant as name')
-            ->orderBy('created_at', 'desc')
-            ->get();
+            $u = Requests::join('departments', 'requests.id_department', '=', 'departments.id')
+                    ->join('relevant_parts', 'requests.id_part', '=', 'relevant_parts.id')
+                    ->select('requests.cancel','requests.id','requests.created_at',
+                    'requests.progress_request','requests.description', 'departments.department as dept',
+                    'relevant_parts.name_relevant as name')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
         }else{
-            $u = DB::table('requests')
-            ->join('departments', 'requests.id_department', '=', 'departments.id')
-            ->join('relevant_parts', 'requests.id_part', '=', 'relevant_parts.id')
-            ->where('requests.id_user', $user_id)
-            ->select('requests.cancel','requests.id','requests.created_at',
-            'requests.progress_request','requests.description', 'departments.department as dept', 
-            'relevant_parts.name_relevant as name')
-            ->orderBy('created_at', 'desc')
-            ->get();
+            $u = Requests::join('departments', 'requests.id_department', '=', 'departments.id')
+                        ->join('relevant_parts', 'requests.id_part', '=', 'relevant_parts.id')
+                        ->where('requests.id_user', $user_id)
+                        ->select('requests.cancel','requests.id','requests.created_at',
+                        'requests.progress_request','requests.description', 'departments.department as dept', 
+                        'relevant_parts.name_relevant as name')
+                        ->orderBy('created_at', 'desc')
+                        ->get();
         }
         
         
         $departments =  Departments::all();
-        $request = Requests::all();
-        return view('request.list', compact('departments','request','u'));
+        // $request = Requests::all();
+        return view('request.list', compact('departments','u'));
     }
 
     
@@ -219,5 +220,149 @@ class RequestController extends Controller
       
         return to_route('request.list')->with('message','Thank you for your feedback');
         //return response()->json(['message' => 'Thank you for your feedback :)']);
+    }
+
+    public function myReq(Request $request){
+        $user_id = Auth::user()->id;
+        $get_role =  Role::whereNotIn('name', ['admin'])->count();
+
+        if(Auth::user()->roles->pluck('name') =='admin'){
+            $list = Requests::join('departments', 'requests.id_department', '=', 'departments.id')
+                    ->join('relevant_parts', 'requests.id_part', '=', 'relevant_parts.id')
+                    ->select('requests.cancel','requests.id','requests.created_at',
+                    'requests.progress_request','requests.description', 'departments.department as dept',
+                    'relevant_parts.name_relevant as name', 'requests.lokasi','requests.no_unit','requests.tic_number')
+                    ->orderBy('created_at', 'desc');
+            if($request->has('status_progress')){
+                $list->where('requests.progress_request', $request->status_progress);
+                if($request->status_progress == 2){
+                    $list->join('response', 'requests.id', 'response.id_request')
+                        ->select('response.response','response.target_hari','requests.cancel','requests.id','requests.created_at',
+                        'requests.progress_request','requests.description', 'departments.department as dept',
+                        'relevant_parts.name_relevant as name', 'requests.tic_number');
+                }
+                if($request->status_progress == 4){
+                    $list->join('progress', 'requests.id', 'progress.id_request')
+                    ->select('progress.message','progress.akar_penyebab','requests.cancel','requests.id','requests.created_at',
+                        'requests.progress_request','requests.description', 'departments.department as dept',
+                        'relevant_parts.name_relevant as name', 'requests.tic_number','requests.lokasi','requests.no_unit');
+                }
+            }
+            
+            $datatables =  datatables()->of($list->get());
+            return $datatables
+                    ->addColumn('root_cause', function($row){
+                        if($row->akar_penyebab){
+                            return $row->akar_penyebab;
+                        }
+                    })
+                    ->addColumn('correction', function($row){
+                        if($row->message){
+                            return $row->message;
+                        }
+                    })
+                    ->addColumn('description', function($row){
+                        return $row->description;
+                    })
+                    ->addColumn('show_progress', function($row){
+                        return '<a class="btn btn-sm bg-gradient-danger text-white" href="javascript:void(0);" onClick="showProgress('.$row->id.')">Reject</a>';
+                    })
+                    ->addColumn('verified', function($row){
+                        return '<a class="btn btn-sm bg-gradient-warning text-white" href="javascript:void(0);" onClick="showRating('.$row->id.')"><i class"la la-eye"></i> Verification</a>'; 
+                    })
+                    ->editColumn('created_at', function($row){
+                        return Carbon::parse($row->created_at)->format('d/m/Y');
+                    })
+                    ->editColumn('created_at', function($row){
+                        return Carbon::parse($row->created_at)->format('d/m/Y');
+                    })
+                    ->addColumn('est_day', function($row){
+                        if($row->target_hari){
+                            return$row->target_hari.' Day';
+                        }  
+                    })
+                    ->editColumn('lokasi', function($row){
+                        return $row->lokasi.' No. '.$row->no_unit;
+                    })
+                    ->rawColumn(['show_progress'])
+                    ->addIndexColumn()
+                    ->make(true);
+        }else{
+            $list = Requests::join('departments', 'requests.id_department', '=', 'departments.id')
+                        ->join('relevant_parts', 'requests.id_part', '=', 'relevant_parts.id')
+                        ->where('requests.id_user', $user_id)
+                        ->select('requests.cancel','requests.id','requests.created_at',
+                        'requests.progress_request','requests.description', 'departments.department as dept', 
+                        'relevant_parts.name_relevant as name', 'requests.lokasi','requests.no_unit','requests.tic_number')
+                        ->orderBy('requests.created_at', 'desc');
+            if($request->has('status_progress')){
+                $list->where('requests.progress_request', $request->status_progress);
+                if($request->status_progress == 2){
+                    $list->join('response', 'requests.id', 'response.id_request')
+                        ->select('response.response','response.target_hari','response.created_at as time_resp', 'requests.cancel','requests.id','requests.created_at',
+                        'requests.progress_request','requests.description', 'departments.department as dept',
+                        'relevant_parts.name_relevant as name', 'requests.tic_number');
+                }
+                if($request->status_progress == 4){
+                    $list->join('progress', 'requests.id', 'progress.id_request')
+                        ->select('progress.message','progress.akar_penyebab','requests.cancel','requests.id','requests.created_at',
+                        'requests.progress_request','requests.description', 'departments.department as dept',
+                        'relevant_parts.name_relevant as name', 'requests.tic_number','requests.lokasi','requests.no_unit');
+                }
+            }
+
+            $datatables =  datatables()->of($list->get());
+            return $datatables
+                        ->addColumn('show_progress', function($row){
+                            return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="showProgress('.$row->id.')"><i class"la la-eye"></i> Show Detail</a>';
+                        })
+                        ->editColumn('created_at', function($row){
+                            return Carbon::parse($row->created_at)->format('d/m/Y');
+                        })
+                        ->editColumn('dept', function($row){
+                            return $row->dept.' ('.$row->name.')';
+                        })
+                        ->editColumn('lokasi', function($row){
+                            return $row->lokasi.' No. '.$row->no_unit;
+                        })
+                        ->addColumn('est_day', function($row){
+                            if($row->target_hari){
+                                return$row->target_hari.' Day';
+                            }  
+                        })
+                        ->addColumn('verified', function($row){
+                            return '<a class="btn btn-sm bg-gradient-warning text-white" href="javascript:void(0);" onClick="showRating('.$row->id.')"><i class"la la-eye"></i> Verification</a>'; 
+                        })
+                        ->addColumn('resp', function($row){
+                            if($row->response){
+                                return $row->response.'<span class="badge text-primary">('.Carbon::parse($row->time_resp)->diffForHumans().')</span>';
+                            }
+                            
+                        })
+                        ->rawColumns(['resp','show_progress','verified'])
+                        ->addIndexColumn()
+                        ->make(true);
+        }
+    }
+
+    public function show($id){
+        $req = Requests::select('*')->where('id', $id)->first();
+        $resp = ResponseModel::select('*')->where('id_request',$id)->first();
+        $progress = Progres::select('*')->where('id_request', $id)->first();
+
+        $data =  array(
+            'description' => $req->description,
+            'image_req' => $req->image,
+            'date_req'=> Carbon::parse($req->created_at)->format('d M Y H:i'),
+            'location' =>$req->lokasi.' No.'.$req->no_unit,
+            'response'=> $resp->response,
+            'date_resp' => Carbon::parse($resp->created_at)->format('d M Y H:i'),
+            'correction'=> $progress->message,
+            'root_cause' => $progress->akar_penyebab,
+            'image_progress' => $progress->image,
+            'date_progress' => Carbon::parse($progress->created_at)->format('d M Y H:i')
+        );
+
+        return response()->json($data, 200);
     }
 }

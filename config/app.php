@@ -200,6 +200,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Ilmedova\Chattle\ChatServiceProvider::class,
+        Alfa6661\AutoNumber\AutoNumberServiceProvider::class,
     ],
 
     /*
