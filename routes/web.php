@@ -58,7 +58,7 @@ Route::group(['middleware'=>'auth'], function(){
         Route::get('/report/{date}/month/', [ReportController::class, 'detailMonth'])->name('report.month');
         Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
         Route::resource('/user', UserController::class);
-        Route::get('/manage_users',[UserController::class,'manageUser'])->name('manage_user.index');
+        Route::get('/manage_users',[IndexController::class,'manageUser'])->name('manage_user.index');
 
         //export
         Route::get('export/tenant',[ReportController::class,'month_export_tenant'])->name('export_month');
