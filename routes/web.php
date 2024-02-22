@@ -12,11 +12,10 @@ use App\Http\Controllers\RequestController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ReportDeptController;
 use App\Http\Controllers\UserRequestController;
 use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\user\UserController as UserUserController;
+use App\Http\Controllers\user\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,12 +53,12 @@ Route::group(['middleware'=>'auth'], function(){
         Route::delete('role/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.revoke');
         Route::post('/permissions/{permission}/roles',[PermissionController::class, 'assignRole'])->name('permissions.role');
         Route::delete('/permissions/{permission}/roles/{role}',[PermissionController::class, 'removeRole'])->name('permissions.roles.remove');
-        Route::get('/manage_users',[UserController::class,'index'])->name('manage_user.index');
+        Route::get('/manage_users',[UserController::class,'manageUser'])->name('manage_user.index');
         Route::get('/report', [ReportController::class,'index'])->name('report.index');
         Route::get('/report/{date}/week/', [ReportController::class, 'detailWeek'])->name('report.week');
         Route::get('/report/{date}/month/', [ReportController::class, 'detailMonth'])->name('report.month');
         Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
-        Route::resource('/user', UserUserController::class);
+        Route::resource('/user', UserController::class);
 
         //export
         Route::get('export/tenant',[ReportController::class,'month_export_tenant'])->name('export_month');

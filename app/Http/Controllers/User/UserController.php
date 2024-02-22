@@ -21,6 +21,10 @@ class UserController extends Controller
         
         return view('admin.user.index',compact('data'));
     }
+
+    public function manageUser(){
+        return view('admin.manage_user.index');
+    }
     
     public function create()
     {
