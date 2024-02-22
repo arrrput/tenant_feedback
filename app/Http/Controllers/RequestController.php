@@ -87,18 +87,17 @@ class RequestController extends Controller
 
         //validate form
         $request->validate([
-            'id_user' => 'required',
-            'id_request' =>'required',
+            'id_req_rated' =>'required',
             'star' =>'required',
-            'description' => 'required'
+            'description_finish' => 'required'
         ]);
-        Rate::create([
-            'id_user' => $request->id_user,
-            'id_request' =>$request->id_request,
+        $fm = Rate::create([
+            'id_user' => Auth::user()->id,
+            'id_request' =>$request->id_req_rated,
             'rate_point' =>$request->star,
-            'message' => $request->description
+            'message' => $request->description_finish
         ]);
-        return to_route('request.list')->with('message', 'Thank you for your feedback');
+        return response()->json($fm, 200);
 
     }
 
@@ -268,7 +267,22 @@ class RequestController extends Controller
                         return '<a class="btn btn-sm bg-gradient-danger text-white" href="javascript:void(0);" onClick="showProgress('.$row->id.')">Reject</a>';
                     })
                     ->addColumn('verified', function($row){
-                        return '<a class="btn btn-sm bg-gradient-warning text-white" href="javascript:void(0);" onClick="showRating('.$row->id.')"><i class"la la-eye"></i> Verification</a>'; 
+                        $find = Rate::select('*')->where('id_request',$row->id)->first();
+                        if(!empty($find)){
+                            $bintang = '';
+                            for($i = 0; $i<5 ; $i++){
+                                
+                                if($find->rate_point >= $i){
+                                    $bintang = $bintang. ' <span class="las la-star text-warning"></span>'; 
+                                }else{
+                                    $bintang = $bintang. ' <span class="las la-star"></span>';
+                                }
+                            }
+                            return $bintang;
+                        }else{
+                            return '<a class="btn btn-sm bg-gradient-warning text-white" href="javascript:void(0);" onClick="showRating('.$row->id.')"><i class"la la-eye"></i> Verification</a>';
+                        }
+                         
                     })
                     ->editColumn('created_at', function($row){
                         return Carbon::parse($row->created_at)->format('d/m/Y');
@@ -331,9 +345,25 @@ class RequestController extends Controller
                             }  
                         })
                         ->addColumn('verified', function($row){
-                            return '<a class="btn btn-sm bg-gradient-warning text-white" href="javascript:void(0);" onClick="showRating('.$row->id.')"><i class"la la-eye"></i> Verification</a>'; 
+                            $find = Rate::select('*')->where('id_request',$row->id)->first();
+                            if(!empty($find)){
+                                $bintang = '';
+                                for($i = 0; $i<5 ; $i++){
+                                    
+                                    if($find->rate_point >= $i){
+                                        $bintang = $bintang. ' <span class="las la-star text-warning"></span>'; 
+                                    }else{
+                                        $bintang = $bintang. ' <span class="las la-star"></span>';
+                                    }
+                                }
+                                return $bintang;
+                            }else{
+                                return '<a class="btn btn-sm bg-gradient-warning text-white" href="javascript:void(0);" onClick="showRating('.$row->id.')"><i class"la la-eye"></i> Verification</a>';
+                            }
+                             
                         })
                         ->addColumn('resp', function($row){
+                            
                             if($row->response){
                                 return $row->response.'<span class="badge text-primary">('.Carbon::parse($row->time_resp)->diffForHumans().')</span>';
                             }
@@ -351,6 +381,7 @@ class RequestController extends Controller
         $progress = Progres::select('*')->where('id_request', $id)->first();
 
         $data =  array(
+            'id' => $req->id,
             'description' => $req->description,
             'image_req' => $req->image,
             'date_req'=> Carbon::parse($req->created_at)->format('d M Y H:i'),

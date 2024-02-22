@@ -183,170 +183,7 @@
       </div>
     </div>
    </section>
-
-    <form method="POST" action="">
-      @csrf
-    </form>
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-
-        <div class="row">
-          <!-- ./col -->
-          <div class="col-12">
-            
-          </div>
-          <div class="col-12">
-            <div class="card card-success">
-              <div class="card-header">
-                <h6 class="card-title"><i class="las la-table text-primary"></i> My Request</h6>
-              </div>
-              <div class="card-body">
-
-                <div class="widget-content">
-                  <div class="table-responsive">
-
-                    <table class="table" id="table-list">
-                      <thead>
-                        <tr>
-                          <th style="width: 19px">#</th>
-                          <th>Description</th>
-                          <th>Department</th>
-                          <th>Relevant Part</th>
-                          <th>Date</th>
-                          <th style="width: 120px;">status</th>
-                          <th>Verifications</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @foreach ($u as $req)
-                        <tr>
-                            <td>
-                              @if ($req->progress_request ==5)
-                               
-                                 <a href="#"><span class="badge bg-danger" data-toggle="modal" data-target="#modal-{{ $req->id }}" value="x">
-                                  <i class=" las la-ban"></i></a>
-                                <div class="modal fade modal-success" id="modal-{{ $req->id}}">
-                                  <div class="modal-dialog modal-m">
-                                    <div class="modal-content bg-light">
-                                      <div class="modal-header">
-                                        <h5 class="modal-title">Cancel Request</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                        </button>
-                                      </div>
-                                      <div class="modal-body">
-                                        
-                                          {{ $req->cancel }}
     
-    
-                                      </div>
-                                      
-                                      <div class="modal-footer justify-content-between">
-                                          <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>                                 
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              @else
-                              <a href="{{ route('request.timeline', $req->id) }}"><i class="las la-eye green-text"></i>
-                              </a>
-                              @endif
-                            </td>
-                            <td>{{ $req->description }}</td>
-                            <td>{{ $req->dept }}</td>
-                            <td>{{ $req->name }}</td>
-                            <td> {{ date('d M Y', strtotime($req->created_at)); }}</td>
-                            <td>
-                              @if ($req->progress_request ==1)
-                              <div class="progress progress-xs">
-                                <div class="progress-bar bg-danger" style="width: 25%"></div>
-                                </div>Request was delivery</td>
-                              </div>
-                              @endif
-    
-                              @if ($req->progress_request ==2)
-                              <div class="progress progress-xs">
-                                <div class="progress-bar bg-warning" style="width: 40%"></div>
-                                </div>On Response</td>
-                              </div>
-                              @endif
-    
-                              @if ($req->progress_request ==3)
-                              <div class="progress progress-xs">
-                                <div class="progress-bar bg-primary" style="width: 75%"></div>
-                                </div>On Progress</td>
-                              </div>
-                              @endif
-    
-                              @if ($req->progress_request ==4)
-                              <div class="progress progress-xs">
-                                <div class="progress-bar bg-success" style="width: 100%"></div>
-                                </div>Finish</td>
-                              </div>
-                              @endif
-    
-                              @if ($req->progress_request ==5)
-                              
-                                <span class="badge bg-danger"> Request Rejected</span>
-                
-                              @endif
-                               
-                            </td>
-                            <td>
-                              
-                              @if ($req->progress_request == 4)
-                                  {{-- {{ $rate= DB::table('rate')
-                                  ->select('rate_point as rating')
-                                  ->where('id_request','=',$req->id)
-                                  ->first() }} --}}
-                                  <?php $rate = DB::select("select * from rate where id_request ='$req->id' limit 1");
-                                    $size = count($rate);
-                                  ?>
-                                  @if ($size > 0)
-                                    <span class="las la-star  <?php if($rate[0]->rate_point >=1){ echo 'text-warning';} ?>"></span>
-                                    <span class="las la-star <?php if($rate[0]->rate_point >=2){ echo 'text-warning';} ?>"></span>
-                                    <span class="las la-star <?php if($rate[0]->rate_point >=3){ echo 'text-warning';} ?>"></span>
-                                    <span class="las la-star <?php if($rate[0]->rate_point >=4){ echo 'text-warning';} ?>"></span>
-                                    <span class="las la-star <?php if($rate[0]->rate_point >=5){ echo 'text-warning';} ?>"></span>
-                                  @else
-                                  <a href="#">
-                                    {{-- <button class="btn-sm btn-success" data-toggle="modal" data-target="#modal-rate{{ $req->id }}" value="x">Rate Us</button> --}}
-                                    <button class="btn btn-sm bg-gradient-warning text-white" id="rateModal" data-id="{{ $req->id }}"><i class="las la-check-circle"></i>Verification</button>
-                                  </a>
-    
-                                  
-                                  @endif
-                                
-                              
-                              @else
-                                <span class="badge bg-gradient-danger text-white">Stil Prosess</span>
-                                
-                              @endif
-                              
-                            </td>
-                        </tr>   
-                        @endforeach
-                          
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <!-- ./col -->        
-
-          
-
-        </div>
-      </div>
-      <!-- container fluid -->
-    </section>
-    <!-- maincontent -->
 
     {{-- Moodal sekses --}}
     <div class="modal fade modal-success" id="ajaxsukses">
@@ -400,7 +237,7 @@
         </div>
         <div class="modal-body">          
             <div class="row m-3">
-              <input type="hidden" name="id_rating" id="id_rating"/>
+              <input type="hidden" name="id_req_rated" id="id_req_rated"/>
               
               <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
                 <div class="stars" name="stars" id="stars">    
@@ -750,6 +587,7 @@ table_finish = $('#table_finish').DataTable({
         },
         processing: true,
         serverSide: true,
+        bDestroy: true,
         ajax: {
             url: "{{ route('request.my_request') }}",
             type: "GET",
@@ -842,8 +680,57 @@ table_finish = $('#table_finish').DataTable({
   }
 
   function showRating(id){
-    $('#modal_rating').modal('show');
+    
+    $.ajax({
+        type:"GET",
+        url: "{{ URL::to('/') }}/request/"+id+"/show/",
+        dataType: 'json',
+        success: function(res){
+          $('#modal_rating').modal('show');
+            $("#id_req_rated").val(res.id);
+              
+          }
+    });
   }
+
+  // store rating
+  $('#form_finish_req').submit(function(e) {
+        document.getElementById('load-finish').style.display = 'block';
+        document.getElementById('btn-save-finish').style.display = 'none';
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+        type:'POST',
+        url: "{{ route('request.rating')}}",
+        data: formData,
+        cache:false,
+        contentType: false,
+        processData: false,
+        success: (data) => {
+            document.getElementById('load-finish').style.display = 'none';
+            document.getElementById('btn-save-finish').style.display = 'block';
+            document.getElementById("form_finish_req").reset();
+                
+                
+                $("#modal_rating").modal('hide');
+                $('#table_finish').DataTable().ajax.reload();
+                //show success message
+                Swal.fire({
+                    type: 'success',
+                    icon: 'success',
+                    title: 'Thank you for your feedback',
+                    showConfirmButton: false,
+                    timer: 3000
+                });  
+            
+        },
+            error: function(data){
+              document.getElementById('load-finish').style.display = 'none';
+              document.getElementById('btn-save-finish').style.display = 'block';
+              console.log(data);
+            }
+        })
+  });
 
   </script>
 @endpush
