@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Contracts\Role;
 use App\Http\Controllers\WaController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ProfileController;
@@ -31,6 +32,9 @@ use App\Http\Controllers\Admin\PermissionController;
 Route::get('/', function () {
     return view('auth.login');
 });
+
+Route::get('mail/send', [EmailController::class, 'sendWelcomeEmail']);
+Route::get('send', [EmailController::class, 'send']);
 
 //Group route login
 Route::group(['middleware'=>'auth'], function(){

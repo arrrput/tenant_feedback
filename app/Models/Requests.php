@@ -26,7 +26,7 @@ class requests extends Model
         return [
             'tic_number' => [
                 'format' => function () {
-                    return 'CRS-REQ/' . date('Ymd') . '/?'; 
+                    return 'CRS-REQ/' . date('Y/m') . '/?'; 
                 },
                 'length' => 3 
             ]

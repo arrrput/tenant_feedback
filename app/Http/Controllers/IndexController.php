@@ -14,6 +14,7 @@ class IndexController extends Controller
         return view('admin.index', compact('departments'));
     }
     public function manageUser(){
+        
         return view('admin.manage_user.index');
     }
 }

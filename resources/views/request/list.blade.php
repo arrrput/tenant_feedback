@@ -94,7 +94,7 @@
           {{-- News Request --}}
           <div class="tab-pane fade show active" id="new" role="tabpanel" aria-labelledby="new-tab">
             
-            <button class="btn bg-gradient-warning text-white m-3"><i class="las la-plus"></i> Add Request</button>
+            {{-- <button class="btn bg-gradient-warning text-white m-3"><i class="las la-plus"></i> Add Request</button> --}}
             <table class="table table-hover" id="table_news">
               <thead>
                 <tr>
@@ -405,6 +405,126 @@
                           <img id="img_progress" class="img img-fluid" style="max-width: 25rem;"/>
                         </div>
                       </div>
+                    </article>
+
+                    
+                  </div>
+              </div>
+            </div>
+
+            
+              
+          
+          </div>
+          <div class="modal-footer">
+             
+              <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+          </div>
+          </div>
+      </div>
+    </div>
+
+    {{-- Modal response request --}}
+    <div class="modal fade bd-example-modal-xl" id="modal_finish" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl" role="document">                     
+          <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title block text-primary" id="no_emp">
+                  Progress Request</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="row">
+              <div class="col-12">
+                  <div class="timeline">
+                      <article class="timeline-item">
+                          <h2 class="m-0 d-none">&nbsp;</h2>
+                          <div class="time-show mt-0">
+                              <a href="#" class="btn btn-primary width-lg">{{__('Start')}}</a>
+                          </div>
+                      </article>
+                      <article class="timeline-item timeline-item-left" >
+                        <div class="timeline-desk" >
+                            <div class="timeline-box">
+                                <span class="arrow-alt"></span>
+                                <span class="timeline-icon"><i class="lar la-dot-circle"></i></span>
+                                <h4 class="mt-0 font-16" id="location_fn">Semi Detached No 16</h4>
+                                <p class="text-muted" id="date_req_fn"><small>02:15 pm</small></p>
+                                <p class="mb-0" id="desc_fn">{{__('On the other hand, we denounce with righteous indignation and dislike men who are so beguiled')}}</p>
+                                <p class="mb-0 text-white" >{{__('On the other hand, we denounce with righteous indignation and dislike men who are so beguiled')}}</p>
+                            </div>
+                        </div>
+                        <div class="timeline-desk">
+                          <div class="text-center">
+                            <img id="img_req_fn" class="img img-fluid" style="max-width: 25rem;"/>
+                          </div>
+                            
+                        </div>
+                    </article>
+
+                    {{-- Response --}}
+                    <article class="timeline-item">
+                      
+                      <div class="timeline-desk">
+                          <div class="timeline-box">
+                              <span class="arrow"></span>
+                              <span class="timeline-icon"><i class="lar la-dot-circle"></i></span>
+                              <h4 class="mt-0 font-16">Admin</h4>
+                              <p class=" text-muted" id="date_response_fn"><small></small></p>
+                              <p class="mb-0" id="response_fn"> </p>
+                          </div>
+                      </div>
+                    </article>
+
+                    {{-- Progress --}}
+                    <article class="timeline-item timeline-item-left">
+                      <div class="timeline-desk">
+                          <div class="timeline-box">
+                              <span class="arrow-alt"></span>
+                              <span class="timeline-icon"><i class="lar la-dot-circle"></i></span>
+                              <h4 class="mt-0 font-16" id="user_dept_fn">{{__('Admin')}}</h4>
+                              <p class="text-muted" id="date_progress_fn"><small>{{__('21 hours ago')}}x</small></p>
+                              <p><b>Correction :</b></p>
+                              <p id="correction_fn"></p>
+                              <p><b>Root Cause :</b></p>
+                              <p id="root_cause_fn"></p>
+                              
+                          </div>
+                      </div>
+                      <div class="timeline-option pt-1">
+                        <div class="text-center">
+                          <img id="img_progress_fn" class="img img-fluid" style="max-width: 25rem;"/>
+                        </div>
+                      </div>
+                    </article>
+
+                    {{-- Finish --}}
+                    <article class="timeline-item timeline-item-left">
+                      <div class="timeline-desk">
+                          <div class="timeline-box">
+                              <span class="arrow-alt"></span>
+                              <span class="timeline-icon"><i class="lar la-dot-circle"></i></span>
+                              <h4 class="mt-0 font-16" >{{__('Finish Task')}}</h4>
+                              <p class="text-muted" id="date_finish"><small>{{__('21 hours ago')}}x</small></p>
+                              <p id="message_finish"></p>
+                                                            
+                          </div>
+                      </div>
+                      <div class="timeline-option pt-1">
+                        <div class="text-center">
+                          <img id="img_finish" class="img img-fluid" style="max-width: 25rem;"/>
+                        </div>
+                      </div>
+                    </article>
+
+                    <article class="timeline-item">
+                      
+                      <div class="time-show">
+                          <a href="#" class="btn btn-primary width-lg">Finish</a>
+                      </div>
                   </article>
                   </div>
               </div>
@@ -500,7 +620,7 @@
             url: "{{ route('request.my_request') }}",
             type: "GET",
             data: function (d) {
-                d.status_progress = 3
+                d.status_progress = 1
             }
         },
             columns: [
@@ -602,7 +722,7 @@ table_finish = $('#table_finish').DataTable({
                 {data:'description', name : 'description',orderable: true, searchable: true},
                 {data:'message', name : 'message',orderable: true, searchable: true},
                 {data: 'akar_penyebab', name: 'akar_penyebab', orderable: true, searchable: true},
-                {data: 'show_progress', name: 'show_progress'},
+                {data: 'show_finish', name: 'show_finish'},
                 {data: 'verified', name: 'verified'},
             ]
 });
@@ -665,6 +785,7 @@ table_finish = $('#table_finish').DataTable({
         dataType: 'json',
         success: function(res){
               $('#modal_progress').modal('show');
+              document.getElementById('article_finish').style.display = 'none';
               document.getElementById("desc_tl").innerHTML  = res.description;
               document.getElementById("location_tl").innerHTML  = res.location;
               document.getElementById("date_req_tl").innerHTML  = res.date_req;
@@ -675,6 +796,31 @@ table_finish = $('#table_finish').DataTable({
               document.getElementById("date_progress_tl").innerHTML  = res.date_progress;
               document.getElementById("root_cause_tl").innerHTML  = res.root_cause;
               document.getElementById("correction_tl").innerHTML  = res.correction;
+            }
+        });
+  }
+
+  function showFinish(id){
+    
+    $.ajax({
+        type:"GET",
+        url: "{{ URL::to('/') }}/request/"+id+"/show/",
+        dataType: 'json',
+        success: function(res){
+              $('#modal_finish').modal('show');
+              document.getElementById("desc_fn").innerHTML  = res.description;
+              document.getElementById("location_fn").innerHTML  = res.location;
+              document.getElementById("date_req_fn").innerHTML  = res.date_req;
+              document.getElementById("response_fn").innerHTML  = res.response ;
+              document.getElementById("date_response_fn").innerHTML  = res.date_resp;
+              $('#img_req_fn').attr('src', '{{ URL::asset("/storage/img_progress/") }}'+'/'+res.image_req);
+              $('#img_progress_fn').attr('src', '{{ URL::asset("/storage/img_progress/") }}'+'/'+res.image_progress);
+              $('#img_finish').attr('src', '{{ URL::asset("/storage/img_finish/") }}'+'/'+res.image_finish);
+              document.getElementById("date_progress_fn").innerHTML  = res.date_progress;
+              document.getElementById("root_cause_fn").innerHTML  = res.root_cause;
+              document.getElementById("correction_fn").innerHTML  = res.correction;
+              document.getElementById("date_finish").innerHTML  = res.date_finish;
+              document.getElementById("message_finish").innerHTML  = res.message_finish;
             }
         });
   }

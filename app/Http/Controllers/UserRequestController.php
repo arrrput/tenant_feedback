@@ -375,7 +375,7 @@ class UserRequestController extends Controller
                         $bintang = '';
                         for($i = 0; $i<5 ; $i++){
                              
-                            if($rate->rate_point >= $i){
+                            if($rate->rate_point > $i){
                                 $bintang = $bintang. ' <span class="las la-star text-warning"></span>'; 
                             }else{
                                 $bintang = $bintang. ' <span class="las la-star"></span>';
@@ -420,7 +420,7 @@ class UserRequestController extends Controller
                         $bintang = '';
                         for($i = 0; $i<5 ; $i++){
                              
-                            if($rate->rate_point >= $i){
+                            if($rate->rate_point > $i){
                                 $bintang = $bintang. ' <span class="las la-star text-warning"></span>'; 
                             }else{
                                 $bintang = $bintang. ' <span class="las la-star"></span>';

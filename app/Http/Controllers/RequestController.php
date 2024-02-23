@@ -8,16 +8,19 @@ use App\Models\User;
 use App\Models\Progres;
 use Twilio\Rest\Client;
 use App\Models\Requests;
+use App\Models\FinishTask;
 use App\Models\Departments;
 use Illuminate\Http\Request;
 use App\Models\RelevantParts;
 use App\Models\ResponseModel;
-use Illuminate\Routing\Controller;
 
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\EmailNotification;
+use Illuminate\Support\Facades\Notification;
 
 class RequestController extends Controller
 {
@@ -120,7 +123,7 @@ class RequestController extends Controller
         $image->storeAs('public/img_progress', $image->hashName());
 
         //Requests::create($request->all());
-        Requests::create([
+        $fm = Requests::create([
             'image'     => $image->hashName(),
             'description'     => $request->description,
             'id_department'   => $request->id_department,
@@ -131,7 +134,22 @@ class RequestController extends Controller
             'id_part' => $request->id_part
         ]);
 
-        $user = User::select('*')->where('id', $request->id_user)->first();
+
+        $body_mail = 'Ada Request baru dari : '.Auth::user()->name.' <p>'.$fm->description.' yang berlokasi di '.$fm->location.' '.$fm->no_unit.' </p> Untuk lebih lanjut silahkan klik tombol dibawah ini';
+        $user = User::first();
+        // $user = User::select('*')->where('id', 1)->first();
+        $project = [
+            'greeting' => 'Hi '.$user->name.',',
+            'body' => $body_mail,
+            'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
+            'actionText' => 'View Request',
+            'actionURL' => url('/department'),
+            'id' => 57
+        ];
+  
+        Notification::send($user, new EmailNotification($project));
+
+        
 
         // $sid    = getenv("TWILIO_AUTH_SID");
         // $token  = getenv("TWILIO_AUTH_TOKEN");
@@ -327,6 +345,9 @@ class RequestController extends Controller
 
             $datatables =  datatables()->of($list->get());
             return $datatables
+                        ->addColumn('show_finish', function($row){
+                            return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="showFinish('.$row->id.')"><i class"la la-eye"></i> Show Detail</a>';
+                        })
                         ->addColumn('show_progress', function($row){
                             return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="showProgress('.$row->id.')"><i class"la la-eye"></i> Show Detail</a>';
                         })
@@ -350,7 +371,7 @@ class RequestController extends Controller
                                 $bintang = '';
                                 for($i = 0; $i<5 ; $i++){
                                     
-                                    if($find->rate_point >= $i){
+                                    if($find->rate_point > $i){
                                         $bintang = $bintang. ' <span class="las la-star text-warning"></span>'; 
                                     }else{
                                         $bintang = $bintang. ' <span class="las la-star"></span>';
@@ -369,7 +390,7 @@ class RequestController extends Controller
                             }
                             
                         })
-                        ->rawColumns(['resp','show_progress','verified'])
+                        ->rawColumns(['resp','show_progress','verified','show_finish'])
                         ->addIndexColumn()
                         ->make(true);
         }
@@ -379,6 +400,7 @@ class RequestController extends Controller
         $req = Requests::select('*')->where('id', $id)->first();
         $resp = ResponseModel::select('*')->where('id_request',$id)->first();
         $progress = Progres::select('*')->where('id_request', $id)->first();
+        $finish = FinishTask::select('*')->where('id_request', $id)->first();
 
         $data =  array(
             'id' => $req->id,
@@ -391,7 +413,10 @@ class RequestController extends Controller
             'correction'=> $progress->message,
             'root_cause' => $progress->akar_penyebab,
             'image_progress' => $progress->image,
-            'date_progress' => Carbon::parse($progress->created_at)->format('d M Y H:i')
+            'date_progress' => Carbon::parse($progress->created_at)->format('d M Y H:i'),
+            'message_finish'=> $finish->description,
+            'image_finish'=> $finish->image,
+            'date_finish' => Carbon::parse($finish->created_at)->format('d M Y H:i'),
         );
 
         return response()->json($data, 200);
