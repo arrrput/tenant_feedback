@@ -99,7 +99,7 @@ class ReportController extends Controller
             ->first();
 
         $pdf = PDF::loadView('report.pdf.pdf_request', ['request' => $req, 'finish'=>$finish, 'pg'=> $pg])->setPaper('a4', 'portrait');
-        return $pdf->download('request-tenant-'.$req->name_user);
+        return $pdf->stream();
     }
 
 }
