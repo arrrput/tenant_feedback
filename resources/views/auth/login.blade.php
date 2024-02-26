@@ -85,10 +85,12 @@
                         </div>
                         <div class="login-two-inputs social-logins mt-4">
                             <div class="social-btn"><a href="javascript:void(0)" class="fb-btn"><i class="lab la-facebook-f"></i></a></div>
-                            <div class="social-btn"><a href="javascript:void(0)" class="twitter-btn"><i class="lab la-twitter"></i>
-                                </a></div>
-                            <div class="social-btn"><a href="javascript:void(0)" class="google-btn"><i class="lab la-instagram"></i>
-                                </a></div>
+                            <div class="social-btn">
+                                <a href="javascript:void(0)" class="twitter-btn"><i class="lab la-twitter"></i></a>
+                            </div>
+                            <div class="social-btn">
+                                <a href="javascript:void(0)" class="google-btn"><i class="lab la-instagram"></i></a>
+                            </div>
                         </div>
                         </form>
                     </div>

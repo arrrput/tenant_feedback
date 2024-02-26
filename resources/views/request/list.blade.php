@@ -106,7 +106,7 @@
           {{-- News Request --}}
           <div class="tab-pane fade show active" id="new" role="tabpanel" aria-labelledby="new-tab">
             
-            {{-- <button class="btn bg-gradient-warning text-white m-3"><i class="las la-plus"></i> Add Request</button> --}}
+            <button class="btn bg-gradient-warning text-white m-3" data-toggle="modal" data-target="#modal_add_req"><i class="las la-plus"></i> Add Request</button>
             <table class="table table-hover" id="table_news">
               <thead>
                 <tr>
@@ -215,6 +215,108 @@
     </div>
 
     
+  {{-- modal_add_req --}}
+  <div class="modal fade bd-example-modal-xl" id="modal_add_req" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">                     
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title block text-primary" id="no_emp">
+                Add Request</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <img id="preview-image-before-upload" 
+                src="{{ URL::asset('image/icon-img.png') }}"
+                class="rounded mx-auto d-block"
+                  alt="preview image" style="max-height: 250px;">
+                <label for="image">Image <span class="text-danger">(*.jpg/ *.png / *.jpeg / Max Size 2Mb)</span></label>
+                <div class="col-sm-12">
+                  <input type="file" class="form-control" id="image" name="image" placeholder="Input Response Here">
+                  @error('image')
+                  <span class="text-danger text-sm">{{ $message }}</span>                              
+                @enderror
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="exampleSelectRounded0">Location <span class="text-danger">( * )</span></label>
+                <input type="text" class="form-control" placeholder="Location" name="location" required/>
+                  @error('location')
+                    <span class="text-danger text-sm">{{ $message }}</span>                              
+                  @enderror
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="exampleSelectRounded0">No <span class="text-danger">( * )</span></label>
+                <input type="text" class="form-control" placeholder="Number" name="no_unit" required/>
+                  @error('no_unit')
+                    <span class="text-danger text-sm">{{ $message }}</span>                              
+                  @enderror
+              </div>
+            </div>
+            
+          </div>
+        
+
+          <div class="row">
+              <div class="col-sm">
+                <div class="form-group">
+                  <label for="exampleSelectRounded0">Related Department <span class="text-danger">( * )</span></label>
+                    <select class="custom-select rounded-0" id="id_department" name="id_department" required>
+                        <option disabled>-- Select Here -- </option>
+                        @foreach ($departments as $dept)
+                          <option value="{{ $dept->id }}">{{ $dept->department }}</option>
+                        @endforeach  
+                    </select>
+                    @error('department')
+                        <span class="text-danger text-sm">{{ $message }}</span>                              
+                      @enderror
+                </div>
+              </div>
+              <div class="col-sm">
+                <div class="form-group">
+                  <label for="exampleSelectRounded0">Nature of Request  <span class="text-danger">( * )</span></label>
+                      <select class="custom-select rounded-0" id="id_part" name="id_part" required>
+                        <option disabled>-- Select Here -- </option>
+        
+                      </select>
+                      @error('id_part')
+                      <span class="text-danger text-sm">{{ $message }}</span>                              
+                    @enderror 
+                </div>
+              </div>
+          </div>
+            
+            <label for="exampleSelectRounded0">Description about request </label>
+            <textarea class="form-control" rows="3" placeholder="Enter description ..." name="description"></textarea>
+            @error('description')
+                    <span class="text-danger text-sm">{{ $message }}</span>                              
+                  @enderror
+            <input type="hidden" value="{{ Auth::user()->id }}" name="id_user"/>
+                  <input type="hidden" value="1" name="progress_request"/>
+            <p></p>
+            
+        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-gradient-success btn-sm text-white" data-dismiss="modal">Submit</button>
+            <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+  </div>
+  
+
   {{-- Moodal verify --}}
     <div class="modal fade " id="ajaxVerify">
       <div class="modal-dialog modal-m">
