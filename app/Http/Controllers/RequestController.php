@@ -135,10 +135,11 @@ class RequestController extends Controller
         ]);
 
 
-        $body_mail = 'Ada Request baru dari : '.Auth::user()->name.' <p>'.$fm->description.' yang berlokasi di '.$fm->location.' '.$fm->no_unit.' </p> Untuk lebih lanjut silahkan klik tombol dibawah ini';
-        $user = User::first();
+        $body_mail = 'Ada Request baru dari : '.Auth::user()->name.' <p>'.$fm->description.' yang berlokasi di '.$fm->lokasi.' '.$fm->no_unit.' </p> Untuk lebih lanjut silahkan klik tombol dibawah ini';
+        $user = User::where('id',18)->first();
+        $admin_dept = User::where('id_department',$fm->id_department)->get();
         // $user = User::select('*')->where('id', 1)->first();
-        $project = [
+        $mail_crs = [
             'greeting' => 'Hi '.$user->name.',',
             'body' => $body_mail,
             'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
@@ -146,8 +147,27 @@ class RequestController extends Controller
             'actionURL' => url('/department'),
             'id' => 57
         ];
-  
-        Notification::send($user, new EmailNotification($project));
+
+        // end email to related department
+        foreach ($admin_dept as $u){
+            $mail_dept = [
+                'greeting' => 'Hi '.$u->name.',',
+                'body' => $body_mail,
+                'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
+                'actionText' => 'View Request',
+                'actionURL' => url('/department'),
+                'id' => 57
+            ];
+            if(!empty($u->email)){
+                Notification::send($admin_dept, new EmailNotification($mail_dept));
+            }
+        }
+        
+        // send request to email
+        if(!empty($user)){
+            Notification::send($user, new EmailNotification($mail_crs));
+        }
+        
 
         
 
@@ -169,7 +189,7 @@ class RequestController extends Controller
         //                                      "mediaUrl" =>"https://aquaproof.co.id/images/cara-mengatasi-atap-rumah-bocor_1642154200.jpg", //public_path('storage/img_progress/').''.$image->hashName(), 
         //                                     "messagingServiceSid" => $msg_id
         //                                 ]);
-        return to_route('request.index')->with('message', 'Request successfuly');
+        return to_route('request.list')->with('success','Request successfully');;
 
     }
 
@@ -414,10 +434,16 @@ class RequestController extends Controller
             'root_cause' => $progress->akar_penyebab,
             'image_progress' => $progress->image,
             'date_progress' => Carbon::parse($progress->created_at)->format('d M Y H:i'),
-            'message_finish'=> $finish->description,
-            'image_finish'=> $finish->image,
-            'date_finish' => Carbon::parse($finish->created_at)->format('d M Y H:i'),
+            
         );
+
+        if(!empty($finish)){
+            $data += array(
+                'message_finish'=> $finish->description,
+                'image_finish'=> $finish->image,
+                'date_finish' => Carbon::parse($finish->created_at)->format('d M Y H:i'),
+            );
+        }
 
         return response()->json($data, 200);
     }

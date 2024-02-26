@@ -7,7 +7,7 @@
     {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
     {!! Html::style('assets/css/pages/timeline.css') !!}
     {!!  Html::style('http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css') !!}
-
+    {!! Html::style('assets/css/ui-elements/alert.css') !!}
 <style>
       .checked {
         color: orange;
@@ -64,10 +64,22 @@
                   </div>
               </li>
           </ul>
-      </header>
-  </div>
-  <!--  Navbar Ends / Breadcrumb Area  -->
+        </header>
+    </div>
+    <!--  Navbar Ends / Breadcrumb Area  -->
 
+    @if ($message = Session::get('success'))
+        <div class="alert alert-icon-button-left alert-light-success text-success mb-4" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="{{__('Close')}}">
+                <i class="las la-times text-warning"></i>
+            </button>
+            <i class="las la-exclamation-triangle text-success font-20"></i>
+            <strong>Success</strong> {{ $message }}.
+            <button type="button" class="btn btn-sm bg-gradient-success float-right mr-2 text-white" data-dismiss="alert" aria-label="{{__('Close')}}">
+                {{__('Dismiss')}}
+            </button>
+        </div>
+    @endif
    {{-- Maint content --}}
    <section class="content mb-5">
     <div class="container-fluid">
@@ -785,7 +797,7 @@ table_finish = $('#table_finish').DataTable({
         dataType: 'json',
         success: function(res){
               $('#modal_progress').modal('show');
-              document.getElementById('article_finish').style.display = 'none';
+             
               document.getElementById("desc_tl").innerHTML  = res.description;
               document.getElementById("location_tl").innerHTML  = res.location;
               document.getElementById("date_req_tl").innerHTML  = res.date_req;

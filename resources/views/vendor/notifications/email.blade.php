@@ -18,6 +18,7 @@
 
 {{-- Action Button --}}
 @isset($actionText)
+<br>
 <?php
     $color = match ($level) {
         'success', 'error' => $level,
@@ -28,7 +29,7 @@
 {{ $actionText }}
 </x-mail::button>
 @endisset
-
+<br>
 {{-- Outro Lines --}}
 @foreach ($outroLines as $line)
 {{ $line }}

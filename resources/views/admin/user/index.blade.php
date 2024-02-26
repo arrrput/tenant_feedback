@@ -23,8 +23,7 @@
                     <nav class="breadcrumb-one" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             
-                            <li class="breadcrumb-item" aria-current="page"><span> {{__('Manage')}}</span></li>
-                            <li class="breadcrumb-item active" aria-current="page"><span> {{__('User')}}</span></li>
+                            <li class="breadcrumb-item active" aria-current="page"><span> {{__('User Management')}}</span></li>
                         </ol>
                     </nav>
                 </div>

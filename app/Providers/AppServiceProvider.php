@@ -132,7 +132,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('theme', $theme);
         });
 
-        view()->composer('layouts.master-auth', function($view) {
+        view()->composer('layouts.master_auth', function($view) {
             $theme = \Cookie::get('theme');
             if ($theme == 'darkmode') {
                 $theme = 'dark';

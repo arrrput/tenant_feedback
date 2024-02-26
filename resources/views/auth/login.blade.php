@@ -1,92 +1,111 @@
-<!doctype html>
-<html class="no-js" lang="en">
-    <head> 
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Login | Tenant Request</title>
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <link rel="icon" href="{{ asset('favicon.png') }}" type="image/x-icon" />
+@extends('layouts.master_auth')
 
-        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
-        
-        <link rel="stylesheet" href="{{ asset('plugins/bootstrap/dist/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('backend/plugins/fontawesome-free/css/all.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('plugins/ionicons/dist/css/ionicons.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('plugins/icon-kit/dist/css/iconkit.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('backend/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}">
-        <link rel="stylesheet" href="{{ asset('dist/css/theme.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-        <script src="{{ asset('src/js/vendor/modernizr-2.8.3.min.js') }}"></script>
-    </head>
+@push('plugin-styles')
+    {!! Html::style('assets/css/loader.css') !!}
+    {!! Html::style('assets/css/authentication/auth_2.css') !!}
+@endpush
 
-    <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
-        <div class="auth-wrapper">
-            <div class="container-fluid h-100">
-                <div class="row flex-row h-100">
-                    <div class="col-xl-4 col-lg-4 col-md-4 m-auto">
-                        <div class="authentication-form mx-auto">
-                            <div class="logo-centered">
-                                <a href="http://bintanindustrial.com"><img height="80" src="{{ asset('image/logo.png') }}" alt="RADMIN" ></a>
+@section('content')
+    <!-- Main Body Starts -->
+    <div class="login-two">
+        <div class="container-fluid login-two-container">
+            <div class="row main-login-two">
+                <div class="col-xl-8 col-lg-7 col-md-7 d-none d-md-block p-0">
+                    <div class="login-bg">
+                        <div class="left-content-area">
+                           
+                            
+                            <div>
+                                {{-- <h2>{{__('A few clicks away from creating your account')}}</h2>
+                                <p>{{__('Start your journey in minutes. Save your time and money.')}}</p>
+                                <a class="btn mt-4" href="javascript:void(0)" type="button">{{__('Learn More')}}</a> --}}
                             </div>
-                            <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                                <div class="form-group">
-                                    <input id="email" type="email" placeholder="Email" class="form-control @error('email') is-invalid @enderror" name="email" required autocomplete="email" autofocus>
-                                    <i class="ik ik-user"></i>
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <input id="password" type="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required>
-                                    <i class="ik ik-lock"></i>
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                                </div>
-                                <div class="row">
-                                    <div class="col text-left">
-                                        <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="item_checkbox" name="item_checkbox" value="option1">
-                                            <span class="custom-control-label">&nbsp;Remember Me</span>
-                                        </label>
-                                    </div>
-                                    <div class="col text-right">
-                                        <a class="btn text-danger" href="{{url('password/forget')}}">
-                                            {{-- {{ __('Forgot Password?') }} --}}
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="sign-btn text-center">
-                                    <button class="btn btn-custom">Sign In</button>
-                                </div>
-                                <div class="register">
-                                    <p>{{ __('No account?')}} <a href="{{url('register')}}">{{ __('Sign Up')}}</a></p>
-                                </div>
-                                
-                            </form>
+                            <div class="d-flex align-items-center mt-4">
+                                {{-- <a class="font-13 text-white mr-3">{{__('Find us: ')}}</a>
+                                <a class="font-13 text-white mr-3" href="javascript:void(0)">{{__('Facebook')}}</a>
+                                <a class="font-13 text-white mr-3" href="javascript:void(0)">{{__('Twitter')}}</a>
+                                <a class="font-13 text-white mr-3" href="javascript:void(0)">{{__('Linked In')}}</a> --}}
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-5 p-0">
+                    <div class="login-two-start">
+                        <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="logo mt-5">
+                            <img src="{{url('image/bie.png')}}" style="max-width: 150px;"/>
+                        </div>
+                        
+                        {{-- <h6 class="right-bar-heading px-3 mt-2 text-dark text-center font-30 text-uppercase">{{__('Login')}}</h6> --}}
+                        <p class="text-center text-muted mt-1 font-14">{{__('Please Log into your account')}}</p>
+                        <div class="login-two-inputs mt-2">
+                            <input name="email" id="email" class="form-control" type="email" placeholder="{{__('Username')}}" required autocomplete="email" autofocus/>
+                            <i class="las la-user-alt"></i>
+                           
+                        </div>
+                        @error('email')
+                        <span class="invalid-feedback text-danger" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                        <div class="login-two-inputs mt-4">
+                            <input id="password" type="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required/>
+                            <i class="las la-lock"></i>
+                            
+                        </div>
+                        @error('password')
+                                <span class="invalid-feedback text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        <div class="login-two-inputs  mt-4 check">
+                            <div class="box">
+                                <input type="checkbox" class="custom-control-input" id="item_checkbox" name="item_checkbox" value="one">
+                                <span class="check"></span>
+                                <label for="one">{{__('Remember me')}}</label>
+                            </div>
+                        </div>
+                        <div class="login-two-inputs mt-5 text-center d-flex">
+                            <button class="ripple-button ripple-button-primary w-100 btn-login ml-3 mr-3" type="submit">
+                                <div class="ripple-ripple js-ripple">
+                                    <span class="ripple-ripple__circle"></span>
+                                </div>
+                                {{__('Login')}}
+                            </button>
+                            
+                        </div>
+                        <div class="mt-4 text-center font-12 strong">
+                            <a href="{{url('/authentications/style2/forgot-password')}}" class="text-primary">{{__('Forgot your Password ?')}}</a>
+                        </div>
+                        <div class="login-two-inputs mt-4">
+                            <div class="find-us-container">
+                                <p class="find-us text-center">{{__('Find Us :')}}</p>
+                            </div>
+                        </div>
+                        <div class="login-two-inputs social-logins mt-4">
+                            <div class="social-btn"><a href="javascript:void(0)" class="fb-btn"><i class="lab la-facebook-f"></i></a></div>
+                            <div class="social-btn"><a href="javascript:void(0)" class="twitter-btn"><i class="lab la-twitter"></i>
+                                </a></div>
+                            <div class="social-btn"><a href="javascript:void(0)" class="google-btn"><i class="lab la-instagram"></i>
+                                </a></div>
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <script src="{{ asset('src/js/vendor/jquery-3.3.1.min.js') }}"></script>
-        <script src="{{ asset('plugins/popper.js/dist/umd/popper.min.js') }}"></script>
-        <script src="{{ asset('backend/plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js') }}"></script>
-        <script src="{{ asset('plugins/screenfull/dist/screenfull.js') }}"></script>
-        
-    </body>
-</html>
+    </div>
+    <!-- Main Body Ends -->
+@endsection
+
+@push('plugin-scripts')
+    {!! Html::script('assets/js/loader.js') !!}
+    {!! Html::script('assets/js/libs/jquery-3.6.0.min.js') !!}
+    {!! Html::script('plugins/bootstrap/js/bootstrap.min.js') !!}
+    {!! Html::script('assets/js/authentication/auth_2.js') !!}
+@endpush
+
+@push('custom-scripts')
+
+@endpush

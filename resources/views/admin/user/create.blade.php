@@ -23,7 +23,7 @@
                     <nav class="breadcrumb-one" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             
-                            <li class="breadcrumb-item" aria-current="page"><span> {{__('User')}}</span></li>
+                            <li class="breadcrumb-item" aria-current="page"><span> {{__('User Management')}}</span></li>
                             <li class="breadcrumb-item active" aria-current="page"><span> {{__('Create')}}</span></li>
                         </ol>
                     </nav>
@@ -113,7 +113,7 @@
                         <div class="form-group">
                             <strong>Department:</strong>
                                 <select class="custom-select rounded-0" id="id_department" name="id_department">
-                                    <option disable>-- Select Here -- </option>
+                                    <option disabled>-- Select Here -- </option>
                                     @foreach ($departments as $dept)
                                     <option value="{{ $dept->id }}">{{ $dept->department }}</option>
                                     @endforeach  

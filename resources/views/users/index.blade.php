@@ -9,7 +9,7 @@
     {!! Html::style('plugins/jquery-ui/jquery-ui.min.css') !!}
     {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
     {!! Html::style('assets/css/ui-elements/loading-spinners.css') !!}
-    
+    {!! Html::style('assets/css/ui-elements/alert.css') !!}
 
 @endpush
 
@@ -759,7 +759,7 @@ $('#form_progress_req').submit(function(e) {
               console.log(data);
             }
         })
-  });
+});
 
 function finishReq(id){
   $.ajax({
