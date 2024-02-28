@@ -10,14 +10,14 @@
         </li>
     </ul>
     <ul class="navbar-item flex-row ml-md-0 ml-auto">
-        <li class="nav-item align-self-center search-animated">
+        {{-- <li class="nav-item align-self-center search-animated">
             <i class="las la-search toggle-search"></i>
             <form class="form-inline search-full form-inline search" action="{{ url('/pages/search-result') }}" role="search">
                 <div class="search-bar">
                     <input type="text" class="form-control search-form-control  ml-lg-auto" placeholder=" {{__('Search here')}}">
                 </div>
             </form>
-        </li>
+        </li> --}}
         
     </ul>
     <ul class="navbar-item flex-row ml-md-auto">
@@ -43,7 +43,7 @@
         </li>
         
        
-        <li class="nav-item dropdown notification-dropdown">
+        {{-- <li class="nav-item dropdown notification-dropdown">
             <a href="javascript:void(0);" class="nav-link dropdown-toggle position-relative" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="las la-bell"></i>
                 <div class="blink">
@@ -112,7 +112,7 @@
                     </div>
                 </div>
             </div>
-        </li>
+        </li> --}}
         <li class="nav-item dropdown user-profile-dropdown">
             <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <img src="{{asset('storage/profile/'.Auth::user()->image)}}" alt="avatar">

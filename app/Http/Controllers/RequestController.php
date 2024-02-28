@@ -136,7 +136,7 @@ class RequestController extends Controller
 
 
         $body_mail = 'Ada Request baru dari : '.Auth::user()->name.' <p>'.$fm->description.' yang berlokasi di '.$fm->lokasi.' '.$fm->no_unit.' </p> Untuk lebih lanjut silahkan klik tombol dibawah ini';
-        $user = User::where('id',18)->first();
+        $user = User::where('id',1)->first();
         $admin_dept = User::where('id_department',$fm->id_department)->get();
         // $user = User::select('*')->where('id', 1)->first();
         $mail_crs = [

@@ -47,10 +47,7 @@
                                 <i class="las la-user"></i>
                             </span>
                     <div class="ml-auto">
-                        <div class="quick-comparison qcompare-success">
-                            <span> {{ $tenant }}</span>
-                            <i class="las la-user-circle"></i>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="quick-category-content">
@@ -67,10 +64,7 @@
                               <i class="las la-box"></i>
                           </span>
                   <div class="ml-auto">
-                      <div class="quick-comparison qcompare-danger">
-                          <span> {{ __('10%') }}</span>
-                          <i class="las la-pause-circle"></i>
-                      </div>
+                      
                   </div>
               </div>
               <div class="quick-category-content">
@@ -86,10 +80,7 @@
                             <i class="las la-check-double"></i>
                           </span>
                   <div class="ml-auto">
-                      <div class="quick-comparison qcompare-success">
-                          <span> {{ $finish }}</span>
-                          <i class="las la-arrow-up"></i>
-                      </div>
+                      
                   </div>
               </div>
               <div class="quick-category-content">
@@ -105,10 +96,7 @@
                             <i class="las la-project-diagram"></i>
                           </span>
                   <div class="ml-auto">
-                      <div class="quick-comparison qcompare-danger">
-                          <span> {{ $departments }}</span>
-                          <i class="las la-arrow-down"></i>
-                      </div>
+                      
                   </div>
               </div>
               <div class="quick-category-content">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DateTime;
 use Carbon\Carbon;
 use App\Models\Rate;
+use App\Models\User;
 use App\Models\Progres;
 use App\Models\Requests;
 use App\Models\FinishTask;
@@ -12,6 +13,8 @@ use Illuminate\Http\Request;
 use App\Models\ResponseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\EmailNotification;
+use Illuminate\Support\Facades\Notification;
 
 class UserRequestController extends Controller
 {
@@ -140,9 +143,20 @@ class UserRequestController extends Controller
             'id_user'=> Auth::user()->id
         ]);
 
-        Requests::where('id', $request->id_finish)
+        $fm = Requests::where('id', $request->id_finish)
                 ->update(['progress_request' => 4]);
-
+        $body_mail = 'Request Anda telah selesai dikerjakan, mohon dicek untuk diverifikasi mengenai pengerjaan';
+        $user = User::where('id',1)->first();
+        // $user = User::select('*')->where('id', 1)->first();
+        $mail_crs = [
+                'greeting' => 'Hi '.$user->name.',',
+                    'body' => $body_mail,
+                    'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
+                    'actionText' => 'View Request',
+                    'actionURL' => url('/request/list'),
+                    'id' => 57
+                ];
+                Notification::send($user, new EmailNotification($mail_crs));
         return response()->json($fm, 200);
         // return to_route('department.index')->with('status','Finish Request was succussfuly.');
     }

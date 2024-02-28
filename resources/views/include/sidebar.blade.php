@@ -81,7 +81,7 @@
 
         @role('admin')
         <li class="menu {{ active_class([route('admin.user.index')]) }}">
-            <a data-active="{{ is_active_route(['admin/user']) }}" href="{{ url('admin/user') }}" aria-expanded="false" class="dropdown-toggle">
+            <a data-active="{{ is_active_route(['admin/manage_users']) }}" href="{{ url('admin/manage_users') }}" aria-expanded="false" class="dropdown-toggle">
                 <div class="">
                     <i class="las la-users"></i>
                     <span> {{__('User Management')}}</span>
