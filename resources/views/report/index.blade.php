@@ -52,7 +52,7 @@
                             <th>Onprogress</th>
                             <th>Response</th>
                             <th>Pending</th>
-                            <th>Reject</th>
+                            <th>Cancel</th>
                             <th>Month </th>
                             <th>Year</th>
                             <th style="width: 200px;">Total Reqests</th>

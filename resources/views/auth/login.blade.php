@@ -84,12 +84,14 @@
                             </div>
                         </div>
                         <div class="login-two-inputs social-logins mt-4">
-                            <div class="social-btn"><a href="javascript:void(0)" class="fb-btn"><i class="lab la-facebook-f"></i></a></div>
                             <div class="social-btn">
-                                <a href="javascript:void(0)" class="twitter-btn"><i class="lab la-twitter"></i></a>
+                                <a href="https://www.facebook.com/PT.BIIE/"  target="_blank" class="fb-btn"><i class="lab la-facebook-f"></i></a>
                             </div>
                             <div class="social-btn">
-                                <a href="javascript:void(0)" class="google-btn"><i class="lab la-instagram"></i></a>
+                                <a href="https://id.linkedin.com/company/biie?trk=public_post_feed-actor-name" class="twitter-btn"><i class="lab la-linkedin-in"></i>
+                            </div>
+                            <div class="social-btn">
+                                <a href="https://www.instagram.com/biieofficial/" target="_blank" class="google-btn"><i class="lab la-instagram"></i></a>
                             </div>
                         </div>
                         </form>
