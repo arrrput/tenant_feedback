@@ -131,8 +131,8 @@
                 <table class="table">
                   <thead>
                   <tr>
-                      <th><div class="no-content"> {{__('Name')}}</div></th>
-                      <th><div class="th-content"> {{__('Tenant Name')}}</div></th>
+                      <th><div class="no-content"> {{__('No')}}</div></th>
+                      <th><div class="th-content"> {{__('Description')}}</div></th>
                       <th><div class="th-content"> {{__('Status')}}</div></th>
                       <th><div class="th-content"> {{__('Date of Request')}}</div></th>
                   </tr>
@@ -184,8 +184,8 @@
                     <table class="table">
                       <thead>
                       <tr>
-                          <th><div class="no-content"> {{__('Name')}}</div></th>
-                          <th><div class="th-content"> {{__('Tenant Name')}}</div></th>
+                          <th><div class="no-content"> {{__('No')}}</div></th>
+                          <th><div class="th-content"> {{__('Description')}}</div></th>
                           <th><div class="th-content"> {{__('Status')}}</div></th>
                           <th><div class="th-content"> {{__('Date of Request')}}</div></th>
                       </tr>
