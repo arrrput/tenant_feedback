@@ -40,14 +40,14 @@
             </a>
         </li>
         @role('tenant')
-        <li class="menu {{ active_class(['request']) }}">
+        {{-- <li class="menu {{ active_class(['request']) }}">
             <a data-active="{{ is_active_route(['request']) }}" href="{{ url('/request') }}" aria-expanded="false" class="dropdown-toggle">
                 <div class="">
                     <i class="las la-plus"></i>
                     <span> {{__('Add Request')}}</span>
                 </div>
             </a>
-        </li>
+        </li> --}}
 
         <li class="menu {{ active_class(['request/*']) }}">
             <a data-active="{{ is_active_route(['request/*']) }}" href="{{ url('/request/list') }}" aria-expanded="false" class="dropdown-toggle">

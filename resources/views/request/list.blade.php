@@ -8,6 +8,9 @@
     {!! Html::style('assets/css/pages/timeline.css') !!}
     {!!  Html::style('http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css') !!}
     {!! Html::style('assets/css/ui-elements/alert.css') !!}
+    {!! Html::style('assets/css/forms/form-widgets.css') !!}
+    {!! Html::style('assets/css/ui-elements/loading-spinners.css') !!}
+
 <style>
       .checked {
         color: orange;
@@ -219,99 +222,109 @@
   <div class="modal fade bd-example-modal-xl" id="modal_add_req" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">                     
         <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title block text-primary" id="no_emp">
-                Add Request</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
+          <form action="javascript:void(0)" id="form_add_req" name="form_add_req" method="POST" >
+            <div class="modal-header">
+                <h5 class="modal-title block text-primary" id="no_emp">
+                    Add Request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <img id="preview-image-before-upload" 
-                src="{{ URL::asset('image/icon-img.png') }}"
-                class="rounded mx-auto d-block"
-                  alt="preview image" style="max-height: 250px;">
-                <label for="image">Image <span class="text-danger">(*.jpg/ *.png / *.jpeg / Max Size 2Mb)</span></label>
-                <div class="col-sm-12">
-                  <input type="file" class="form-control" id="image" name="image" placeholder="Input Response Here">
-                  @error('image')
-                  <span class="text-danger text-sm">{{ $message }}</span>                              
-                @enderror
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <img id="preview-image-before-upload" 
+                    src="{{ URL::asset('image/icon-img.png') }}"
+                    class="rounded mx-auto d-block"
+                      alt="preview image" style="max-height: 250px;">
+                    <label for="image">Image <span class="text-danger">(*.jpg/ *.png / *.jpeg / Max Size 2Mb)</span></label>
+                    <div class="col-sm-12">
+                      <input type="file" class="form-control" id="image" name="image" placeholder="Input Response Here">
+                      @error('image')
+                      <span class="text-danger text-sm">{{ $message }}</span>                              
+                    @enderror
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="exampleSelectRounded0">Location <span class="text-danger">( * )</span></label>
-                <input type="text" class="form-control" placeholder="Location" name="location" required/>
-                  @error('location')
-                    <span class="text-danger text-sm">{{ $message }}</span>                              
-                  @enderror
-              </div>
-            </div>
-
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="exampleSelectRounded0">No <span class="text-danger">( * )</span></label>
-                <input type="text" class="form-control" placeholder="Number" name="no_unit" required/>
-                  @error('no_unit')
-                    <span class="text-danger text-sm">{{ $message }}</span>                              
-                  @enderror
-              </div>
-            </div>
-            
-          </div>
-        
-
-          <div class="row">
-              <div class="col-sm">
-                <div class="form-group">
-                  <label for="exampleSelectRounded0">Related Department <span class="text-danger">( * )</span></label>
-                    <select class="custom-select rounded-0" id="id_department" name="id_department" required>
-                        <option disabled>-- Select Here -- </option>
-                        @foreach ($departments as $dept)
-                          <option value="{{ $dept->id }}">{{ $dept->department }}</option>
-                        @endforeach  
-                    </select>
-                    @error('department')
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    {{-- <label for="exampleSelectRounded0">Location <span class="text-danger">( * )</span></label> --}}
+                    <input type="text" class="form-control typeahead" rows="3" placeholder="Location" name="location" required/>
+                      @error('location')
                         <span class="text-danger text-sm">{{ $message }}</span>                              
                       @enderror
+                  </div>
                 </div>
-              </div>
-              <div class="col-sm">
-                <div class="form-group">
-                  <label for="exampleSelectRounded0">Nature of Request  <span class="text-danger">( * )</span></label>
-                      <select class="custom-select rounded-0" id="id_part" name="id_part" required>
-                        <option disabled>-- Select Here -- </option>
-        
-                      </select>
-                      @error('id_part')
-                      <span class="text-danger text-sm">{{ $message }}</span>                              
-                    @enderror 
+
+                <div class="col-sm-6 mt-4">
+                  <div class="form-group">
+                    <label for="exampleSelectRounded0"> <span class="text-danger"></span></label>
+                    <input type="text" class="form-control" placeholder="Number" name="no_unit" required/>
+                      @error('no_unit')
+                        <span class="text-danger text-sm">{{ $message }}</span>                              
+                      @enderror
+                  </div>
                 </div>
+                
               </div>
-          </div>
             
-            <label for="exampleSelectRounded0">Description about request </label>
-            <textarea class="form-control" rows="3" placeholder="Enter description ..." name="description"></textarea>
-            @error('description')
-                    <span class="text-danger text-sm">{{ $message }}</span>                              
-                  @enderror
-            <input type="hidden" value="{{ Auth::user()->id }}" name="id_user"/>
-                  <input type="hidden" value="1" name="progress_request"/>
-            <p></p>
+
+              <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                      <label for="exampleSelectRounded0">Related Department <span class="text-danger">( * )</span></label>
+                        <select class="custom-select rounded-0" id="id_department" name="id_department" required>
+                            <option selected disabled>-- Select Here -- </option>
+                            @foreach ($departments as $dept)
+                              <option value="{{ $dept->id }}">{{ $dept->department }}</option>
+                            @endforeach  
+                        </select>
+                        @error('department')
+                            <span class="text-danger text-sm">{{ $message }}</span>                              
+                          @enderror
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group">
+                      <label for="exampleSelectRounded0">Nature of Request  <span class="text-danger">( * )</span></label>
+                          <select class="custom-select rounded-0" id="id_part" name="id_part" required>
+                            <option disabled>-- Select Here -- </option>
             
-        
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn bg-gradient-success btn-sm text-white" data-dismiss="modal">Submit</button>
-            <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Close</button>
-        </div>
+                          </select>
+                          @error('id_part')
+                          <span class="text-danger text-sm">{{ $message }}</span>                              
+                        @enderror 
+                    </div>
+                  </div>
+              </div>
+                
+                <label for="exampleSelectRounded0">Description about request </label>
+                <textarea class="form-control" rows="3" placeholder="Enter description ..." name="description"></textarea>
+                @error('description')
+                        <span class="text-danger text-sm">{{ $message }}</span>                              
+                      @enderror
+                <input type="hidden" value="{{ Auth::user()->id }}" name="id_user"/>
+                      <input type="hidden" value="1" name="progress_request"/>
+                <p></p>
+                
+            
+            </div>
+            <div class="modal-footer">
+              <div class="loading-container" id="load-addreq" style="display: none;">
+                <div class="dots-one">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+                <button type="submit" id="btn-save-req" class="btn bg-gradient-success btn-sm text-white">Submit</button>
+                <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Close</button>
+            </div>
+          </form>
         </div>
     </div>
   </div>
@@ -664,6 +677,7 @@
     {!! Html::script('plugins/table/datatable/datatables.js') !!}
     {!! Html::script('plugins/typehead/typeahead.bundle.js') !!}
     {!! Html::script('assets/js/forms/custom-typeahead.js') !!}
+
 @endpush
 
 
@@ -676,6 +690,32 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
   });
+
+  // Typeahead
+  (function($) {
+    "use strict";
+    $(document).ready(function() {
+        // Defining the local dataset
+        var cars = ['Detached','Semi Detached', 'Terrace', 'Dormitory', 'ShopHouse', 'Villa'];
+        // Constructing the suggestion engine
+        var cars = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: cars
+        });
+        // Initializing the typeahead
+        $('.typeahead').typeahead({
+                hint: true,
+                highlight: true, /* Enable substring highlighting */
+                minLength: 1 /* Specify minimum characters required for showing suggestions */
+            },
+            {
+                name: 'cars',
+                source: cars
+            });
+    });
+})(jQuery);
+
     $(document).ready(function () {
     
 
@@ -992,5 +1032,79 @@ table_finish = $('#table_finish').DataTable({
         })
   });
 
+  // add request
+  $('#form_add_req').submit(function(e) {
+        document.getElementById('load-addreq').style.display = 'block';
+        document.getElementById('btn-save-req').style.display = 'none';
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+        type:'POST',
+        url: "{{ route('request.store')}}",
+        data: formData,
+        cache:false,
+        contentType: false,
+        processData: false,
+        success: (data) => {
+           
+            document.getElementById("form_add_req").reset();
+                document.getElementById('load-addreq').style.display = 'none';
+                document.getElementById('btn-save-req').style.display = 'block';
+                table_news.ajax.reload();
+                //show success message
+                Swal.fire({
+                    type: 'success',
+                    icon: 'success',
+                    title: 'Request Successfully',
+                    showConfirmButton: false,
+                    timer: 3000
+                });      
+                $("#modal_add_req").modal('hide');
+                findGuest();
+            
+        },
+            error: function(data){
+                document.getElementById('load-addreq').style.display = 'none';
+                document.getElementById('btn-save-req').style.display = 'block';
+                console.log(data);
+            }
+        })
+    });
+
+    $(document).ready(function (e) {
+ 
+ $('#image').change(function(){
+ let reader = new FileReader();
+ reader.onload = (e) => { 
+   $('#preview-image-before-upload').attr('src', e.target.result); 
+ }
+
+ reader.readAsDataURL(this.files[0]); 
+   });
+
+   $('#id_department').change(function(){
+ var idDept = $(this).val();    
+ if(idDept){
+     $.ajax({
+        type:"GET",
+        url:"/getrelevant?id_department="+idDept,
+        dataType: 'JSON',
+        success:function(res){               
+         if(res){
+             $("#id_part").empty();
+             $("#id_part").append('<option disabled>--Select Here--</option>');
+             $.each(res,function(nama,kode){
+                 $("#id_part").append('<option value="'+kode+'">'+nama+'</option>');
+             });
+         }else{
+            $("#id_part").empty();
+         }
+        }
+     });
+ }else{
+     $("#id_part").empty();
+ }      
+});
+});
   </script>
 @endpush

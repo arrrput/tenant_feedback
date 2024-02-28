@@ -107,6 +107,7 @@ class RequestController extends Controller
 
     public function store(Request $request){
 
+        // dd($request->all());
         //validate form
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -115,7 +116,6 @@ class RequestController extends Controller
             'id_department' => 'required',
             'location' => 'required',
             'no_unit' => 'required',
-            'id_user' => 'required',
             'progress_request' =>'required'
         ]);
         //upload image
@@ -127,7 +127,7 @@ class RequestController extends Controller
             'image'     => $image->hashName(),
             'description'     => $request->description,
             'id_department'   => $request->id_department,
-            'id_user'   => $request->id_user,
+            'id_user'   => Auth::user()->id,
             'progress_request'=> $request->progress_request,
             'lokasi' => $request->location,
             'no_unit' => $request->no_unit,
@@ -167,9 +167,6 @@ class RequestController extends Controller
         if(!empty($user)){
             Notification::send($user, new EmailNotification($mail_crs));
         }
-        
-
-        
 
         // $sid    = getenv("TWILIO_AUTH_SID");
         // $token  = getenv("TWILIO_AUTH_TOKEN");
@@ -189,8 +186,9 @@ class RequestController extends Controller
         //                                      "mediaUrl" =>"https://aquaproof.co.id/images/cara-mengatasi-atap-rumah-bocor_1642154200.jpg", //public_path('storage/img_progress/').''.$image->hashName(), 
         //                                     "messagingServiceSid" => $msg_id
         //                                 ]);
-        return to_route('request.list')->with('success','Request successfully');;
-
+       
+        // return to_route('request.list')->with('success','Request successfully');
+        return response()->json($fm, 200);
     }
 
     public function userRequest(){

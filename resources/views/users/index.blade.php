@@ -742,12 +742,13 @@ $('#form_progress_req').submit(function(e) {
             document.getElementById("form_progress_req").reset();
                 
                 table_resp.ajax.reload();
+                table_progress.ajax.reload();
                 $("#modal_progress").modal('hide');
                 //show success message
                 Swal.fire({
                     type: 'success',
                     icon: 'success',
-                    title: 'Request was cancel',
+                    title: 'Add Progress Successfully',
                     showConfirmButton: false,
                     timer: 3000
                 });  
@@ -794,7 +795,7 @@ $('#form_finish_req').submit(function(e) {
             document.getElementById("form_finish_req").reset();
                 
                 table_progress.ajax.reload();
-                // table_finish.ajax.reload();
+                table_finish.ajax.reload();
                 $("#modal_finish").modal('hide');
                 //show success message
                 Swal.fire({

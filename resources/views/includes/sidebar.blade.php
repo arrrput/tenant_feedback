@@ -36,7 +36,7 @@
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Add Request
-                {{-- <span class="right badge badge-warning">4</span> --}}
+                <span class="right badge badge-warning">4</span>
               </p>
             </a>
           </li>
