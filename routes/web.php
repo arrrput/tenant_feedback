@@ -30,9 +30,7 @@ use App\Http\Controllers\Admin\PermissionController;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+
 
 Route::get('mail/send', [EmailController::class, 'sendWelcomeEmail']);
 Route::get('send', [EmailController::class, 'send']);
@@ -40,6 +38,7 @@ Route::get('send', [EmailController::class, 'send']);
 //Group route login
 Route::group(['middleware'=>'auth'], function(){
 
+    Route::get('/',[DashboardController::class, 'index']);
     //dashboard
     Route::get('/dashboard',[DashboardController::class, 'index'] )->name('dashboard');
 

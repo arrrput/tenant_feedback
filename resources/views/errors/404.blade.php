@@ -13,7 +13,7 @@
             <div class="error-left-content">
                 <h1 class="mb-3 text-white">{{__('Oops!')}}</h1>
                 <p class="font-25 mb-5 text-white">{{__('Sorry, We can\'t seem to find the page you\'re looking for.')}}</p>
-                <a class="btn bg-gradient-primary text-white" href="{{ url('/dashboard/dashboard1') }}">{{__('Back to Home')}}</a>
+                <a class="btn bg-gradient-primary text-white" href="{{ url('/') }}">{{__('Back to Home')}}</a>
             </div>
         </div>
         <div class="col-md-6 error-right-section">
