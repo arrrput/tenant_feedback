@@ -298,7 +298,7 @@
     </div>
   </div>      
       
-        {{-- Maint content --}}
+        {{-- Main content --}}
         <section class="content mb-5">
           <div class="container-fluid">
             <div class="widget-content widget-content-area br-12">

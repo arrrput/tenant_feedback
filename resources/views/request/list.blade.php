@@ -83,7 +83,7 @@
             </button>
         </div>
     @endif
-   {{-- Maint content --}}
+   {{-- Main content --}}
    <section class="content mb-5">
     <div class="container-fluid">
       <div class="widget-content widget-content-area br-12">
@@ -192,6 +192,28 @@
 
               </tbody>
             </table>
+          </div>
+
+          {{-- Cancel --}}
+          <div class="tab-pane fade" id="reject" role="tabpanel" aria-labelledby="reject-tab">
+            
+            <h5>Cancel Request</h5>
+            <table class="table table-hover" id="table_cancel">
+              <thead>
+                <tr>
+                  <th style="width: 19px">No</th>
+                  <th>Description</th>
+                  <th>Location</th>
+                  <th>Cancel Reason</th>
+                  <th>Cancel By</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+
           </div>
 
         </div>
@@ -330,7 +352,7 @@
   </div>
   
 
-  {{-- Moodal verify --}}
+    {{-- Moodal verify --}}
     <div class="modal fade " id="ajaxVerify">
       <div class="modal-dialog modal-m">
         <div class="modal-content bg-success">
@@ -744,7 +766,7 @@
     $(document).ready(function () {
     
 
-    var id_req, table_new, table_resp, table_progress, table_finish;
+    var id_req, table_new, table_resp, table_progress, table_finish, table_cancel;
     let star_value = 0;
 
     $('#table-list').DataTable();
@@ -903,6 +925,35 @@ table_finish = $('#table_finish').DataTable({
                 {data: 'akar_penyebab', name: 'akar_penyebab', orderable: true, searchable: true},
                 {data: 'show_finish', name: 'show_finish'},
                 {data: 'verified', name: 'verified'},
+            ]
+});
+
+
+// table cancel
+table_cancel = $('#table_cancel').DataTable({
+            "lengthMenu": [[50, 100, 250, -1], [50, 100, 250, "All"]],
+            "pageLength": 50,
+            "language": {
+                "paginate": {
+                "previous": "<i class='las la-angle-left'></i>",
+                "next": "<i class='las la-angle-right'></i>"
+                }
+        },
+        processing: true,
+        serverSide: true,
+        bDestroy: true,
+        ajax: {
+            url: "{{ route('request.cancel_req') }}",
+            type: "GET",
+        },
+            columns: [
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                {data:'tic_number', name : 'tic_number',orderable: true, searchable: true},
+                {data:'description', name : 'description',orderable: true, searchable: true},
+                {data:'lokasi', name : 'lokasi',orderable: true, searchable: true},
+                {data:'cancel_reason', name : 'cancel_reason',orderable: true, searchable: true},
+                {data: 'cance_by', name: 'cancel_by'},
+                {data: 'date', name: 'date'},
             ]
 });
 

@@ -1,29 +1,33 @@
 <?php
 
-namespace App\Http\Controllers\user;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Departments;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class ManageUserController extends Controller
 {
-    //
-
-    public function index(){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $data = User::orderBy('id','DESC')->get();
         return view('admin.user.index',compact('data'));
     }
 
-    public function manageUser(){
-        return view('admin.manage_user.index');
-    }
-    
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
@@ -31,8 +35,14 @@ class UserController extends Controller
         return view('admin.user.create',compact('roles','departments'));
     }
 
-    public function store(Request $request){
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $this->validate($request, [
             'name' => 'required',
             'nohp' => 'required',
@@ -52,6 +62,23 @@ class UserController extends Controller
                         ->with('success','User created successfully');
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
         $user = User::find($id);
@@ -61,8 +88,16 @@ class UserController extends Controller
         return view('admin.user.edit',compact('user','roles','userRole','departments'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
+        //
         $this->validate($request, [
             'name' => 'required',
             'nohp' => 'required',
@@ -85,7 +120,18 @@ class UserController extends Controller
     
         $user->assignRole($request->input('roles'));
     
-        return redirect()->route('admin.user.index')
+        return redirect()->route('admin.user_management.index')
                         ->with('success','User updated successfully');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

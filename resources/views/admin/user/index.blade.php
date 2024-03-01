@@ -72,7 +72,7 @@
                 <div class="col-lg-12 margin-tb">
       
                     <div class="pull-right">
-                        <a class="btn bg-gradient-success btn-sm text-white mb-3" href="{{ route('admin.user.create') }}"> Create New User</a>
+                        <a class="btn bg-gradient-success btn-sm text-white mb-3" href="{{ route('admin.user_management.create') }}"> Create New User</a>
                     </div>
 
                     <table class="table table-hover">

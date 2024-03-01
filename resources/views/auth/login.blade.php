@@ -88,7 +88,7 @@
                                 <a href="https://www.facebook.com/PT.BIIE/"  target="_blank" class="fb-btn"><i class="lab la-facebook-f"></i></a>
                             </div>
                             <div class="social-btn">
-                                <a href="https://id.linkedin.com/company/biie?trk=public_post_feed-actor-name" class="twitter-btn"><i class="lab la-linkedin-in"></i>
+                                <a href="https://id.linkedin.com/company/biie?trk=public_post_feed-actor-name" target="_blank" class="twitter-btn"><i class="lab la-linkedin-in"></i>
                             </div>
                             <div class="social-btn">
                                 <a href="https://www.instagram.com/biieofficial/" target="_blank" class="google-btn"><i class="lab la-instagram"></i></a>

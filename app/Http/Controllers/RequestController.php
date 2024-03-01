@@ -414,6 +414,20 @@ class RequestController extends Controller
         }
     }
 
+    public function cancelReq(Request $request){
+        if($request->ajax()){
+            $list = Requests::join('departments', 'requests.id_department', '=', 'departments.id')
+                    ->join('relevant_parts', 'requests.id_part', '=', 'relevant_parts.id')
+                    ->select('requests.cancel','requests.id','requests.created_at',
+                    'requests.progress_request','requests.description', 'departments.department as dept',
+                    'relevant_parts.name_relevant as name', 'requests.lokasi','requests.no_unit','requests.tic_number')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+            
+        }
+    }
+
     public function show($id){
         $req = Requests::select('*')->where('id', $id)->first();
         $resp = ResponseModel::select('*')->where('id_request',$id)->first();

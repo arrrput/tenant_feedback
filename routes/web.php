@@ -16,6 +16,7 @@ use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ReportDeptController;
 use App\Http\Controllers\UserRequestController;
+use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\PermissionController;
 
 /*
@@ -67,6 +68,9 @@ Route::group(['middleware'=>'auth'], function(){
         //export
         Route::get('export/tenant',[ReportController::class,'month_export_tenant'])->name('export_month');
         Route::get('cetak/{id}/pdf',[ReportController::class,'cetak_pdf'])->name('admin.cetak_request');
+
+        // manage user
+        Route::resource('user_management', ManageUserController::class);
     });
 
     //role tenant
@@ -81,6 +85,9 @@ Route::group(['middleware'=>'auth'], function(){
         // table ajax request
         Route::get('/my_request', [RequestController::class, 'myReq'])->name('my_request');
         Route::get('/{id}/show', [RequestController::class, 'show'])->name('show');
+        Route::get('/cancel_req', [RequestController::class, 'cancelReq'])->name('cancel_req');
+
+        
     });
 
     //role adalah user / department biie
