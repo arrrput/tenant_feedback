@@ -140,23 +140,7 @@ class RequestController extends Controller
         $hod_crs = User::where('id',21)->first();
         $admin_dept = User::where('id_department',$fm->id_department)->get();
         // $user = User::select('*')->where('id', 1)->first();
-        $mail_crs = [
-            'greeting' => 'Hi '.$user->name.',',
-            'body' => $body_mail,
-            'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
-            'actionText' => 'View Request',
-            'actionURL' => url('/department'),
-            'id' => 57
-        ];
-
-        $mail_hod = [
-            'greeting' => 'Hi '.$hod_crs->name.',',
-            'body' => $body_mail,
-            'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
-            'actionText' => 'View Request',
-            'actionURL' => url('/department'),
-            'id' => 57
-        ];
+        
 
         // end email to related department
         // foreach ($admin_dept as $u){
@@ -175,7 +159,25 @@ class RequestController extends Controller
         
         // send request to email
         if(!empty($user)){
+            $mail_crs = [
+                'greeting' => 'Hi '.$user->name.',',
+                'body' => $body_mail,
+                'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
+                'actionText' => 'View Request',
+                'actionURL' => url('/department'),
+                'id' => 57
+            ];
             Notification::send($user, new EmailNotification($mail_crs));
+        }
+        if(!empty($hod_crs)){
+            $mail_hod = [
+                'greeting' => 'Hi '.$hod_crs->name.',',
+                'body' => $body_mail,
+                'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
+                'actionText' => 'View Request',
+                'actionURL' => url('/department'),
+                'id' => 57
+            ];
             Notification::send($hod_crs, new EmailNotification($mail_hod));
         }
 
