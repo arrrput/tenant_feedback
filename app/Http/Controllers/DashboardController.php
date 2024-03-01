@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 
 class DashboardController extends Controller
 {
     public function index(){
         
         $departments =  DB::table('departments')->count();
-        $tenant = DB::table('users')->where('id_department','=',0)->count();
+        $tenant = User::role('tenant')->get();
 
         if(Auth::user()->roles->pluck('admin')){
 

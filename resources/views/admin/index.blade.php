@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="quick-category-content">
-                    <h3> {{ $tenant }}</h3>
+                    <h3> {{ count($tenant) }}</h3>
                     <p class="font-17 text-primary mb-0"> {{ __('User Tenant') }}</p>
                 </div>
             </a>
