@@ -137,10 +137,20 @@ class RequestController extends Controller
 
         $body_mail = 'Ada Request baru dari : '.Auth::user()->name.' <p>'.$fm->description.' yang berlokasi di '.$fm->lokasi.' '.$fm->no_unit.' </p> Untuk lebih lanjut silahkan klik tombol dibawah ini';
         $user = User::where('id',18)->first();
+        $hod_crs = User::where('id',21)->first();
         $admin_dept = User::where('id_department',$fm->id_department)->get();
         // $user = User::select('*')->where('id', 1)->first();
         $mail_crs = [
             'greeting' => 'Hi '.$user->name.',',
+            'body' => $body_mail,
+            'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
+            'actionText' => 'View Request',
+            'actionURL' => url('/department'),
+            'id' => 57
+        ];
+
+        $mail_hod = [
+            'greeting' => 'Hi '.$hod_crs->name.',',
             'body' => $body_mail,
             'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
             'actionText' => 'View Request',
@@ -166,6 +176,7 @@ class RequestController extends Controller
         // send request to email
         if(!empty($user)){
             Notification::send($user, new EmailNotification($mail_crs));
+            Notification::send($hod_crs, new EmailNotification($mail_hod));
         }
 
         // $sid    = getenv("TWILIO_AUTH_SID");
