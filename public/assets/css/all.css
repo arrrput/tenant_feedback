@@ -17,14 +17,14 @@ body {
 }
 h1, h2, h3, h4, h5, h6 { color: #3b3f5c; }
 :focus { outline: none; }
-::-moz-selection {
+/* ::-moz-selection {
   color: #003300;
   background: transparent;
 }
 ::selection {
   color: #003300;
   background: transparent;
-}
+} */
 p { margin-top: 0; margin-bottom: 0.625rem; color: #515365 }
 hr {
     margin-top: 20px;
@@ -2040,14 +2040,14 @@ body {
 }
 h1, h2, h3, h4, h5, h6 { color: #3b3f5c; }
 :focus { outline: none; }
-::-moz-selection {
+/* ::-moz-selection {
   color: #003300;
   background: transparent;
 }
 ::selection {
   color: #003300;
   background: transparent;
-}
+} */
 p { margin-top: 0; margin-bottom: 0.625rem; color: #515365 }
 hr {
     margin-top: 20px;
