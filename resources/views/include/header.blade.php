@@ -115,7 +115,12 @@
         </li> --}}
         <li class="nav-item dropdown user-profile-dropdown">
             <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <img src="{{asset('storage/profile/'.Auth::user()->image)}}" alt="avatar">
+             
+                @if (Auth::user()->image == 'avatar.png')
+                    <img src="{{URL('/backend/img/ava.png')}}" alt="">
+                @else
+                    <img src="{{asset('storage/profile/'.Auth::user()->image)}}" alt="">
+                @endif
             </a>
             <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                 <div class="nav-drop is-account-dropdown" >
@@ -128,7 +133,12 @@
                                 <div class="media align-center">
                                     <div class="media-left">
                                         <div class="image">
+                                            @if (Auth::user()->image == 'avatar.png')
+                                            <img class="rounded-circle avatar-xs" src="{{URL('/backend/img/ava.png')}}" alt="">
+                                            @else
                                             <img class="rounded-circle avatar-xs" src="{{asset('storage/profile/'.Auth::user()->image)}}" alt="">
+                                            @endif
+                                            
                                         </div>
                                     </div>
                                     <div class="media-content ml-3">
