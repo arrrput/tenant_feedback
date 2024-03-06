@@ -6,7 +6,7 @@
     {!! Html::style('plugins/table/datatable/datatables.css') !!}
     {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
     {!! Html::style('assets/css/pages/timeline.css') !!}
-    {!!  Html::style('http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css') !!}
+    {!!  Html::style('https://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css') !!}
     {!! Html::style('assets/css/ui-elements/alert.css') !!}
     {!! Html::style('assets/css/forms/form-widgets.css') !!}
     {!! Html::style('assets/css/ui-elements/loading-spinners.css') !!}
