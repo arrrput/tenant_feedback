@@ -251,7 +251,7 @@ class UserRequestController extends Controller
             $datatables =  datatables()->of($req_user);
             return $datatables
                 ->addColumn('response', function($row){
-                    return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="responseReq('.$row->id.')">Response</a>
+                    return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="progressReq('.$row->id.')">Add Progress</a>
                     <a class="btn btn-sm bg-gradient-danger text-white" href="javascript:void(0);" onClick="rejectReq('.$row->id.')">Reject</a>';
                 })
                 ->editColumn('created_at', function($row){
@@ -341,7 +341,7 @@ class UserRequestController extends Controller
             $datatables =  datatables()->of($req_user);
             return $datatables
                 ->addColumn('response', function($row){
-                    return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="responseReq('.$row->id.')">Response</a>';
+                    return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="finishReq('.$row->id.')">Close Request</a>';
                 })
                 ->editColumn('created_at', function($row){
                     return Carbon::parse($row->created_at)->format('d/m/Y H:i:s');
@@ -417,7 +417,11 @@ class UserRequestController extends Controller
             $datatables =  datatables()->of($req_user);
             return $datatables
                 ->addColumn('response', function($row){
-                    return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="responseReq('.$row->id.')">Response</a>';
+                    return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="finishReq('.$row->id.')">Close Request</a>';
+                })
+                ->editColumn('start_end', function($row){
+                    $total_days = Carbon::parse($row->created_at)->diffInDays($row->updated_at);
+                    return $total_days.' Day';
                 })
                 ->editColumn('created_at', function($row){
                     return Carbon::parse($row->created_at)->format('d/m/Y');
@@ -491,14 +495,18 @@ class UserRequestController extends Controller
 
             $datatables =  datatables()->of($req_user);
             return $datatables
-                ->editColumn('created_at', function($row){
-                    return Carbon::parse($row->created_at)->format('d/m/Y');
-                })
-                ->editColumn('lokasi', function($row){
-                    return $row->lokasi.' Unit '.$row->no_unit;
-                })
-                ->addIndexColumn()
-                ->make(true);
+            ->addColumn('response', function($row){
+                return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="finishReq('.$row->id.')">Close Request</a>';
+            })
+            ->editColumn('created_at', function($row){
+                return Carbon::parse($row->created_at)->format('d/m/Y');
+            })
+            ->editColumn('lokasi', function($row){
+                return $row->lokasi.' Unit '.$row->no_unit;
+            })
+            
+            ->addIndexColumn()
+            ->make(true);
 
         }
     }
