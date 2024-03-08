@@ -115,6 +115,7 @@ Route::group(['middleware'=>'auth'], function(){
     
     Route::resource('/profile', ProfileController::class);
     Route::post('update_password',[ProfileController::class, 'updatePassword'])->name('update_pass');
+    Route::post('update_profile',[ProfileController::class, 'updateProfile'])->name('update_profile');
 
     Route::get('/chart', [ChartController::class, 'index'])->name('chart');
     Route::get('/wa', [WaController::class, 'index'])->name('wa');

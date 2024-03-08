@@ -42,8 +42,9 @@ class DashboardController extends Controller
           ->join('users','users.id', '=','requests.id_user')
           ->where('requests.id_department', Auth::user()->id_department)
           ->select('requests.id','requests.created_at','requests.progress_request',
-            'users.name as name')
-          ->limit(5)->get();
+                    'users.name as name')
+                  ->limit(5)
+                  ->get();
         }
 
         if(Auth::user()->roles->pluck('tenant')){

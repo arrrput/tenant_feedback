@@ -265,8 +265,8 @@
                     <div class="col-sm-12">
                       <input type="file" class="form-control" id="image" name="image" placeholder="Input Response Here">
                       @error('image')
-                      <span class="text-danger text-sm">{{ $message }}</span>                              
-                    @enderror
+                        <span class="text-danger text-sm">{{ $message }}</span>                              
+                      @enderror
                     </div>
                   </div>
                 </div>
@@ -1149,38 +1149,38 @@ table_cancel = $('#table_cancel').DataTable({
 
     $(document).ready(function (e) {
  
- $('#image').change(function(){
- let reader = new FileReader();
- reader.onload = (e) => { 
-   $('#preview-image-before-upload').attr('src', e.target.result); 
- }
+      $('#image').change(function(){
+      let reader = new FileReader();
+      reader.onload = (e) => { 
+        $('#preview-image-before-upload').attr('src', e.target.result); 
+      }
 
- reader.readAsDataURL(this.files[0]); 
-   });
+      reader.readAsDataURL(this.files[0]); 
+        });
 
-   $('#id_department').change(function(){
- var idDept = $(this).val();    
- if(idDept){
-     $.ajax({
-        type:"GET",
-        url:"/getrelevant?id_department="+idDept,
-        dataType: 'JSON',
-        success:function(res){               
-         if(res){
-             $("#id_part").empty();
-             $("#id_part").append('<option disabled>--Select Here--</option>');
-             $.each(res,function(nama,kode){
-                 $("#id_part").append('<option value="'+kode+'">'+nama+'</option>');
-             });
-         }else{
-            $("#id_part").empty();
-         }
-        }
-     });
- }else{
-     $("#id_part").empty();
- }      
-});
-});
+        $('#id_department').change(function(){
+      var idDept = $(this).val();    
+      if(idDept){
+          $.ajax({
+              type:"GET",
+              url:"/getrelevant?id_department="+idDept,
+              dataType: 'JSON',
+              success:function(res){               
+              if(res){
+                  $("#id_part").empty();
+                  $("#id_part").append('<option disabled>--Select Here--</option>');
+                  $.each(res,function(nama,kode){
+                      $("#id_part").append('<option value="'+kode+'">'+nama+'</option>');
+                  });
+              }else{
+                  $("#id_part").empty();
+              }
+              }
+          });
+      }else{
+          $("#id_part").empty();
+      }      
+      });
+    });
   </script>
 @endpush
