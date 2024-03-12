@@ -446,6 +446,7 @@ class RequestController extends Controller
         $resp = ResponseModel::select('*')->where('id_request',$id)->first();
         $progress = Progres::select('*')->where('id_request', $id)->first();
         $finish = FinishTask::select('*')->where('id_request', $id)->first();
+        $feedback_user = Rate::select('*')->where('id_request', $id)->first();
 
         $data =  array(
             'id' => $req->id,
@@ -467,6 +468,13 @@ class RequestController extends Controller
                 'message_finish'=> $finish->description,
                 'image_finish'=> $finish->image,
                 'date_finish' => Carbon::parse($finish->created_at)->format('d M Y H:i'),
+            );
+        }
+        if(!empty($feedback_user)){
+            $data += array(
+                'feedback_user'=> $feedback_user->message,
+                'rate'=> $feedback_user->rate_point,
+                'date_feedback' => Carbon::parse($feedback_user->created_at)->format('d M Y H:i'),
             );
         }
 

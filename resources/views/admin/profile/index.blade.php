@@ -56,19 +56,14 @@
 
                       @if (Auth::user()->image == 'avatar.png')
                       <img class="profile-user-img img-fluid img-circle" id="preview-image-before-upload"
-                          src="{{ URL::asset('backend/img/avatar.png') }}"
+                          src="{{ URL::asset('backend/img/ava.png') }}"
                           alt="User profile picture"></a>
                       @else
                           <img class="profile-user-img img-fluid img-circle img-round" id="preview-image-before-upload"
                             src="{{asset('storage/profile/'.Auth::user()->image)}}"
                             alt="User profile picture"></a>
                       @endif
-                      @if (Auth::user()->image === 'avatar.png')
-                          
-                      @else
-
-                      @endif
-                    
+                      
                   </div>
   
                   <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
@@ -119,7 +114,7 @@
                     <div class="active tab-pane" id="settings">
                       <form action="javascript:void(0)" id="form_update_profile" name="form_update_profile" method="POST" enctype="multipart/form-data" >
                         <div class="form-group row">
-                          <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                          <label for="inputName" class="col-sm-2 col-form-label">Profile</label>
                           <div class="col-sm-10">
                             <input type="file" class="form-control" id="img_user" name="img_user" placeholder="Profil">
                           </div>

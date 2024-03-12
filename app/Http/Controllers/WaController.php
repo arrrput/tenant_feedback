@@ -5,24 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class WaController extends Controller
 {
     //
     public function index(){
 
-        $sid    = getenv("TWILIO_AUTH_SID");
-        $token  = getenv("TWILIO_AUTH_TOKEN");
-        $wa_from= getenv("TWILIO_WHATSAPP_FROM");
-        $recipient = "+6282388322022";
-        $twilio = new Client($sid, $token);
-        
-        $body = "Ada 1 Request yang perlu di verify.\n Untuk lebih lengkap silahkan kunjungi http://biiebigdata.co.id";
+        $apiURL = 'http://localhost:3000/ariputra/messages/send';
+        $message = array(
+                "jid" => "6281292812357@s.whatsapp.net",
+                "type" => "number",
+                "message"=> array(
+                    "text"=> "test",
+                    "mentions"=> array("6281292812357@s.whatsapp.net")
+                )
+        );
+        dd($message);
+        $headers = [
+            'X-header' => 'value'
+        ];
+        $response = Http::withHeaders($headers)->post($apiURL, $message);
+        $statusCode = $response->status();
+        $responseBody = json_decode($response->getBody(), true);
+     
 
-        $message =  $twilio->messages->create("whatsapp:$recipient",[
-                        "from" => "whatsapp:$wa_from", 
-                        "body" => $body]);
-        
+        dd($responseBody);
+        return response()->json($message, 200);
 
         return print($message); 
     }

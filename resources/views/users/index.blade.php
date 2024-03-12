@@ -10,6 +10,7 @@
     {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
     {!! Html::style('assets/css/ui-elements/loading-spinners.css') !!}
     {!! Html::style('assets/css/ui-elements/alert.css') !!}
+    {!! Html::style('assets/css/pages/timeline.css') !!}
 
 @endpush
 
@@ -298,6 +299,158 @@
     </div>
   </div>      
       
+  {{-- Modal show modal finish --}}
+  <div class="modal fade bd-example-modal-xl" id="show_modal_finish" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">                     
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title block text-primary" id="no_emp">
+                Request User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-12">
+                <div class="timeline">
+                    <article class="timeline-item">
+                        <h2 class="m-0 d-none">&nbsp;</h2>
+                        <div class="time-show mt-0">
+                            <a href="#" class="btn btn-primary width-lg">{{__('Start')}}</a>
+                        </div>
+                    </article>
+                    <article class="timeline-item timeline-item-left" >
+                      <div class="timeline-desk" >
+                          <div class="timeline-box">
+                              <span class="arrow-alt"></span>
+                              <span class="timeline-icon"><i class="lar la-dot-circle"></i></span>
+                              <h4 class="mt-0 font-16" id="location_fn">Semi Detached No 16</h4>
+                              <p class="text-muted" id="date_req_fn"><small>02:15 pm</small></p>
+                              <p class="mb-0" id="desc_fn">{{__('On the other hand, we denounce with righteous indignation and dislike men who are so beguiled')}}</p>
+                              <p class="mb-0 text-white" >&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                              </p>
+                          </div>
+                      </div>
+                      <div class="timeline-desk">
+                        <div class="text-center">
+                          <img id="img_req_fn" class="img img-fluid" style="max-width: 25rem;"/>
+                        </div>
+                          
+                      </div>
+                  </article>
+
+                  {{-- Response --}}
+                  <article class="timeline-item">
+                    
+                    <div class="timeline-desk">
+                        <div class="timeline-box">
+                            <span class="arrow"></span>
+                            <span class="timeline-icon"><i class="lar la-dot-circle"></i></span>
+                            <h4 class="mt-0 font-16">Admin</h4>
+                            <p class=" text-muted" id="date_response_fn"><small></small></p>
+                            <p class="mb-0" id="response_fn"> </p>
+                        </div>
+                    </div>
+                  </article>
+
+                  {{-- Progress --}}
+                  <article class="timeline-item timeline-item-left">
+                    <div class="timeline-desk">
+                        <div class="timeline-box">
+                            <span class="arrow-alt"></span>
+                            <span class="timeline-icon"><i class="lar la-dot-circle"></i></span>
+                            <h4 class="mt-0 font-16" id="user_dept_fn">{{__('Admin')}}</h4>
+                            <p class="text-muted" id="date_progress_fn"><small>{{__('21 hours ago')}}x</small></p>
+                            <p><b>Correction :</b></p>
+                            <p id="correction_fn"></p>
+                            <p><b>Root Cause :</b></p>
+                            <p id="root_cause_fn"></p>
+                            
+                        </div>
+                    </div>
+                    <div class="timeline-option pt-1">
+                      <div class="text-center">
+                        <img id="img_progress_fn" class="img img-fluid" style="max-width: 25rem;"/>
+                      </div>
+                    </div>
+                  </article>
+
+                  {{-- Finish --}}
+                  <article class="timeline-item timeline-item-left">
+                    <div class="timeline-desk">
+                        <div class="timeline-box">
+                            <span class="arrow-alt"></span>
+                            <span class="timeline-icon"><i class="lar la-dot-circle"></i></span>
+                            <h4 class="mt-0 font-16" >{{__('Finish Task')}}</h4>
+                            <p class="text-muted" id="date_finish"><small>{{__('21 hours ago')}}x</small></p>
+                            <p id="message_finish"></p>
+                                                          
+                        </div>
+                    </div>
+                    <div class="timeline-option pt-1">
+                      <div class="text-center">
+                        <img id="img_finish_fn" class="img img-fluid" style="max-width: 25rem;"/>
+                      </div>
+                    </div>
+                  </article>
+
+
+                  {{-- Finish --}}
+                  <article class="timeline-item timeline-item-left">
+                    <div class="timeline-desk">
+                        <div class="timeline-box">
+                            <span class="arrow-alt"></span>
+                            <span class="timeline-icon"><i class="lar la-dot-circle"></i></span>
+                            <h4 class="mt-0 font-16" >{{__('Feedback User')}}</h4>
+                            <p class="text-muted" id="date_feedback"><small>{{__('21 hours ago')}}x</small></p>
+                            <p class="text-muted" id="star_finish"><small></small></p>
+                            <p id="feedback_user"></p>                             
+                        </div>
+                    </div>
+                    <div class="timeline-option pt-1">
+                      <div class="text-center">
+                        
+                      </div>
+                    </div>
+                  </article>
+
+
+                  <article class="timeline-item">
+                    
+                    <div class="time-show">
+                        <a href="#" class="btn btn-primary width-lg">Finish</a>
+                    </div>
+                </article>
+                </div>
+            </div>
+          </div>
+
+          
+            
+        
+        </div>
+        <div class="modal-footer">
+           
+            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+  </div>
+
         {{-- Main content --}}
         <section class="content mb-5">
           <div class="container-fluid">
@@ -402,6 +555,7 @@
                         <th>End</th>
                         <th>Day Work</th>
                         <th style="width: 200px;">status</th>
+                        <th style="width: 200px;">#</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -566,6 +720,7 @@ table_finish = $('#table_finish').DataTable({
                 {data: 'updated_at', name: 'updated_at'},
                 {data: 'start_end', name: 'start_end'},
                 {data: 'rating', name: 'rating'},
+                {data: 'action', name: 'action'},
             ]
 });
 
@@ -815,6 +970,46 @@ $('#form_finish_req').submit(function(e) {
         })
   });
   
+
+  function showFinish(id){
+    
+    $.ajax({
+        type:"GET",
+        url: "{{ URL::to('/') }}/request/"+id+"/show/",
+        dataType: 'json',
+        success: function(res){
+              $('#show_modal_finish').modal('show');
+              document.getElementById("desc_fn").innerHTML  = res.description;
+              document.getElementById("location_fn").innerHTML  = res.location;
+              document.getElementById("date_req_fn").innerHTML  = res.date_req;
+              document.getElementById("response_fn").innerHTML  = res.response ;
+              document.getElementById("date_response_fn").innerHTML  = res.date_resp;
+              $('#img_req_fn').attr('src', '{{ URL::asset("/storage/img_progress/") }}'+'/'+res.image_req);
+              $('#img_progress_fn').attr('src', '{{ URL::asset("/storage/img_progress/") }}'+'/'+res.image_progress);
+              $('#img_finish_fn').attr('src', '{{ URL::asset("/storage/img_finish/") }}'+'/'+res.image_finish);
+              document.getElementById("date_progress_fn").innerHTML  = res.date_progress;
+              document.getElementById("root_cause_fn").innerHTML  = res.root_cause;
+              document.getElementById("correction_fn").innerHTML  = res.correction;
+              document.getElementById("date_finish").innerHTML  = res.date_finish;
+              document.getElementById("message_finish").innerHTML  = res.message_finish;
+              document.getElementById("date_feedback").innerHTML  = res.date_feedback;
+              document.getElementById("feedback_user").innerHTML  = res.feedback_user;
+
+              if(res.rate ==5){
+                        document.getElementById("star_finish").innerHTML  = '<i class="las la-star text-warning"></i> <i class="las la-star text-warning"></i><i class="las la-star text-warning"></i><i class="las la-star text-warning"></i><i class="las la-star text-warning"></i>' ;
+                    }if(res.rate ==4){
+                        document.getElementById("star_finish").innerHTML  = '<i class="las la-star text-warning"></i> <i class="las la-star text-warning"></i><i class="las la-star text-warning"></i><i class="las la-star text-warning"></i>';
+                    }if(res.rate ==3){
+                        document.getElementById("star_finish").innerHTML  = '<i class="las la-star text-warning"></i> <i class="las la-star text-warning"></i><i class="las la-star text-warning"></i>';
+                    }if(res.rate ==2){
+                        document.getElementById("star_finish").innerHTML  = '<i class="las la-star text-warning"></i> <i class="las la-star text-warning"></i>';
+                    }if(res.rate ==1){
+                        document.getElementById("star_finish").innerHTML  = '<i class="las la-star text-warning"></i>';
+                    }
+            }
+        });
+  }
+
 </script>
 
 @endpush
