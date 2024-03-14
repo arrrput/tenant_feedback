@@ -371,7 +371,9 @@ class UserRequestController extends Controller
                     return '<a class="btn btn-sm bg-gradient-success text-white" href="javascript:void(0);" onClick="finishReq('.$row->id.')">Close Request</a>';
                 })
                 ->editColumn('start_end', function($row){
-                    $total_days = Carbon::parse($row->created_at)->diffInDays($row->updated_at);
+                    $p = Progres::select('*')->where('id_request', $row->id)->first();
+                    $f = FinishTask::select('*')->where('id_request', $row->id)->first();
+                    $total_days = Carbon::parse($p->created_at)->diffInDays($f->created_at);
                     return $total_days.' Day';
                 })
                 ->editColumn('created_at', function($row){
