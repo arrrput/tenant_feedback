@@ -377,10 +377,12 @@ class UserRequestController extends Controller
                     return $total_days.' Day';
                 })
                 ->editColumn('created_at', function($row){
-                    return Carbon::parse($row->created_at)->format('d/m/Y');
+                    $p = Progres::select('*')->where('id_request', $row->id)->first();
+                    return Carbon::parse($p->created_at)->format('d/m/Y');
                 })
                 ->editColumn('updated_at', function($row){
-                    return Carbon::parse($row->updated_at)->format('d/m/Y');
+                    $f = FinishTask::select('*')->where('id_request', $row->id)->first();
+                    return Carbon::parse($f->updated_at)->format('d/m/Y');
                 })
                 ->editColumn('lokasi', function($row){
                     return $row->lokasi.' Unit '.$row->no_unit;
