@@ -975,7 +975,7 @@ $('#form_finish_req').submit(function(e) {
     
     $.ajax({
         type:"GET",
-        url: "{{ URL::to('/') }}/request/"+id+"/show/",
+        url: "{{ URL::to('/') }}/department/dept/"+id+"/show/",
         dataType: 'json',
         success: function(res){
               $('#show_modal_finish').modal('show');

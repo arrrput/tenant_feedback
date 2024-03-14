@@ -92,6 +92,7 @@ Route::group(['middleware'=>'auth'], function(){
     //role adalah user / department biie
     Route::middleware(['role:user'])->name('department.')->prefix('department')->group(function(){
         Route::resource('/', UserRequestController::class);
+        Route::get('dept/{id}/show', [RequestController::class, 'show'])->name('dept.show');
         Route::get('new_req', [UserRequestController::class, 'newReq'])->name('new_request');
         Route::get('resp_req', [UserRequestController::class, 'respReq'])->name('resp_request');
         Route::get('progress_req', [UserRequestController::class, 'progressReq'])->name('progress_request');
