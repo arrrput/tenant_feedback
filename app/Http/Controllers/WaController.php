@@ -12,16 +12,12 @@ class WaController extends Controller
     //
     public function index(){
 
-        $apiURL = 'http://localhost:3000/ariputra/messages/send';
+        $apiURL = 'http://localhost:3000/send-message';
         $message = array(
-                "jid" => "6281292812357@s.whatsapp.net",
-                "type" => "number",
-                "message"=> array(
-                    "text"=> "test",
-                    "mentions"=> array("6281292812357@s.whatsapp.net")
-                )
+                "message" => "test kirim from gateway",
+                "number" => "082386735554"
         );
-        dd($message);
+       
         $headers = [
             'X-header' => 'value'
         ];
