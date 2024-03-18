@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'id_department',
         'nohp',
+        'company_name'
     ];
 
     /**

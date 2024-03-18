@@ -4,6 +4,8 @@
     {!! Html::style('assets/css/ui-elements/breadcrumbs.css') !!}
     {!! Html::style('plugins/table/datatable/datatables.css') !!}
     {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
+    {!! Html::style('plugins/jquery-ui/jquery-ui.min.css') !!}
+    {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
 @endpush
 
 
@@ -75,36 +77,44 @@
                         <a class="btn bg-gradient-success btn-sm text-white mb-3" href="{{ route('admin.user_management.create') }}"> Create New User</a>
                     </div>
 
-                    <table class="table table-hover">
-                      <tr>
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Roles</th>
-                        <th width="280px">Action</th>
-                      </tr>
+                    <table class="table table-hover" id="table_user">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Company Name</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Roles</th>
+                          <th width="280px">Action</th>
+                        </tr>
+                      </thead>
+                      
                       @php
                         $no =1;
                       @endphp
-                      @foreach ($data as $key => $user)
-                       <tr>
-                         <td>{{ $no }}</td>
-                         <td>{{ $user->name }}</td>
-                         <td>{{ $user->email }}</td>
-                         <td>
-                           @if(!empty($user->getRoleNames()))
-                             @foreach($user->getRoleNames() as $v)
-                                <label class="badge badge-success">{{ $v }}</label>
-                             @endforeach
-                           @endif
-                         </td>
-                         <td>
-                            <a class="btn btn-primary" href=" {{ route('admin.user.edit',$user->id) }} ">Edit</a>
-                             <a class="btn btn-danger" href=" route('users.destroy',$user->id) "> Delete</a>
-                         </td>
-                       </tr> @php $no++ @endphp
-                      @endforeach
+                      <tbody>
+                        @foreach ($data as $key => $user)
+                          <tr>
+                            <td>{{ $no }}</td>
+                            <td>{{ $user->company_name }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                              @if(!empty($user->getRoleNames()))
+                                @foreach($user->getRoleNames() as $v)
+                                    <label class="badge badge-success">{{ $v }}</label>
+                                @endforeach
+                              @endif
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href=" {{ route('admin.user.edit',$user->id) }} ">Edit</a>
+                                <a class="btn btn-danger" href=" route('users.destroy',$user->id) "> Delete</a>
+                            </td>
+                          </tr> @php $no++ @endphp
+                        @endforeach
+                      </tbody>
                      </table>
+                     
                 </div>
             </div>
           </div>
@@ -123,11 +133,14 @@
 
 @push('plugin-scripts')
     {!! Html::script('assets/js/loader.js') !!}
+    {!! Html::script('plugins/jquery-ui/jquery-ui.min.js') !!}
     {!! Html::script('plugins/table/datatable/datatables.js') !!}
 @endpush
 
 
 @push('custom-scripts')
-
+<script>
+   $('#table_user').DataTable();
+</script>
 
 @endpush

@@ -39,7 +39,8 @@ class UserController extends Controller
             'id_department' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
-            'roles' => 'required'
+            'roles' => 'required',
+            'company_name' => 'required'
         ]);
     
         $input = $request->all();
