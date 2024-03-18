@@ -484,6 +484,7 @@
                         <tr>
                           <th style="width: 19px">No</th>
                           <th>Name</th>
+                          <th>Dept</th>
                           <th style="width: 200px;">Description</th>
                           <th>Location</th>
                           <th>No Unit</th>
@@ -632,6 +633,7 @@ var table_news, table_resp, table_progress, table_finish, table_cancel;
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {data:'name', name : 'name',orderable: true, searchable: true},
+                {data:'dept', name : 'dept',orderable: true, searchable: true},
                 {data:'description', name : 'description',orderable: true, searchable: true},
                 {data:'lokasi', name : 'lokasi',orderable: true, searchable: true},
                 {data: 'no_unit', name: 'no_unit', orderable: true, searchable: true},

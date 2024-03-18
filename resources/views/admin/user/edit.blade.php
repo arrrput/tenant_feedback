@@ -74,7 +74,7 @@
                 @endif
                 
                 
-                {!! Form::model($user, ['method' => 'PATCH','route' => ['admin.user.update', $user->id]]) !!}
+                {!! Form::model($user, ['method' => 'PATCH','route' => ['admin.user_management.update', $user->id]]) !!}
                 <div class="row">
                     
                     <div class="col-xs-12 col-sm-12 col-md-12">

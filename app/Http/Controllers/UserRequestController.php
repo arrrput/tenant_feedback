@@ -167,11 +167,13 @@ class UserRequestController extends Controller
             $req_user = DB::table('requests')
             ->where('requests.progress_request',1)
             ->join('users', 'requests.id_user', '=', 'users.id')
+            ->join('departments', 'requests.id_department', '=', 'departments.id')
+            ->join('relevant_parts', 'requests.id_part', '=', 'relevant_parts.id')
             ->select('requests.id','requests.created_at',
             'requests.progress_request','requests.description', 
-            'users.name as name','requests.cancel','requests.lokasi','requests.no_unit',
-            'requests.status_feedback')
-            ->get();
+            'users.name as name','requests.cancel','requests.lokasi','requests.no_unit','users.company_name',
+            'relevant_parts.name_relevant','departments.department','requests.status_feedback')
+                    ->get();
 
             $datatables =  datatables()->of($req_user);
             return $datatables
@@ -181,6 +183,12 @@ class UserRequestController extends Controller
                 })
                 ->editColumn('created_at', function($row){
                     return Carbon::parse($row->created_at)->format('d/m/Y H:i:s');
+                })
+                ->editColumn('name', function($row){
+                    return $row->name.' ('.$row->company_name.')';
+                })
+                ->addColumn('dept', function($row){
+                    return $row->department.' ('.$row->name_relevant.')';
                 })
                 ->rawColumns(['response'])
                 ->addIndexColumn()
@@ -189,11 +197,14 @@ class UserRequestController extends Controller
         }else{
             $req_user = DB::table('requests')
             ->join('users', 'requests.id_user', '=', 'users.id')
+            ->join('departments', 'requests.id_department', '=', 'departments.id')
+            ->join('relevant_parts', 'requests.id_part', '=', 'relevant_parts.id')
             ->where('requests.progress_request',1)
             ->where('requests.id_department', $id_dept)
             ->select('requests.id','requests.created_at',
             'requests.progress_request','requests.description', 
-            'users.name as name','requests.cancel','requests.lokasi','requests.no_unit')
+            'users.name as name','requests.cancel','requests.lokasi','requests.no_unit',
+            'relevant_parts.name_relevant','departments.department','users.company_name')
             ->get();
 
             $datatables =  datatables()->of($req_user);
@@ -204,6 +215,9 @@ class UserRequestController extends Controller
                 })
                 ->editColumn('created_at', function($row){
                     return Carbon::parse($row->created_at)->format('d/m/Y H:i:s');
+                })
+                ->editColumn('name', function($row){
+                    return $row->name.' ('.$row->company_name.')';
                 })
                 ->rawColumns(['response'])
                 ->addIndexColumn()

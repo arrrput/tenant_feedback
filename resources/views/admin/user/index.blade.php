@@ -107,14 +107,14 @@
                               @endif
                             </td>
                             <td>
-                                <a class="btn btn-primary" href=" {{ route('admin.user.edit',$user->id) }} ">Edit</a>
+                                <a class="btn btn-primary" href=" {{ route('admin.user_management.edit',$user->id) }} ">Edit</a>
                                 <a class="btn btn-danger" href=" route('users.destroy',$user->id) "> Delete</a>
                             </td>
                           </tr> @php $no++ @endphp
                         @endforeach
                       </tbody>
                      </table>
-                     
+
                 </div>
             </div>
           </div>
