@@ -219,6 +219,9 @@ class UserRequestController extends Controller
                 ->editColumn('name', function($row){
                     return $row->name.' ('.$row->company_name.')';
                 })
+                ->addColumn('dept', function($row){
+                    return $row->department.' ('.$row->name_relevant.')';
+                })
                 ->rawColumns(['response'])
                 ->addIndexColumn()
                 ->make(true);
