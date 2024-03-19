@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use App\Notifications\EmailNotification;
 use Illuminate\Support\Facades\Notification;
 
@@ -155,7 +156,7 @@ class RequestController extends Controller
             // if(!empty($u->email)){
             //     Notification::send($admin_dept, new EmailNotification($mail_dept));
             // }
-            sendWa($u->nohp, $body_mail);
+            $this->sendWa($u->nohp, $body_mail);
         }
         
         // send request to email
@@ -169,7 +170,7 @@ class RequestController extends Controller
                 'id' => 57
             ];
             Notification::send($user, new EmailNotification($mail_crs));
-            sendWa($user->nohp, $body_mail);
+            $this->sendWa($user->nohp, $body_mail);
 
         }
         if(!empty($hod_crs)){
@@ -181,7 +182,7 @@ class RequestController extends Controller
                 'actionURL' => url('/department'),
                 'id' => 57
             ];
-            sendWa($hod_crs->nohp, $body_mail);
+            $this->sendWa($hod_crs->nohp, $body_mail);
             Notification::send($hod_crs, new EmailNotification($mail_hod));
         }
 
