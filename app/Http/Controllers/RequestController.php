@@ -143,19 +143,19 @@ class RequestController extends Controller
         
 
         // end email to related department
-        // foreach ($admin_dept as $u){
-        //     $mail_dept = [
-        //         'greeting' => 'Hi '.$u->name.',',
-        //         'body' => $body_mail,
-        //         'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
-        //         'actionText' => 'View Request',
-        //         'actionURL' => url('/department'),
-        //         'id' => 57
-        //     ];
-        //     if(!empty($u->email)){
-        //         Notification::send($admin_dept, new EmailNotification($mail_dept));
-        //     }
-        // }
+        foreach ($admin_dept as $u){
+            $mail_dept = [
+                'greeting' => 'Hi '.$u->name.',',
+                'body' => $body_mail,
+                'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
+                'actionText' => 'View Request',
+                'actionURL' => url('/department'),
+                'id' => 57
+            ];
+            if(!empty($u->email)){
+                Notification::send($admin_dept, new EmailNotification($mail_dept));
+            }
+        }
         
         // send request to email
         if(!empty($user)){

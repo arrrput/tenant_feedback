@@ -15,7 +15,7 @@ class WaController extends Controller
         $apiURL = 'http://localhost:3000/send-message';
         $message = array(
                 "message" => "test kirim from gateway",
-                "number" => "082386735554"
+                "number" => "081292812357"
         );
        
         $headers = [
