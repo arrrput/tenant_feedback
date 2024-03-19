@@ -141,7 +141,7 @@ class RequestController extends Controller
         $admin_dept = User::where('id_department',$fm->id_department)->get();
         // $user = User::select('*')->where('id', 1)->first();
         
-
+        
         // end email to related department
         foreach ($admin_dept as $u){
             $mail_dept = [
@@ -155,6 +155,7 @@ class RequestController extends Controller
             if(!empty($u->email)){
                 Notification::send($admin_dept, new EmailNotification($mail_dept));
             }
+            sendWa($u->nohp, $body_mail);
         }
         
         // send request to email
@@ -168,6 +169,8 @@ class RequestController extends Controller
                 'id' => 57
             ];
             Notification::send($user, new EmailNotification($mail_crs));
+            sendWa($user->nohp, $body_mail);
+
         }
         if(!empty($hod_crs)){
             $mail_hod = [
@@ -178,30 +181,26 @@ class RequestController extends Controller
                 'actionURL' => url('/department'),
                 'id' => 57
             ];
+            sendWa($hod_crs->nohp, $body_mail);
             Notification::send($hod_crs, new EmailNotification($mail_hod));
         }
 
-        // $sid    = getenv("TWILIO_AUTH_SID");
-        // $token  = getenv("TWILIO_AUTH_TOKEN");
-        // $wa_from= getenv("TWILIO_WHATSAPP_FROM");
-        // $twilio = new Client($sid, $token);
-        // $msg_id = "MG93c1be42365ffff6b42deb8ff0c47184";
-        // $recipient = "+628127074988";
-        // $body = "Notifikasi Tenant Feedback : \n";
-        // $body = $body ."From : ". $user->name ."\n";
-        // $body = $body. "Lokasi : \n". $request->location." Unit ". $request->no_unit ."\n";
-        // $body = $body ." ". $request->description ."\n";
-        // $body = $body ."Lebih lanjut cek disini : http://feedback.biiebigdata.co.id";
- 
-        // $twilio->messages->create("whatsapp:$recipient",
-        //                                     ["from" => "whatsapp:$wa_from", 
-        //                                     "body" => $body,
-        //                                      "mediaUrl" =>"https://aquaproof.co.id/images/cara-mengatasi-atap-rumah-bocor_1642154200.jpg", //public_path('storage/img_progress/').''.$image->hashName(), 
-        //                                     "messagingServiceSid" => $msg_id
-        //                                 ]);
-       
-        // return to_route('request.list')->with('success','Request successfully');
         return response()->json($fm, 200);
+    }
+
+    public function sendWa($no, $message){
+        $apiURL = 'http://localhost:3000/send-message';
+        $message = array(
+                "message" => $message,
+                "number" => $no
+        );
+       
+        $headers = [
+            'X-header' => 'value'
+        ];
+        $response = Http::withHeaders($headers)->post($apiURL, $message);
+        $statusCode = $response->status();
+        $responseBody = json_decode($response->getBody(), true);
     }
 
     public function userRequest(){
