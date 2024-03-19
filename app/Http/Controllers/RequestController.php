@@ -431,11 +431,34 @@ class RequestController extends Controller
         if($request->ajax()){
             $list = Requests::join('departments', 'requests.id_department', '=', 'departments.id')
                     ->join('relevant_parts', 'requests.id_part', '=', 'relevant_parts.id')
+                    ->join('users', 'requests.id_cancel', '=', 'users.id')
                     ->select('requests.cancel','requests.id','requests.created_at',
-                    'requests.progress_request','requests.description', 'departments.department as dept',
-                    'relevant_parts.name_relevant as name', 'requests.lokasi','requests.no_unit','requests.tic_number')
+                            'requests.progress_request','requests.description', 'departments.department as dept',
+                            'relevant_parts.name_relevant as name', 'requests.lokasi','requests.no_unit',
+                            'requests.tic_number','users.name as cancel_by')
+                    ->where('id_user',Auth::user()->id)
                     ->orderBy('created_at', 'desc')
                     ->get();
+            
+                    $datatables =  datatables()->of($list);
+                    return $datatables
+                            ->addColumn('description', function($row){
+                                return $row->description;
+                            })        
+                            ->editColumn('created_at', function($row){
+                                return Carbon::parse($row->created_at)->format('d/m/Y');
+                            })
+                            ->editColumn('date', function($row){
+                                return Carbon::parse($row->created_at)->format('d/m/Y');
+                            })
+                            ->addColumn('cancel_reason', function($row){
+                                return $row->cancel;
+                            })
+                            ->editColumn('lokasi', function($row){
+                                return $row->lokasi.' No. '.$row->no_unit;
+                            })
+                            ->addIndexColumn()
+                            ->make(true);
 
             
         }

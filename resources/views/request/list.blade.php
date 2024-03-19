@@ -59,7 +59,6 @@
                   <div class="page-header">
                       <nav class="breadcrumb-one" aria-label="breadcrumb">
                           <ol class="breadcrumb">
-                              
                               <li class="breadcrumb-item" aria-current="page"><span> {{__('Request')}}</span></li>
                               <li class="breadcrumb-item active" aria-current="page"><span> {{__('List')}}</span></li>
                           </ol>
@@ -83,6 +82,7 @@
             </button>
         </div>
     @endif
+    
    {{-- Main content --}}
    <section class="content mb-5">
     <div class="container-fluid">
@@ -202,6 +202,7 @@
               <thead>
                 <tr>
                   <th style="width: 19px">No</th>
+                  <th>TICKET NUMBER</th>
                   <th>Description</th>
                   <th>Location</th>
                   <th>Cancel Reason</th>
@@ -951,11 +952,11 @@ table_cancel = $('#table_cancel').DataTable({
                 {data:'tic_number', name : 'tic_number',orderable: true, searchable: true},
                 {data:'description', name : 'description',orderable: true, searchable: true},
                 {data:'lokasi', name : 'lokasi',orderable: true, searchable: true},
-                {data:'cancel_reason', name : 'cancel_reason',orderable: true, searchable: true},
-                {data: 'cance_by', name: 'cancel_by'},
+                {data:'cancel', name : 'cancel',orderable: true, searchable: true},
+                {data: 'cancel_by', name: 'cancel_by'},
                 {data: 'date', name: 'date'},
             ]
-});
+  });
 
 
     /* button verify verify */

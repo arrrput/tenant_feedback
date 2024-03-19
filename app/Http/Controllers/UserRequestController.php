@@ -310,7 +310,10 @@ class UserRequestController extends Controller
             ]);
     
             $cancel = Requests::where('id', $request->id_reject)
-                  ->update(['cancel' => $request->description_reject,'progress_request'=>5]);
+                  ->update(['cancel' => $request->description_reject,
+                            'progress_request'=>5,
+                            'id_cancel' => Auth::user()->id
+                        ]);
 
             return response()->json($cancel, 200); 
         }
