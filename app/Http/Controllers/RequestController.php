@@ -137,27 +137,27 @@ class RequestController extends Controller
 
 
         $body_mail = 'Ada Request baru dari : '.Auth::user()->name.' <p>'.$fm->description.' yang berlokasi di '.$fm->lokasi.' '.$fm->no_unit.' </p> Untuk lebih lanjut silahkan klik tombol dibawah ini';
-        $user = User::where('id',18)->first();
-        $hod_crs = User::where('id',21)->first();
-        $admin_dept = User::where('id_department',$fm->id_department)->get();
+        $user = User::select('*')->where('id',18)->first();
+        $hod_crs = User::select('*')->where('id',21)->first();
+        $admin_dept = User::select('*')->where('id_department',$fm->id_department)->get();
         // $user = User::select('*')->where('id', 1)->first();
         
         
         // end email to related department
-        foreach ($admin_dept as $u){
-            $mail_dept = [
-                'greeting' => 'Hi '.$u->name.',',
-                'body' => $body_mail,
-                'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
-                'actionText' => 'View Request',
-                'actionURL' => url('/department'),
-                'id' => 57
-            ];
+        // foreach ($admin_dept as $u){
+        //     $mail_dept = [
+        //         'greeting' => 'Hi '.$u->name.',',
+        //         'body' => $body_mail,
+        //         'thanks' => 'Terimakasih (Mohon untuk tidak membalas email ini)',
+        //         'actionText' => 'View Request',
+        //         'actionURL' => url('/department'),
+        //         'id' => 57
+        //     ];
             // if(!empty($u->email)){
             //     Notification::send($admin_dept, new EmailNotification($mail_dept));
             // }
-            $this->sendWa($u->nohp, $body_mail);
-        }
+            // $this->sendWa($u->nohp, $body_mail);
+        // }
         
         // send request to email
         if(!empty($user)){
@@ -170,7 +170,7 @@ class RequestController extends Controller
                 'id' => 57
             ];
             Notification::send($user, new EmailNotification($mail_crs));
-            $this->sendWa($user->nohp, $body_mail);
+            // $this->sendWa($user->nohp, $body_mail);
 
         }
         if(!empty($hod_crs)){
@@ -182,7 +182,7 @@ class RequestController extends Controller
                 'actionURL' => url('/department'),
                 'id' => 57
             ];
-            $this->sendWa($hod_crs->nohp, $body_mail);
+            // $this->sendWa($hod_crs->nohp, $body_mail);
             Notification::send($hod_crs, new EmailNotification($mail_hod));
         }
 
