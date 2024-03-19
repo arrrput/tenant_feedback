@@ -152,9 +152,9 @@ class RequestController extends Controller
                 'actionURL' => url('/department'),
                 'id' => 57
             ];
-            if(!empty($u->email)){
-                Notification::send($admin_dept, new EmailNotification($mail_dept));
-            }
+            // if(!empty($u->email)){
+            //     Notification::send($admin_dept, new EmailNotification($mail_dept));
+            // }
             sendWa($u->nohp, $body_mail);
         }
         
