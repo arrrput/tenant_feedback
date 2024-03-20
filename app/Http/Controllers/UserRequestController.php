@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\ResponseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use App\Notifications\EmailNotification;
 use Illuminate\Support\Facades\Notification;
 
@@ -78,9 +79,15 @@ class UserRequestController extends Controller
             'id_user'   => Auth::user()->id
         ]);
         //update status progress
-        DB::table('requests')
+        $update = DB::table('requests')
               ->where('id', $request->id_progress)
               ->update(['progress_request' => 3]);
+        $r = Requests::select('*')->where('id',$request->id_progress)->first();
+        $user =  User::select('*')->where('id',$r->id_user)->first();
+        $msg_wa = 'Hi '.$user->name.'
+Permintaan anda dengan nomor tiket'.$r->tic_number.' sedang dikerjakan.
+Untuk lebih lanjut silahkan akses ke https://feedback.bintanindustrial.co.id/request/list';
+        $this->sendWa($user->nohp, $msg_wa);
         // return to_route('department.index')->with('status','Progress success add!');
         return response()->json($fm, 200);
     }
@@ -146,7 +153,8 @@ class UserRequestController extends Controller
         $fm = Requests::where('id', $request->id_finish)
                 ->update(['progress_request' => 4]);
         $body_mail = 'Request Anda telah selesai dikerjakan, mohon dicek untuk diverifikasi mengenai pengerjaan';
-        $user = User::where('id',1)->first();
+        $r = Requests::select('*')->where('id', $request->id_finish)->first();
+        $user = User::select('*')->where('id',$r->id_user)->first();
         // $user = User::select('*')->where('id', 1)->first();
         $mail_crs = [
                 'greeting' => 'Hi '.$user->name.',',
@@ -156,7 +164,11 @@ class UserRequestController extends Controller
                     'actionURL' => url('/request/list'),
                     'id' => 57
                 ];
-                Notification::send($user, new EmailNotification($mail_crs));
+        Notification::send($user, new EmailNotification($mail_crs));
+        $msg_wa = 'Hi '.$user->name.'
+Permintaan anda dengan nomor tiket '.$r->tic_number.' telah selesai dikerjakan.
+mohon dicek untuk diverifikasi mengenai pengerjaan di https://feedback.bintanindustrial.co.id/request/list';
+        $this->sendWa($user->nohp, $msg_wa);
         return response()->json($fm, 200);
         // return to_route('department.index')->with('status','Finish Request was succussfuly.');
     }
@@ -299,8 +311,16 @@ class UserRequestController extends Controller
                 'target_hari' => $request->target_hari,
                 'id_user' => $id_user]);
             
-                Requests::where('id', $request->id_response)
+            Requests::where('id', $request->id_response)
                     ->update(['progress_request' => 2]);
+            $r = Requests::select('*')->where('id', $request->id_response)->first();
+            $update = User::select('*')->where('id',$r->id_user)->first();
+            // $user =  User::select('*')->where('id',$update->id_user);
+            $msg_wa = 'Hi '.$update->name.'
+Permintaan anda dengan nomor tiket'.$r->tic_number.' telah direspon oleh admin department.
+Respon : '.$fm->response.' (Estimasi pengerjaan '.$fm->target_hari.' hari)
+Untuk lebih lanjut silahkan akses ke https://feedback.bintanindustrial.co.id/request/list';
+            $this->sendWa($update->nohp, $msg_wa);
             return response()->json($fm, 200); 
         }
     }
@@ -320,6 +340,21 @@ class UserRequestController extends Controller
 
             return response()->json($cancel, 200); 
         }
+    }
+
+    public function sendWa($no, $message){
+        $apiURL = 'http://localhost:3000/send-message';
+        $message = array(
+                "message" => $message,
+                "number" => $no
+        );
+       
+        $headers = [
+            'X-header' => 'value'
+        ];
+        $response = Http::withHeaders($headers)->post($apiURL, $message);
+        $statusCode = $response->status();
+        $responseBody = json_decode($response->getBody(), true);
     }
 
 
