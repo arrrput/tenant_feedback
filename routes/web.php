@@ -48,9 +48,11 @@ Route::group(['middleware'=>'auth'], function(){
 
     Route::get('/getrelevant', [RequestController::class, 'getRelevant']);
     // export pdf
-    Route::get('admin/cetak/{id}/pdf',[ReportController::class,'cetak_pdf'])->name('admin.cetak_request');
+    Route::get('admin/cetak/{id}/pdf',[ReportController::class,'cetak_pdf'])->name('admin.admin.cetak_request');
     // report
     Route::get('admin/report', [ReportController::class,'index'])->name('report.index');
+    Route::get('admin/report/{date}/week/', [ReportController::class, 'detailWeek'])->name('admin.report.week');
+    Route::get('admin/report/{date}/month/', [ReportController::class, 'detailMonth'])->name('admin.report.month');
 
     //role admin
     Route::middleware(['role:admin'])->name('admin.')->prefix('admin')->group(function(){
@@ -61,9 +63,7 @@ Route::group(['middleware'=>'auth'], function(){
         Route::delete('role/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.revoke');
         Route::post('/permissions/{permission}/roles',[PermissionController::class, 'assignRole'])->name('permissions.role');
         Route::delete('/permissions/{permission}/roles/{role}',[PermissionController::class, 'removeRole'])->name('permissions.roles.remove');
-        // Route::get('/report', [ReportController::class,'index'])->name('report.index');
-        Route::get('/report/{date}/week/', [ReportController::class, 'detailWeek'])->name('report.week');
-        Route::get('/report/{date}/month/', [ReportController::class, 'detailMonth'])->name('report.month');
+       
         Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
         Route::resource('/user', UserController::class);
         Route::get('/manage_users',[IndexController::class,'manageUser'])->name('manage_user.index');
