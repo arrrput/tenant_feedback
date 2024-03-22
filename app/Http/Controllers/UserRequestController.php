@@ -470,7 +470,6 @@ Untuk lebih lanjut silahkan akses ke https://feedback.bintanindustrial.co.id/req
                                         <a class="dropdown-item" href="'.route('admin.admin.cetak_request',$row->id).'" target="_blank">PDF</a>
                                     </div>
                                 </div>';
-                    
                 }) 
                 ->rawColumns(['response','rating','action'])
                 ->addIndexColumn()
@@ -518,10 +517,20 @@ Untuk lebih lanjut silahkan akses ke https://feedback.bintanindustrial.co.id/req
                         return $bintang;
                     }else{
                         return '<span class="badge badge-warning">Waiting feedback</span>';
-                    }
-                    
+                    }  
                 })
-                ->rawColumns(['response','rating'])
+                ->addColumn('action', function($row){
+                    return '<div class="dropdown custom-dropdown">
+                                <a class="dropdown-toggle font-20 text-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="las la-cog"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1" style="will-change: transform;">
+                                    <a class="dropdown-item" href="javascript:void(0);" onClick="showFinish('.$row->id.')">Show Detail</a>
+                                    <a class="dropdown-item" href="'.route('admin.admin.cetak_request',$row->id).'" target="_blank">PDF</a>
+                                </div>
+                            </div>';
+                }) 
+                ->rawColumns(['response','rating','action'])
                 ->addIndexColumn()
                 ->make(true);
 
