@@ -47,6 +47,10 @@ Route::group(['middleware'=>'auth'], function(){
     });
 
     Route::get('/getrelevant', [RequestController::class, 'getRelevant']);
+    // export pdf
+    Route::get('admin/cetak/{id}/pdf',[ReportController::class,'cetak_pdf'])->name('admin.cetak_request');
+    // report
+    Route::get('admin/report', [ReportController::class,'index'])->name('report.index');
 
     //role admin
     Route::middleware(['role:admin'])->name('admin.')->prefix('admin')->group(function(){
@@ -57,7 +61,7 @@ Route::group(['middleware'=>'auth'], function(){
         Route::delete('role/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.revoke');
         Route::post('/permissions/{permission}/roles',[PermissionController::class, 'assignRole'])->name('permissions.role');
         Route::delete('/permissions/{permission}/roles/{role}',[PermissionController::class, 'removeRole'])->name('permissions.roles.remove');
-        Route::get('/report', [ReportController::class,'index'])->name('report.index');
+        // Route::get('/report', [ReportController::class,'index'])->name('report.index');
         Route::get('/report/{date}/week/', [ReportController::class, 'detailWeek'])->name('report.week');
         Route::get('/report/{date}/month/', [ReportController::class, 'detailMonth'])->name('report.month');
         Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
@@ -66,7 +70,6 @@ Route::group(['middleware'=>'auth'], function(){
 
         //export
         Route::get('export/tenant',[ReportController::class,'month_export_tenant'])->name('export_month');
-        Route::get('cetak/{id}/pdf',[ReportController::class,'cetak_pdf'])->name('admin.cetak_request');
 
         // manage user
         Route::resource('user_management', ManageUserController::class);
