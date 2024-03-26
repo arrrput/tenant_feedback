@@ -87,7 +87,7 @@ class UserRequestController extends Controller
         $msg_wa = 'Hi '.$user->name.'
 Permintaan anda dengan nomor tiket'.$r->tic_number.' sedang dikerjakan.
 Untuk lebih lanjut silahkan akses ke https://feedback.bintanindustrial.co.id/request/list';
-        $this->sendWa($user->nohp, $msg_wa);
+        // $this->sendWa($user->nohp, $msg_wa);
         // return to_route('department.index')->with('status','Progress success add!');
         return response()->json($fm, 200);
     }
@@ -168,7 +168,7 @@ Untuk lebih lanjut silahkan akses ke https://feedback.bintanindustrial.co.id/req
         $msg_wa = 'Hi '.$user->name.'
 Permintaan anda dengan nomor tiket '.$r->tic_number.' telah selesai dikerjakan.
 mohon dicek untuk diverifikasi mengenai pengerjaan di https://feedback.bintanindustrial.co.id/request/list';
-        $this->sendWa($user->nohp, $msg_wa);
+        // $this->sendWa($user->nohp, $msg_wa);
         return response()->json($fm, 200);
         // return to_route('department.index')->with('status','Finish Request was succussfuly.');
     }
@@ -320,7 +320,7 @@ mohon dicek untuk diverifikasi mengenai pengerjaan di https://feedback.bintanind
 Permintaan anda dengan nomor tiket'.$r->tic_number.' telah direspon oleh admin department.
 Respon : '.$fm->response.' (Estimasi pengerjaan '.$fm->target_hari.' hari)
 Untuk lebih lanjut silahkan akses ke https://feedback.bintanindustrial.co.id/request/list';
-            $this->sendWa($update->nohp, $msg_wa);
+            // $this->sendWa($update->nohp, $msg_wa);
             return response()->json($fm, 200); 
         }
     }
