@@ -10,6 +10,7 @@ use App\Models\Progres;
 use App\Models\Requests;
 use App\Models\FinishTask;
 use Illuminate\Http\Request;
+use App\Jobs\NotificationJob;
 use App\Models\ResponseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -317,7 +318,7 @@ mohon dicek untuk diverifikasi mengenai pengerjaan di https://feedback.bintanind
             $update = User::select('*')->where('id',$r->id_user)->first();
             // $user =  User::select('*')->where('id',$update->id_user);
             $msg_wa = 'Hi '.$update->name.'
-Permintaan anda dengan nomor tiket'.$r->tic_number.' telah direspon oleh admin department.
+Permintaan anda dengan nomor tiket '.$r->tic_number.' telah direspon oleh admin department.
 Respon : '.$fm->response.' (Estimasi pengerjaan '.$fm->target_hari.' hari)
 Untuk lebih lanjut silahkan akses ke https://feedback.bintanindustrial.co.id/request/list';
             $this->sendWa($update->nohp, $msg_wa);
@@ -343,18 +344,19 @@ Untuk lebih lanjut silahkan akses ke https://feedback.bintanindustrial.co.id/req
     }
 
     public function sendWa($no, $message){
-        $apiURL = 'http://localhost:3000/send-message';
-        $message = array(
-                "message" => $message,
-                "number" => $no
-        );
+        // $apiURL = 'http://localhost:3000/send-message';
+        // $message = array(
+        //         "message" => $message,
+        //         "number" => $no
+        // );
        
-        $headers = [
-            'X-header' => 'value'
-        ];
-        $response = Http::withHeaders($headers)->post($apiURL, $message);
-        $statusCode = $response->status();
-        $responseBody = json_decode($response->getBody(), true);
+        // $headers = [
+        //     'X-header' => 'value'
+        // ];
+        // $response = Http::withHeaders($headers)->post($apiURL, $message);
+        // $statusCode = $response->status();
+        // $responseBody = json_decode($response->getBody(), true);
+        dispatch(new NotificationJob($message, $no));
     }
 
 

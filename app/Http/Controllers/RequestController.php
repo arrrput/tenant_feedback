@@ -11,9 +11,10 @@ use App\Models\Requests;
 use App\Models\FinishTask;
 use App\Models\Departments;
 use Illuminate\Http\Request;
+use App\Jobs\NotificationJob;
 use App\Models\RelevantParts;
-use App\Models\ResponseModel;
 
+use App\Models\ResponseModel;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -204,18 +205,19 @@ class RequestController extends Controller
     }
 
     public function sendWa($no, $message){
-        $apiURL = 'http://localhost:3000/send-message';
-        $message = array(
-                "message" => $message,
-                "number" => $no
-        );
+        // $apiURL = 'http://localhost:3000/send-message';
+        // $message = array(
+        //         "message" => $message,
+        //         "number" => $no
+        // );
        
-        $headers = [
-            'X-header' => 'value'
-        ];
-        $response = Http::withHeaders($headers)->post($apiURL, $message);
-        $statusCode = $response->status();
-        $responseBody = json_decode($response->getBody(), true);
+        // $headers = [
+        //     'X-header' => 'value'
+        // ];
+        // $response = Http::withHeaders($headers)->post($apiURL, $message);
+        // $statusCode = $response->status();
+        // $responseBody = json_decode($response->getBody(), true);
+        dispatch(new NotificationJob($message, $no));
     }
 
     public function userRequest(){
