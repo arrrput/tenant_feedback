@@ -161,7 +161,7 @@ class RequestController extends Controller
             // if(!empty($u->email)){
             //     Notification::send($admin_dept, new EmailNotification($mail_dept));
             // }
-            // $this->sendWa($u->nohp, $msg_wa);
+            $this->sendWa($u->nohp, $msg_wa);
         }
         
         // send request to email
@@ -179,7 +179,7 @@ class RequestController extends Controller
                 'id' => 57
             ];
             Notification::send($user, new EmailNotification($mail_crs));
-            // $this->sendWa($user->nohp, $msg_wa_crs);
+            $this->sendWa($user->nohp, $msg_wa_crs);
 
         }
         if(!empty($hod_crs)){
@@ -196,7 +196,7 @@ class RequestController extends Controller
                 'actionURL' => url('/department'),
                 'id' => 57
             ];
-            // $this->sendWa($hod_crs->nohp, $msg_wa_hod);
+            $this->sendWa($hod_crs->nohp, $msg_wa_hod);
             Notification::send($hod_crs, new EmailNotification($mail_hod));
         }
 
