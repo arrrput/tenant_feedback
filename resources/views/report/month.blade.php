@@ -5,6 +5,26 @@
     {!! Html::style('plugins/flatpickr/flatpickr.css') !!}
     {!! Html::style('plugins/flatpickr/custom-flatpickr.css') !!}
     {!! Html::style('assets/css/elements/tooltip.css') !!}
+    {!! Html::style('plugins/table/datatable/datatables.css') !!}
+    {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
+   
+@endpush
+
+@push('custom-style')
+    <style>
+        .dt-top-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        }
+
+        .dt-center-in-div {
+        margin: 0 auto;
+        }
+
+        .dt-filter-spacer {
+        margin: 10px 0;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -49,7 +69,7 @@
                 <div class="card-body">
         
                   <a href="{{ route('admin.export_month') }}" class="btn btn-sm bg-gradient-success text-white mb-2" target="_blank"><i class="las la-file-export"></i> Export Excel</a>
-                    <table class="table table-hover" id="table-month">
+                    <table class="table table-hover" id="table_report">
                         <thead>
                           <tr>
                             <th>Tenant </th>
@@ -99,6 +119,46 @@
   <!-- Control Sidebar -->
    
 @endsection
+
+@push('plugin-scripts')
+{!! Html::script('plugins/table/datatable/button-ext/dataTables.buttons.min.js') !!}
+{!! Html::script('plugins/table/datatable/button-ext/jszip.min.js') !!}
+{!! Html::script('plugins/table/datatable/button-ext/buttons.html5.min.js') !!}
+{!! Html::script('plugins/table/datatable/button-ext/buttons.print.min.js') !!}
+<!-- The following JS library files are loaded to use PDF Options-->
+{!! Html::script('plugins/table/datatable/button-ext/pdfmake.min.js') !!}
+{!! Html::script('plugins/table/datatable/button-ext/vfs_fonts.js') !!}
+@endpush
+
+@push('custome-scripts')
+  <script>
+
+    var table_report;
+    table_report = $('#table_report').DataTable({
+            dom: '<"dt-top-container"<l><"dt-center-in-div"B><f>r>t<"dt-filter-spacer"><ip>',
+                    buttons: {
+                        buttons: [
+                            
+                            { extend: 'copy', className: 'btn btn-sm btn-dark' },
+                            { extend: 'csv', className: 'btn btn-sm btn-dark' },
+                            { extend: 'excel', className: 'btn btn-sm btn-dark' },
+                            { extend: 'print', className: 'btn btn-sm btn-dark' },
+                            
+                        ]
+                    },
+                "lengthMenu": [[50, 100, 250, -1], [50, 100, 250, "All"]],
+                "pageLength": 50,
+                "language": {
+                    "paginate": {
+                    "previous": "<i class='las la-angle-left'></i>",
+                    "next": "<i class='las la-angle-right'></i>"
+                    }
+                }
+            });
+  </script>
+@endpush
+
+
 
 
 

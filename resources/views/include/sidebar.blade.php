@@ -77,6 +77,15 @@
                 </div>
             </a>
         </li>
+
+        <li class="menu {{ active_class(['admin_legal/request','admin_legal/request.*']) }}">
+            <a data-active="{{ is_active_route(['admin_legal/request', 'admin_legal/request/*']) }}" href="{{ url('/admin_legal/request') }}" aria-expanded="false" class="dropdown-toggle">
+                <div class="">
+                    <i class="las la-file-contract"></i>
+                    <span> {{__('Online Permit')}}</span>
+                </div>
+            </a>
+        </li>
         @endrole
 
         @role('admin')

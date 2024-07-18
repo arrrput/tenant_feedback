@@ -86,7 +86,7 @@ class UserRequestController extends Controller
         $r = Requests::select('*')->where('id',$request->id_progress)->first();
         $user =  User::select('*')->where('id',$r->id_user)->first();
         $msg_wa = 'Hi '.$user->name.'
-Permintaan anda dengan nomor tiket'.$r->tic_number.' sedang dikerjakan.
+Permintaan anda dengan nomor tiket '.$r->tic_number.' sedang dikerjakan.
 Untuk lebih lanjut silahkan akses ke https://feedback.bintanindustrial.co.id/request/list';
         $this->sendWa($user->nohp, $msg_wa);
         // return to_route('department.index')->with('status','Progress success add!');

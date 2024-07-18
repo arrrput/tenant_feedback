@@ -6,6 +6,23 @@
     {!! Html::style('plugins/table/datatable/dt-global_style.css') !!}
 @endpush
 
+@push('custom-style')
+    <style>
+        .dt-top-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        }
+
+        .dt-center-in-div {
+        margin: 0 auto;
+        }
+
+        .dt-filter-spacer {
+        margin: 10px 0;
+        }
+    </style>
+@endpush
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -44,7 +61,7 @@
                 </div><!-- /.card-header -->
                 <div class="card-body">
         
-                    <table class="table table-hover" id="table-list">
+                    <table class="table table-hover" id="table_list">
                         <thead>
                           <tr>
                             <th style="width: 10px">#</th>
@@ -234,8 +251,45 @@
     </div>
 @endsection
 
-@push('prepend-script')
+@push('plugin-scripts')
+   
+    {!! Html::script('assets/js/loader.js') !!}
+    {!! Html::script('plugins/table/datatable/datatables.js') !!}
+    {!! Html::script('plugins/table/datatable/button-ext/dataTables.buttons.min.js') !!}
+    {!! Html::script('plugins/table/datatable/button-ext/jszip.min.js') !!}
+    {!! Html::script('plugins/table/datatable/button-ext/buttons.html5.min.js') !!}
+    {!! Html::script('plugins/table/datatable/button-ext/buttons.print.min.js') !!}
+    <!-- The following JS library files are loaded to use PDF Options-->
+    {!! Html::script('plugins/table/datatable/button-ext/pdfmake.min.js') !!}
+    {!! Html::script('plugins/table/datatable/button-ext/vfs_fonts.js') !!}
+@endpush
+
+@push('custom-scripts')
     <script>
+
+        var table_list;
+        table_list = $('#table_list').DataTable({
+            dom: '<"dt-top-container"<l><"dt-center-in-div"B><f>r>t<"dt-filter-spacer"><ip>',
+                    buttons: {
+                        buttons: [
+                            
+                            { extend: 'copy', className: 'btn btn-sm btn-dark' },
+                            { extend: 'csv', className: 'btn btn-sm btn-dark' },
+                            { extend: 'excel', className: 'btn btn-sm btn-dark' },
+                            { extend: 'print', className: 'btn btn-sm btn-dark' },
+                            
+                        ]
+                    },
+                "lengthMenu": [[50, 100, 250, -1], [50, 100, 250, "All"]],
+                "pageLength": 50,
+                "language": {
+                    "paginate": {
+                    "previous": "<i class='las la-angle-left'></i>",
+                    "next": "<i class='las la-angle-right'></i>"
+                    }
+                }
+            });
+
         $(document).ready(function (e) {
             var areaChartData = {
                 labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
