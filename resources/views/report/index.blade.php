@@ -230,12 +230,26 @@
             <div class="col-md-12 mt-5">
                 <div class="card card-success card-outline">
                   <div class="card-header p-2">
-                    <h6> <i class="las la-chart-bar"></i> Monthly Chart</h6>
+                    <h6> <i class="las la-chart-bar"></i> Detail Request</h6>
                   </div><!-- /.card-header -->
                   <div class="card-body">
-          
-                    {{-- <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas> --}}
-                     @livewire('chart-monthly')
+                    
+                    <table class="table table-hover" id="table_detail">
+                        <thead>
+                          <tr>
+                            <th style="width: 10px">No</th>
+                            <th>Date Feedback</th>
+                            <th>Tenant</th>
+                            <th>Feedback</th>
+                            <th>Date Completed</th>
+                          </tr>
+                          
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    
                   </div><!-- /.card-body -->
                 </div>
                 <!-- /.card -->
@@ -267,7 +281,7 @@
 @push('custom-scripts')
     <script>
 
-        var table_list;
+        var table_list, table_detail;
         table_list = $('#table_list').DataTable({
             dom: '<"dt-top-container"<l><"dt-center-in-div"B><f>r>t<"dt-filter-spacer"><ip>',
                     buttons: {
@@ -289,6 +303,44 @@
                     }
                 }
             });
+
+        table_detail = $('#table_detail').DataTable({
+            dom: '<"dt-top-container"<l><"dt-center-in-div"B><f>r>t<"dt-filter-spacer"><ip>',
+                    buttons: {
+                        buttons: [
+                            
+                            { extend: 'copy', className: 'btn btn-sm btn-dark' },
+                            { extend: 'csv', className: 'btn btn-sm btn-dark' },
+                            { extend: 'excel', className: 'btn btn-sm btn-dark' },
+                            { extend: 'print', className: 'btn btn-sm btn-dark' },
+                            
+                        ]
+                    },
+                "lengthMenu": [[50, 100, 250, -1], [50, 100, 250, "All"]],
+                "pageLength": 50,
+                "language": {
+                    "paginate": {
+                    "previous": "<i class='las la-angle-left'></i>",
+                    "next": "<i class='las la-angle-right'></i>"
+                    }
+            },
+            processing: true,
+            serverSide: true,
+            
+            ajax: {
+                
+                url: "{{ URL::to('/') }}/admin/report/detail_req",
+                type: "GET"
+                
+            },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    {data:'date_req', name : 'date_req',orderable: true, searchable: true},
+                    {data:'tenant_name', name : 'tenant_name',orderable: true, searchable: true},
+                    {data:'feedback', name : 'feedback',orderable: true, searchable: true},
+                    {data:'date_finish', name : 'date_finish',orderable: true, searchable: true},
+                ]
+        });
 
         $(document).ready(function (e) {
             var areaChartData = {

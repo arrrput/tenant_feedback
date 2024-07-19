@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use Carbon\Carbon;
 use App\Models\Requests;
-use PDF;
+use App\Models\FinishTask;
 use Illuminate\Http\Request;
 use App\Exports\MonthTenantExport;
 use Illuminate\Support\Facades\DB;
@@ -100,6 +101,50 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView('report.pdf.pdf_request', ['request' => $req, 'finish'=>$finish, 'pg'=> $pg])->setPaper('a4', 'portrait');
         return $pdf->stream();
+    }
+
+    public function detailReq(Request $request){
+        if($request->ajax()){
+            $data = Requests::select('requests.*','company_name')
+                    ->join('users', 'requests.id_user','users.id')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+                    $datatables =  datatables()->of($data);
+                    return $datatables
+                        ->addColumn('tenant_name', function($row){
+                            return $row->company_name;
+                        })
+                        ->addColumn('date_req', function($row){
+                            return Carbon::parse($row->created_at)->format('d M Y');
+                        })
+                        ->addColumn('feedback', function($row){
+                            return $row->description;
+                        })
+                        ->addColumn('date_finish', function($row){
+                            $date = '';
+                            if($row->progress_request ==4){
+                                $f =FinishTask::where('id_request', $row->id)->first();
+                                return Carbon::parse($f->created_at)->format('d M Y');
+                            }
+                            if($row->progress_request ==3){
+                                return 'On progress';
+                            }
+                            if($row->progress_request ==2){
+                                return 'On response';
+                            }
+                            if($row->progress_request ==1){
+                                return 'Waiting response';
+                            }
+                            if($row->progress_request ==5){
+                                return 'Cancel';
+                            }
+                        })
+                        // ->rawColumns(['action','name', 'dept'])
+                        ->addIndexColumn()
+                        ->make(true);
+        }
+        
     }
 
 }

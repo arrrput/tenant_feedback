@@ -51,6 +51,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('admin/cetak/{id}/pdf',[ReportController::class,'cetak_pdf'])->name('admin.admin.cetak_request');
     // report
     Route::get('admin/report', [ReportController::class,'index'])->name('report.index');
+    Route::get('admin/report/detail_req', [ReportController::class,'detailReq'])->name('admin.report.detail_req');
     Route::get('admin/report/{date}/week/', [ReportController::class, 'detailWeek'])->name('admin.report.week');
     Route::get('admin/report/{date}/month/', [ReportController::class, 'detailMonth'])->name('admin.report.month');
 
