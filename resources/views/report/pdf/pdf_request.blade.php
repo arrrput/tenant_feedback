@@ -119,8 +119,7 @@
   <main>
   </main>
 
-    <table style="margin-bottom: 20px; border: 0; margin-left: auto;
-    margin-right: auto;">
+    <table style="margin-bottom: 20px; border: 0; margin-left: auto; margin-right: auto;">
       <tbody>
         <tr>
           <td>
@@ -128,7 +127,7 @@
           </td>
           <td><b> : </b></td>
           <td>
-           {{$request->name_user}}
+           {{$request->name_user}} 
           </td>
         </tr>
         
@@ -233,6 +232,31 @@
       </tbody>
       
     </table>
+    
+    @if($rate)
+    <table class="styled-table" >
+      <thead>
+        <tr>
+          <th class="tiga ">Feedback User</th> 
+          <th class="tiga ">Rating</th> 
+        </tr>
+        
+      </thead>
+      <tbody>
+        <tr height="10">
+          <td class="border">{{ $rate->message }}</td>
+          <td class="border" align="center">
+           @for ($i = 0; $i < $rate->rate_point; $i++ )
+           <img class="emojione" style="max-height: 12px;" alt="&#x2b50;" title=":star:" src="https://cdn.jsdelivr.net/emojione/assets/4.0/png/64/2b50.png"/>
+           @endfor
+           
+          </td>
+         
+        </tr>
+        
+      </tbody>
+    </table>
+    @endif
     
   </main>
 </body>

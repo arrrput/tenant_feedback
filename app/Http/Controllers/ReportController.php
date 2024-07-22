@@ -98,8 +98,12 @@ class ReportController extends Controller
             ->where('id_request', $id)
             ->select('*')
             ->first();
+        $rate = DB::table('rate')
+                ->where('id_request', $id)
+                ->select('*')
+                ->first();
 
-        $pdf = PDF::loadView('report.pdf.pdf_request', ['request' => $req, 'finish'=>$finish, 'pg'=> $pg])->setPaper('a4', 'portrait');
+        $pdf = PDF::loadView('report.pdf.pdf_request', ['request' => $req, 'finish'=>$finish, 'pg'=> $pg, 'rate'=> $rate])->setPaper('a4', 'portrait');
         return $pdf->stream();
     }
 

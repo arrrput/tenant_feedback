@@ -201,6 +201,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Ilmedova\Chattle\ChatServiceProvider::class,
         Alfa6661\AutoNumber\AutoNumberServiceProvider::class,
+        ChristofferOK\LaravelEmojiOne\LaravelEmojiOneServiceProvider::class,
     ],
 
     /*
@@ -218,6 +219,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'LaravelEmojiOne' => ChristofferOK\LaravelEmojiOne\LaravelEmojiOneFacade::class,
 
     ])->toArray(),
 

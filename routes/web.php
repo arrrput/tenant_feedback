@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\PermissionController;
 
 Route::get('mail/send', [EmailController::class, 'sendWelcomeEmail']);
 Route::get('send', [EmailController::class, 'send']);
+Route::view('/view', 'emoji');
 
 //Group route login
 Route::group(['middleware'=>'auth'], function(){
